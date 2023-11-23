@@ -13,13 +13,6 @@
 
 
 
-
-
-
-
-
-
-
 class AuthInfo {
   final String? email;
   final String username;
@@ -31,13 +24,13 @@ class AuthInfo {
   final String avatarchek;
   final String token;
 
-  AuthInfo(this.avatarchek, {required this.email,required this.username,required this.name,required this.id,required this.bio,
+  AuthInfo({required  this.avatarchek,required this.email,required this.username,required this.name,required this.id,required this.bio,
      required this.collectionId,required this.avatar,required this.token});
 
   AuthInfo.fromJson(Map<String, dynamic> json)
       : email = json['record']['email'],
         username = json['record']['username'],
-        name = json['record']['name'],
+        name = json['record']['name'] == null?json['record']['username']:json['record']['name'],
         id = json['record']['id'],
         bio = json['record']['bio'],
         collectionId = json['record']['collectionId'],

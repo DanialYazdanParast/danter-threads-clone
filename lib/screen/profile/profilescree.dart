@@ -3,6 +3,7 @@ import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/widgets/image.dart';
 import 'package:danter/widgets/postlist.dart';
 import 'package:danter/theme.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
@@ -51,14 +52,14 @@ class ProfileScreen extends StatelessWidget {
               ];
             },
             body: TabBarView(children: [
-              CustomScrollView(
+              const CustomScrollView(
                 slivers: [
-                  SliverList.builder(
-                    itemCount: 30,
-                    itemBuilder: (context, index) {
-                      return const PostList();
-                    },
-                  ),
+                  // SliverList.builder(
+                  //   itemCount: 30,
+                  //   itemBuilder: (context, index) {
+                  //     return const PostList();
+                  //   },
+                  // ),
                 ],
               ),
               Container(
@@ -81,152 +82,152 @@ class HederProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-            padding: const EdgeInsets.only(right: 20, left: 20),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: const EdgeInsets.only(right: 20, left: 20),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      AuthRepository.loadAuthInfo()!.name ?? AuthRepository.loadAuthInfo()!.username,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(fontSize: 25, overflow: TextOverflow.clip),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          AuthRepository.loadAuthInfo()!.username,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6!
+                              .copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Container(
+                            color: const Color(0xffF5F5F5),
+                            child: const Padding(
+                              padding: EdgeInsets.all(6.0),
+                              child: Text(
+                                'danter.net',
+                                style: TextStyle(
+                                    color: Color(0xffA1A1A1),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Visibility(
+                      visible: AuthRepository.loadAuthInfo()!.bio!.isNotEmpty,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           Text(
-                           AuthRepository.loadAuthInfo()!.name?? '',
+                            AuthRepository.loadAuthInfo()!.bio!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6!
                                 .copyWith(
-                                    fontSize: 25, overflow: TextOverflow.clip),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                               AuthRepository.loadAuthInfo()!.username,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Container(
-                                  color: const Color(0xffF5F5F5),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(6.0),
-                                    child: Text(
-                                      'danter.net',
-                                      style: TextStyle(
-                                          color: Color(0xffA1A1A1),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          Visibility(
-                            visible: AuthRepository.loadAuthInfo()!.bio!.isNotEmpty,
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                 AuthRepository.loadAuthInfo()!.bio!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .copyWith(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const PhotoUserFollowers(),
-                              const SizedBox(
-                                width: 18,
-                              ),
-                              Text(
-                                '412',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1!
-                                    .copyWith(
-                                      fontSize: 20,
-                                    ),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              Text(
-                                'followers',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1!
-                                    .copyWith(
-                                      fontSize: 20,
-                                    ),
-                              ),
-                            ],
+                                    fontSize: 18, fontWeight: FontWeight.w400),
                           ),
                         ],
                       ),
                     ),
-                   ( AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)?
-
-
-                    ClipRRect(
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const PhotoUserFollowers(),
+                        const SizedBox(
+                          width: 18,
+                        ),
+                        Text(
+                          '412',
+                          style:
+                              Theme.of(context).textTheme.subtitle1!.copyWith(
+                                    fontSize: 20,
+                                  ),
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          'followers',
+                          style:
+                              Theme.of(context).textTheme.subtitle1!.copyWith(
+                                    fontSize: 20,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
+                  ? ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: SizedBox(
+                          height: 84,
+                          width: 84,
+                          child: ImageLodingService(
+                              imageUrl: AuthRepository.loadAuthInfo()!.avatar)),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
                         height: 84,
                         width: 84,
-                        child: ImageLodingService(imageUrl: AuthRepository.loadAuthInfo()!.avatar)
+                        color: LightThemeColors.secondaryTextColor
+                            .withOpacity(0.4),
+                        child: const Icon(
+                          CupertinoIcons.person_fill,
+                          color: Colors.white,
+                          size: 97,
+                        ),
                       ),
-                    ):SizedBox
-                    (
-                      height: 84,
-                      width: 84,
-                      child: Image.asset('assets/images/logo.png',color: Colors.black,))
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Row(
-                  children: [
-                    ButtonPrpfile(name: 'Edit profile'),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    ButtonPrpfile(name: 'Share profile'),
-                  ],
-                ),
-              ],
-            ),
-          
-        );
+                    )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Row(
+            children: [
+              ButtonPrpfile(name: 'Edit profile'),
+              SizedBox(
+                width: 20,
+              ),
+              ButtonPrpfile(name: 'Share profile'),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 

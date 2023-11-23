@@ -18,12 +18,12 @@ class RepliesScreen extends StatelessWidget {
               const SliverToBoxAdapter(
                 child: ReplyPost(),
               ),
-              SliverList.builder(
-                itemCount: 30,
-                itemBuilder: (context, index) {
-                  return const PostList();
-                },
-              ),
+              // SliverList.builder(
+              //   itemCount: 30,
+              //   itemBuilder: (context, index) {
+              //     return const PostList();
+              //   },
+              // ),
               const SliverPadding(padding: EdgeInsets.only(bottom: 60))
             ],
           ),

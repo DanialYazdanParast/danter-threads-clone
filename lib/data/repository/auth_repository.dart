@@ -67,7 +67,8 @@ class AuthRepository implements IAuthRepository {
     final String name = sharedPreferences.getString("name") ?? '';
 
     if (token.isNotEmpty) {
-      return AuthInfo(avatarchek,
+      return AuthInfo(
+          avatarchek: avatarchek,
           email: email,
           username: username,
           name: name,

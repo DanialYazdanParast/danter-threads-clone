@@ -56,12 +56,12 @@ class ProfileUser extends StatelessWidget {
             body: TabBarView(children: [
               CustomScrollView(
                 slivers: [
-                  SliverList.builder(
-                    itemCount: 30,
-                    itemBuilder: (context, index) {
-                      return const PostList();
-                    },
-                  ),
+                  // SliverList.builder(
+                  //   itemCount: 30,
+                  //   itemBuilder: (context, index) {
+                  //     return const PostList();
+                  //   },
+                  // ),
                 ],
               ),
               Container(

@@ -1,8 +1,10 @@
 import 'package:danter/di/di.dart';
+
 import 'package:danter/screen/auth/bloc/auth_bloc.dart';
+import 'package:danter/screen/home/home_screen.dart';
 import 'package:danter/screen/root/root.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -58,7 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
         child: SafeArea(
           child: BlocProvider(
-            create: (context) => locator.get<AuthBloc>()..add(AuthStarted()),
+            create: (context) => AuthBloc(locator.get())..add(AuthStarted()),
             child: Scaffold(
               //  backgroundColor: Colors.red,
               resizeToAvoidBottomInset: true,
@@ -66,7 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 listener: (context, state) {
                   if (state is AuthSuccess) {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => RootScreen(),));
+                        .pushReplacement(MaterialPageRoute(builder: (context) => RootScreen(),));
                   } else if (state is AuthError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
