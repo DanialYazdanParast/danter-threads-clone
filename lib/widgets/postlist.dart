@@ -2,7 +2,7 @@ import 'package:danter/data/model/post.dart';
 
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
-import 'package:danter/screen/replies/write_reply.dart';
+import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/bloc/post_bloc.dart';
 import 'package:danter/widgets/image.dart';
@@ -149,14 +149,14 @@ class PostList extends StatelessWidget {
                                             width: 18,
                                           ),
                                           GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    WriteReply(),
-                                              ));
-                                            },
+                                            // onTap: () {
+                                            //   Navigator.of(context,
+                                            //           rootNavigator: true)
+                                            //       .push(MaterialPageRoute(
+                                            //     builder: (context) =>
+                                            //         WriteReply(),
+                                            //   ));
+                                            // },
                                             child: SizedBox(
                                               height: 22,
                                               width: 22,
@@ -345,21 +345,27 @@ class PostList extends StatelessWidget {
                                                       .avatar),
                                             ))
                                         : ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: Container(
-                                              height: 22,
-                                              width: 22,
-                                              color: LightThemeColors
-                                                  .secondaryTextColor
-                                                  .withOpacity(0.4),
-                                              child: const Icon(
-                                                CupertinoIcons.person_fill,
-                                                color: Colors.white,
-                                                size: 10,
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: Container(
+                                                height: 25,
+                                                width: 25,
+                                                decoration: BoxDecoration(
+                                                    color: LightThemeColors
+                                                        .secondaryTextColor.withOpacity(0.4),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    border: Border.all(
+                                                        width: 2,
+                                                        color: Colors.white)),
+                                                child: const Icon(
+                                                  CupertinoIcons.person_fill,
+                                                  color: Colors.white,
+                                                  size: 22,
+                                                ),
                                               ),
                                             ),
-                                          ),
                                   )),
                                   Positioned(
                                     left: 13,
@@ -396,7 +402,7 @@ class PostList extends StatelessWidget {
                                                 width: 25,
                                                 decoration: BoxDecoration(
                                                     color: LightThemeColors
-                                                        .secondaryTextColor,
+                                                        .secondaryTextColor.withOpacity(0.4),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             50),
@@ -406,7 +412,7 @@ class PostList extends StatelessWidget {
                                                 child: const Icon(
                                                   CupertinoIcons.person_fill,
                                                   color: Colors.white,
-                                                  size: 25,
+                                                  size: 22,
                                                 ),
                                               ),
                                             ),
@@ -449,7 +455,7 @@ class PostList extends StatelessWidget {
                                                 width: 25,
                                                 decoration: BoxDecoration(
                                                     color: LightThemeColors
-                                                        .secondaryTextColor,
+                                                        .secondaryTextColor.withOpacity(0.4),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             50),
@@ -459,7 +465,7 @@ class PostList extends StatelessWidget {
                                                 child: const Icon(
                                                   CupertinoIcons.person_fill,
                                                   color: Colors.white,
-                                                  size: 25,
+                                                  size: 22,
                                                 ),
                                               ),
                                             ),

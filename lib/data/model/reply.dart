@@ -14,3 +14,4 @@ class RplyEntity {
         text = json['comment'],
         user =User.fromJson(json['expand']['user']) ;
 }
+

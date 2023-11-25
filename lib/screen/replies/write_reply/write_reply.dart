@@ -1,12 +1,17 @@
 
+import 'package:danter/data/model/post.dart';
+import 'package:danter/widgets/image.dart';
 import 'package:danter/widgets/write.dart';
 import 'package:danter/theme.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
 class WriteReply extends StatelessWidget {
-  WriteReply({super.key});
+  final PostEntity postEntity;
+  WriteReply({super.key,required this.postEntity});
   final TextEditingController _controller = TextEditingController();
+   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +27,7 @@ class WriteReply extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                 const PostWrite(),
+                  PostWrite(postEntity: postEntity),
                 FildWrite(controller: _controller),
               ],
             ),
@@ -42,8 +47,9 @@ class WriteReply extends StatelessWidget {
 
 
 class PostWrite extends StatelessWidget {
+   final PostEntity postEntity;
   const PostWrite({
-    super.key,
+    super.key, required this.postEntity,
   });
 
   @override
@@ -63,16 +69,29 @@ class PostWrite extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(300),
-                      child: SizedBox(
-                        width: 47,
-                        height: 47,
-                        child: Image.asset(
-                          'assets/images/me.jpg',
-                        ),
-                      ),
-                    ),
+                     (postEntity.user.avatarchek.isNotEmpty)
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: SizedBox(
+                                    height: 47,
+                                    width: 47,
+                                    child: ImageLodingService(
+                                        imageUrl: postEntity.user.avatar)),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Container(
+                                  height: 47,
+                                  width: 47,
+                                  color: LightThemeColors.secondaryTextColor
+                                      .withOpacity(0.4),
+                                  child: const Icon(
+                                    CupertinoIcons.person_fill,
+                                    color: Colors.white,
+                                    size: 55,
+                                  ),
+                                ),
+                              ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12),
@@ -81,7 +100,7 @@ class PostWrite extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Daniel',
+                              postEntity.user.username,
                               style:
                                   Theme.of(context).textTheme.headline6,
                             ),
@@ -89,7 +108,7 @@ class PostWrite extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   top: 7, right: 7),
                               child: Text(
-                                'Daniffffffffffffggggggggggggggggffffgggggggggggggggggggggggffffffffffffghhhhhkkkl',
+                                postEntity.text,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline6!

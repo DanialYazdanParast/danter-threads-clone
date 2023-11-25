@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:danter/data/model/reply.dart';
-import 'package:danter/data/repository/rply_repository.dart';
+import 'package:danter/data/repository/reply_repository.dart';
 import 'package:danter/util/exceptions.dart';
 import 'package:equatable/equatable.dart';
 

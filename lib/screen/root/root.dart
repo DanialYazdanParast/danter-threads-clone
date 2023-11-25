@@ -1,4 +1,4 @@
-import 'package:danter/data/repository/auth_repository.dart';
+
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/home/home_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';

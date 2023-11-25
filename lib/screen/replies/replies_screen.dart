@@ -1,8 +1,9 @@
 import 'package:danter/data/model/post.dart';
+import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/replies/bloc/reply_bloc.dart';
-import 'package:danter/screen/replies/replyList.dart';
-import 'package:danter/screen/replies/write_reply.dart';
+import 'package:danter/screen/replies/reply_list/replyList.dart';
+import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
@@ -46,7 +47,7 @@ class RepliesScreen extends StatelessWidget {
                       SliverList.builder(
                         itemCount: state.post.length,
                         itemBuilder: (context, index) {
-                          return ReplayList(postEntity: state.post[index]);
+                          return ReplayList(replyEntity: state.post[index]);
                         },
                       ),
                       const SliverPadding(padding: EdgeInsets.only(bottom: 60))
@@ -79,7 +80,7 @@ class RepliesScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context, rootNavigator: true)
                               .push(MaterialPageRoute(
-                            builder: (context) => WriteReply(),
+                            builder: (context) => WriteReply(postEntity: postEntity),
                           ));
                         },
                         child: Container(
@@ -91,21 +92,41 @@ class RepliesScreen extends StatelessWidget {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: SizedBox(
-                                    height: 25,
-                                    width: 25,
-                                    child: Image.asset(
-                                      'assets/images/me.jpg',
-                                    ),
-                                  ),
-                                ),
+                                (AuthRepository.loadAuthInfo()!
+                                        .avatarchek
+                                        .isNotEmpty)
+                                    ? ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: SizedBox(
+                                            height: 25,
+                                            width: 25,
+                                            child: ImageLodingService(
+                                                imageUrl: AuthRepository
+                                                        .loadAuthInfo()!
+                                                    .avatar)),
+                                      )
+                                    : ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: Container(
+                                          height: 25,
+                                          width: 25,
+                                          color: LightThemeColors
+                                              .secondaryTextColor
+                                              .withOpacity(0.4),
+                                          child: const Icon(
+                                            CupertinoIcons.person_fill,
+                                            color: Colors.white,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                const Text(
-                                  'Reply to Daniel',
+                                Text(
+                                  'Reply to ${postEntity.user.username}',
                                   style: TextStyle(
                                       color: Color(0xffA1A1A1),
                                       fontSize: 17,
@@ -250,12 +271,12 @@ class ReplyPost extends StatelessWidget {
                       width: 18,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context, rootNavigator: true)
-                            .push(MaterialPageRoute(
-                          builder: (context) => WriteReply(),
-                        ));
-                      },
+                      // onTap: () {
+                      //   Navigator.of(context, rootNavigator: true)
+                      //       .push(MaterialPageRoute(
+                      //     builder: (context) => WriteReply(),
+                      //   ));
+                      // },
                       child: SizedBox(
                         height: 22,
                         width: 22,

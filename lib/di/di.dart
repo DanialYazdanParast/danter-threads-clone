@@ -3,10 +3,10 @@
 
 import 'package:danter/data/datasource/auth_data_source.dart';
 import 'package:danter/data/datasource/post_data_source.dart';
-import 'package:danter/data/datasource/replay_data_source.dart';
+import 'package:danter/data/datasource/reply_data_source.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/data/repository/post_repository.dart';
-import 'package:danter/data/repository/rply_repository.dart';
+import 'package:danter/data/repository/reply_repository.dart';
 import 'package:danter/screen/auth/bloc/auth_bloc.dart';
 import 'package:danter/screen/home/bloc/home_bloc.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';

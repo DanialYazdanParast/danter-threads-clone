@@ -1,6 +1,6 @@
-import 'package:danter/data/model/auth_info.dart';
+
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/data/repository/post_repository.dart';
+
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/auth/auth.dart';
 import 'package:danter/screen/root/root.dart';

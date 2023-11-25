@@ -1,5 +1,5 @@
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
+
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
@@ -21,9 +21,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
+    super.initState();
     BlocProvider.of<ProfileBloc>(context)
         .add(ProfileStartedEvent(user: AuthRepository.readid()));
-    super.initState();
+    
   }
 
   @override

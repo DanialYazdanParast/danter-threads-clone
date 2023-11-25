@@ -1,11 +1,9 @@
-import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/reply.dart';
+import 'package:danter/screen/replies/reply_list/bloc/reply_list_bloc.dart';
 
-import 'package:danter/di/di.dart';
-import 'package:danter/screen/replies/replies_screen.dart';
-import 'package:danter/screen/replies/write_reply.dart';
+import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
-import 'package:danter/widgets/bloc/post_bloc.dart';
+
 import 'package:danter/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,27 +11,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:intl/intl.dart';
 
+import '../../../di/di.dart';
+
 class ReplayList extends StatelessWidget {
-  final RplyEntity postEntity;
+  final RplyEntity replyEntity;
   const ReplayList({
     super.key,
-    required this.postEntity,
+    required this.replyEntity,
   });
 
   @override
   Widget build(BuildContext context) {
-    var time = DateTime.now().difference(DateTime.parse(postEntity.created));
+    var time = DateTime.now().difference(DateTime.parse(replyEntity.created));
 
     var newFormat = DateFormat("yy-MM-dd");
-    String updatedtime = newFormat.format(DateTime.parse(postEntity.created));
+    String updatedtime = newFormat.format(DateTime.parse(replyEntity.created));
     int like = 0;
-    int replise= 0;
-    return 
-    // BlocProvider(
-    //   create: (context) =>
-    //       PostBloc(locator.get())..add(PostStartedEvent(postId: postEntity.id)),
-    //   child:
-       GestureDetector(
+    int replise = 0;
+    return BlocProvider(
+      create: (context) => ReplyListBloc(locator.get())
+        ..add(ReplyListStartedEvent(replyId: replyEntity.id)),
+      child: GestureDetector(
         onTap: () {
           // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
           //   builder: (context) => RepliesScreen(
@@ -60,14 +58,14 @@ class ReplayList extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        (postEntity.user.avatarchek.isNotEmpty)
+                        (replyEntity.user.avatarchek.isNotEmpty)
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
                                 child: SizedBox(
                                     height: 47,
                                     width: 47,
                                     child: ImageLodingService(
-                                        imageUrl: postEntity.user.avatar)),
+                                        imageUrl: replyEntity.user.avatar)),
                               )
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
@@ -93,7 +91,7 @@ class ReplayList extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      postEntity.user.username,
+                                      replyEntity.user.username,
                                       style:
                                           Theme.of(context).textTheme.headline6,
                                     ),
@@ -133,7 +131,7 @@ class ReplayList extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        postEntity.text,
+                                        replyEntity.text,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline6!
@@ -153,12 +151,14 @@ class ReplayList extends StatelessWidget {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    WriteReply(),
-                                              ));
+
+
+                                              // Navigator.of(context,
+                                              //         rootNavigator: true)
+                                              //     .push(MaterialPageRoute(
+                                              //   builder: (context) =>
+                                              //       WriteReply(),
+                                              // ));
                                             },
                                             child: SizedBox(
                                               height: 22,
@@ -173,106 +173,109 @@ class ReplayList extends StatelessWidget {
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      // BlocBuilder<PostBloc, PostState>(
-                                      //   builder: (context, state) {
-                                      //     if (state is PostSuccesState) {
-                                      //       like = state.totallike;
-                                      //       replise = state.totareplise;
-                                      //       return Row(
-                                      //           crossAxisAlignment:
-                                      //               CrossAxisAlignment.start,
-                                      //           children: [
-                                      //             Text(
-                                      //               state.totareplise
-                                      //                   .toString(),
-                                      //               style: Theme.of(context)
-                                      //                   .textTheme
-                                      //                   .subtitle1,
-                                      //             ),
-                                      //             const SizedBox(
-                                      //               width: 6,
-                                      //             ),
-                                      //             Text(
-                                      //               state.totareplise <= 1
-                                      //                   ? 'reply'
-                                      //                   : 'replies',
-                                      //               style: Theme.of(context)
-                                      //                   .textTheme
-                                      //                   .subtitle1,
-                                      //             ),
-                                      //             const SizedBox(
-                                      //               width: 18,
-                                      //             ),
-                                      //             Text(
-                                      //               state.totallike.toString(),
-                                      //               style: Theme.of(context)
-                                      //                   .textTheme
-                                      //                   .subtitle1,
-                                      //             ),
-                                      //             const SizedBox(
-                                      //               width: 6,
-                                      //             ),
-                                      //             Text(
-                                      //               state.totallike <= 1
-                                      //                   ? 'Like'
-                                      //                   : 'Likes',
-                                      //               style: Theme.of(context)
-                                      //                   .textTheme
-                                      //                   .subtitle1,
-                                      //             ),
-                                      //           ]);
-                                      //     } else if (state is PostInitial) {
-                                      //       return Row(
-                                      //           crossAxisAlignment:
-                                      //               CrossAxisAlignment.start,
-                                      //           children: [
-                                      //             Text(
-                                      //               '0',
-                                      //               style: Theme.of(context)
-                                      //                   .textTheme
-                                      //                   .subtitle1,
-                                      //             ),
-                                      //             const SizedBox(
-                                      //               width: 6,
-                                      //             ),
-                                      //             Text(
-                                      //               'reply',
-                                      //               style: Theme.of(context)
-                                      //                   .textTheme
-                                      //                   .subtitle1,
-                                      //             ),
-                                      //             const SizedBox(
-                                      //               width: 18,
-                                      //             ),
-                                      //             Text(
-                                      //               '0',
-                                      //               style: Theme.of(context)
-                                      //                   .textTheme
-                                      //                   .subtitle1,
-                                      //             ),
-                                      //             const SizedBox(
-                                      //               width: 6,
-                                      //             ),
-                                      //             Text(
-                                      //               'Like',
-                                      //               style: Theme.of(context)
-                                      //                   .textTheme
-                                      //                   .subtitle1,
-                                      //             ),
-                                      //           ]);
-                                      //     } else if (state is PostErrorState) {
-                                      //       return Text(
-                                      //         'error',
-                                      //         style: Theme.of(context)
-                                      //             .textTheme
-                                      //             .subtitle1,
-                                      //       );
-                                      //     } else {
-                                      //       throw Exception(
-                                      //           'state is not supported ');
-                                      //     }
-                                      //   },
-                                      // ),
+                                      BlocBuilder<ReplyListBloc,
+                                          ReplyListState>(
+                                        builder: (context, state) {
+                                          if (state is ReplyListSuccesState) {
+                                            like = state.totallike;
+                                            replise = state.totareplise;
+                                            return Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    state.totareplise
+                                                        .toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  Text(
+                                                    state.totareplise <= 1
+                                                        ? 'reply'
+                                                        : 'replies',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 18,
+                                                  ),
+                                                  Text(
+                                                    state.totallike.toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  Text(
+                                                    state.totallike <= 1
+                                                        ? 'Like'
+                                                        : 'Likes',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  ),
+                                                ]);
+                                          } else if (state
+                                              is ReplyListInitial) {
+                                            return Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '0',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  Text(
+                                                    'reply',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 18,
+                                                  ),
+                                                  Text(
+                                                    '0',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  Text(
+                                                    'Like',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  ),
+                                                ]);
+                                          } else if (state
+                                              is ReplyListErrorState) {
+                                            return Text(
+                                              'error',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                            );
+                                          } else {
+                                            throw Exception(
+                                                'state is not supported ');
+                                          }
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -484,7 +487,7 @@ class ReplayList extends StatelessWidget {
             ],
           ),
         ),
-    //  ),
+      ),
     );
   }
 }
