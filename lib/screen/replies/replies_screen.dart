@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class RepliesScreen extends StatelessWidget {
+class RepliesScreen extends StatefulWidget {
   const RepliesScreen(
       {super.key,
       required this.postEntity,
@@ -24,10 +24,26 @@ class RepliesScreen extends StatelessWidget {
   final int replies;
 
   @override
+  State<RepliesScreen> createState() => _RepliesScreenState();
+}
+
+class _RepliesScreenState extends State<RepliesScreen> {
+
+  @override
+  void dispose() {
+   replyBloc.close();
+    super.dispose();
+  }
+
+
+
+  final replyBloc = ReplyBloc(locator.get());
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ReplyBloc(locator.get())
-        ..add(ReplyStartedEvent(postI: postEntity.id)),
+      create: (context) =>
+          replyBloc..add(ReplyStartedEvent(postI: widget.postEntity.id)),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(title: const Text('Danter'), elevation: 0.5),
@@ -40,14 +56,14 @@ class RepliesScreen extends StatelessWidget {
                     slivers: [
                       SliverToBoxAdapter(
                         child: ReplyPost(
-                            postEntity: postEntity,
-                            like: like,
-                            replies: replies),
+                            postEntity: widget.postEntity,
+                            like: widget.like,
+                            replies: widget.replies),
                       ),
                       SliverList.builder(
                         itemCount: state.post.length,
                         itemBuilder: (context, index) {
-                          return ReplayList(replyEntity: state.post[index]);
+                          return ReplayList(postEntity: state.post[index]);
                         },
                       ),
                       const SliverPadding(padding: EdgeInsets.only(bottom: 60))
@@ -80,7 +96,10 @@ class RepliesScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context, rootNavigator: true)
                               .push(MaterialPageRoute(
-                            builder: (context) => WriteReply(postEntity: postEntity),
+                            builder: (context) => BlocProvider.value(
+                              value: replyBloc,
+                              child: WriteReply(postEntity: widget.postEntity),
+                            ),
                           ));
                         },
                         child: Container(
@@ -126,7 +145,7 @@ class RepliesScreen extends StatelessWidget {
                                   width: 8,
                                 ),
                                 Text(
-                                  'Reply to ${postEntity.user.username}',
+                                  'Reply to ${widget.postEntity.user.username}',
                                   style: TextStyle(
                                       color: Color(0xffA1A1A1),
                                       fontSize: 17,

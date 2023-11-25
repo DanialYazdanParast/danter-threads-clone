@@ -1,7 +1,8 @@
-import 'package:danter/data/model/reply.dart';
+import 'package:danter/data/model/post.dart';
+import 'package:danter/screen/replies/replies_screen.dart';
+
 import 'package:danter/screen/replies/reply_list/bloc/reply_list_bloc.dart';
 
-import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
 
 import 'package:danter/widgets/image.dart';
@@ -14,32 +15,32 @@ import 'package:intl/intl.dart';
 import '../../../di/di.dart';
 
 class ReplayList extends StatelessWidget {
-  final RplyEntity replyEntity;
+  final PostEntity postEntity;
   const ReplayList({
     super.key,
-    required this.replyEntity,
+    required this.postEntity,
   });
 
   @override
   Widget build(BuildContext context) {
-    var time = DateTime.now().difference(DateTime.parse(replyEntity.created));
+    var time = DateTime.now().difference(DateTime.parse(postEntity.created));
 
     var newFormat = DateFormat("yy-MM-dd");
-    String updatedtime = newFormat.format(DateTime.parse(replyEntity.created));
+    String updatedtime = newFormat.format(DateTime.parse(postEntity.created));
     int like = 0;
     int replise = 0;
     return BlocProvider(
       create: (context) => ReplyListBloc(locator.get())
-        ..add(ReplyListStartedEvent(replyId: replyEntity.id)),
+        ..add(ReplyListStartedEvent(replyId: postEntity.id)),
       child: GestureDetector(
         onTap: () {
-          // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-          //   builder: (context) => RepliesScreen(
-          //     postEntity: postEntity,
-          //     like: like,
-          //     replies: replise,
-          //   ),
-          // ));
+          Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (context) => RepliesScreen(
+              postEntity: postEntity,
+              like: like,
+              replies: replise,
+            ),
+          ));
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -58,14 +59,14 @@ class ReplayList extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        (replyEntity.user.avatarchek.isNotEmpty)
+                        (postEntity.user.avatarchek.isNotEmpty)
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
                                 child: SizedBox(
                                     height: 47,
                                     width: 47,
                                     child: ImageLodingService(
-                                        imageUrl: replyEntity.user.avatar)),
+                                        imageUrl: postEntity.user.avatar)),
                               )
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
@@ -91,7 +92,7 @@ class ReplayList extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      replyEntity.user.username,
+                                      postEntity.user.username,
                                       style:
                                           Theme.of(context).textTheme.headline6,
                                     ),
@@ -131,7 +132,7 @@ class ReplayList extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        replyEntity.text,
+                                        postEntity.text,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline6!
@@ -151,8 +152,6 @@ class ReplayList extends StatelessWidget {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-
-
                                               // Navigator.of(context,
                                               //         rootNavigator: true)
                                               //     .push(MaterialPageRoute(

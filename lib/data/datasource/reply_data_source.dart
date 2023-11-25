@@ -1,12 +1,14 @@
-import 'package:danter/data/model/reply.dart';
+import 'package:danter/data/model/post.dart';
+
 import 'package:danter/util/response_validator.dart';
 import 'package:dio/dio.dart';
 
 abstract class IReplyDataSource {
-  Future<List<RplyEntity>> getReply(String postId);
+  Future<List<PostEntity>> getReply(String postId);
    Future<int> getReplytotalLike(String replyId);
    Future<int> getReplytotalreplise(String replyId);
-}
+    Future<void> sendPostReply(String userId ,String text ,String postid);
+ }
 
 class ReplyRemoteDataSource
     with HttpResponseValidat
@@ -14,27 +16,27 @@ class ReplyRemoteDataSource
   final Dio _dio;
   ReplyRemoteDataSource(this._dio);
   @override
-  Future<List<RplyEntity>> getReply(String postId) async{
+  Future<List<PostEntity>> getReply(String postId) async{
     Map<String, dynamic> qParams = {
-      'filter': 'post ="$postId"',
+      'filter': 'postid ="$postId"',
       'expand': 'user',
       'sort': '-created'
     };
     var response = await _dio.get(
-      'collections/reply/records',
+      'collections/post/records',
       queryParameters: qParams,
     );
     validatResponse(response);
 
     return response.data['items']
-        .map<RplyEntity>((jsonObject) => RplyEntity.fromJson(jsonObject))
+        .map<PostEntity>((jsonObject) => PostEntity.fromJson(jsonObject))
         .toList();
   }
   
   @override
   Future<int> getReplytotalLike(String replyId)async {
     Map<String, dynamic> qParams = {
-      'filter': 'reply="$replyId"',
+      'filter': 'post="$replyId"',
     };
     var response = await _dio.get(
       'collections/like/records',
@@ -47,16 +49,24 @@ class ReplyRemoteDataSource
   
   @override
   Future<int> getReplytotalreplise(String replyId) async{
-     Map<String, dynamic> qParams = {
-      'filter': 'reply="$replyId"',
+        Map<String, dynamic> qParams = {
+      'filter': 'postid="$replyId"',
     };
     var response = await _dio.get(
-      'collections/reply/records',
+      'collections/post/records',
       queryParameters: qParams,
     );
     validatResponse(response);
 
     return response.data['totalItems'];
+  }
+  
+  @override
+  Future<void> sendPostReply(String userId, String text, String postid) async{
+    
+    final response = await _dio.post('collections/post/records',
+        data: {"user": userId, "text": text , "postid": postid  });
+    validatResponse(response);
   }
   
  

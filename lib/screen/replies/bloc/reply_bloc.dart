@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:danter/data/model/reply.dart';
+import 'package:danter/data/model/post.dart';
+
 import 'package:danter/data/repository/reply_repository.dart';
 import 'package:danter/util/exceptions.dart';
 import 'package:equatable/equatable.dart';
@@ -15,6 +16,15 @@ class ReplyBloc extends Bloc<ReplyEvent, ReplyState> {
       if (event is ReplyStartedEvent ) {
         try {
           emit(ReplyLodingState());
+          final post = await replyRepository.getReply(event.postI);
+          emit(ReplySuccesState(post));
+        } catch (e) {
+          emit(ReplyErrorState(
+              exception: e is AppException ? e : AppException()));
+        }
+      }else if (event is ReplyRefreshEvent ) {
+        try {
+        
           final post = await replyRepository.getReply(event.postI);
           emit(ReplySuccesState(post));
         } catch (e) {

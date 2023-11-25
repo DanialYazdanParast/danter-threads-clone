@@ -14,8 +14,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
         try {
           emit(WriteLodingState());
           await postRepository.sendPost(event.user, event.text);
-          
-emit(WriteSuccesState());
+          emit(WriteSuccesState());
         } catch (e) {
           emit(WriteErrorState(
               exception: e is AppException ? e : AppException()));

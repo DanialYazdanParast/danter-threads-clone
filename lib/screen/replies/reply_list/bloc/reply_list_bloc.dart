@@ -13,11 +13,11 @@ class ReplyListBloc extends Bloc<ReplyListEvent, ReplyListState> {
       if (event is ReplyListStartedEvent) {
         try {
           emit(ReplyListInitial());
-          final totallike = await replyRepository.getReplytotalLike(event.replyId);
-          final totareplise =await replyRepository.getReplytotalreplise(event.replyId);
+         final totallike = await replyRepository.getReplytotalLike(event.replyId);
+         final totareplise =await replyRepository.getReplytotalreplise(event.replyId);
      //     final getPosttotalreplisePhoto = await postRepository.getPosttotalreplisePhoto(event.postId);
               
-          emit(ReplyListSuccesState(totallike,totareplise));
+         emit(ReplyListSuccesState(totallike,totareplise));
         } catch (e) {
           emit(ReplyListErrorState(
               exception: e is AppException ? e : AppException()));

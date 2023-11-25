@@ -180,8 +180,7 @@ class PostList extends StatelessWidget {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    state.totareplise
-                                                        .toString(),
+                                                    replise.toString(),
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .subtitle1,

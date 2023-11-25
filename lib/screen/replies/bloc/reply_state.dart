@@ -19,7 +19,7 @@ class ReplyErrorState extends ReplyState {
 }
 
 class ReplySuccesState extends ReplyState {
-  final List<RplyEntity> post;
+  final List<PostEntity> post;
 
   const ReplySuccesState(this.post);
 

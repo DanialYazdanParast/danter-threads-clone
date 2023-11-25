@@ -22,9 +22,11 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   @override
   Future<List<PostEntity>> getPost(String userId) async {
     Map<String, dynamic> qParams = {
-      'filter': 'user !="$userId"',
+      'filter': 'user !="$userId" && postid= "" ',
       'expand': 'user',
-      'sort': '-created'
+      'sort': '-created',
+      
+
     };
     var response = await _dio.get(
       'collections/post/records',
@@ -54,11 +56,11 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   @override
   Future<List<Replyphoto>> getPosttotalreplisePhoto(String postId) async {
     Map<String, dynamic> qParams = {
-      'filter': 'post="$postId"',
+      'filter': 'postid="$postId"',
       'expand': 'user',
     };
     var response = await _dio.get(
-      'collections/reply/records',
+      'collections/post/records',
       queryParameters: qParams,
     );
     validatResponse(response);
@@ -72,10 +74,10 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   @override
   Future<int> getPosttotalreplise(String postId) async {
     Map<String, dynamic> qParams = {
-      'filter': 'post="$postId"',
+      'filter': 'postid="$postId"',
     };
     var response = await _dio.get(
-      'collections/reply/records',
+      'collections/post/records',
       queryParameters: qParams,
     );
     validatResponse(response);
@@ -86,7 +88,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   @override
   Future<List<PostEntity>> getPostProfile(String userId) async{
    Map<String, dynamic> qParams = {
-      'filter': 'user ="$userId"',
+      'filter': 'user ="$userId"&& postid= ""',
       'expand': 'user',
       'sort': '-created'
     };
