@@ -1,14 +1,30 @@
-import 'package:danter/data/model/auth_info.dart';
 import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/di/di.dart';
+import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
-import 'package:danter/widgets/postlist.dart';
+
 import 'package:danter/theme.dart';
+import 'package:danter/widgets/postlist.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<ProfileBloc>(context)
+        .add(ProfileStartedEvent(user: AuthRepository.readid()));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +68,55 @@ class ProfileScreen extends StatelessWidget {
               ];
             },
             body: TabBarView(children: [
-              const CustomScrollView(
-                slivers: [
-                  // SliverList.builder(
-                  //   itemCount: 30,
-                  //   itemBuilder: (context, index) {
-                  //     return const PostList();
-                  //   },
-                  // ),
-                ],
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileSuccesState) {
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        BlocProvider.of<ProfileBloc>(context).add(
+                            ProfileRefreshEvent(user: AuthRepository.readid()));
+                      },
+                      child: CustomScrollView(
+                        slivers: [
+                          (state.post.isNotEmpty)
+                              ? SliverList.builder(
+                                  itemCount: state.post.length,
+                                  itemBuilder: (context, index) {
+                                    return PostList(
+                                      postEntity: state.post[index],
+                                    );
+                                  },
+                                )
+                              : SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 40),
+                                    child: Center(
+                                      child: Text(
+                                        'You haven\'t postted any danter yet',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1!
+                                            .copyWith(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w100),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                        ],
+                      ),
+                    );
+                  } else if (state is ProfileLodingState) {
+                    return Center(child: CupertinoActivityIndicator());
+                  } else if (state is ProfileErrorState) {
+                    return AppErrorWidget(
+                      exception: state.exception,
+                      onpressed: () {},
+                    );
+                  } else {
+                    throw Exception('state is not supported ');
+                  }
+                },
               ),
               Container(
                 color: const Color(0xff1C1F2E),
@@ -98,7 +154,9 @@ class HederProfile extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      AuthRepository.loadAuthInfo()!.name ?? AuthRepository.loadAuthInfo()!.username,
+                      (AuthRepository.loadAuthInfo()!.name.isEmpty)
+                          ? AuthRepository.loadAuthInfo()!.username
+                          : AuthRepository.loadAuthInfo()!.name,
                       style: Theme.of(context)
                           .textTheme
                           .headline6!

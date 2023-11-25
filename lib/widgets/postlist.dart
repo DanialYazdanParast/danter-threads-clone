@@ -1,6 +1,5 @@
 import 'package:danter/data/model/post.dart';
-import 'package:danter/data/model/replyphoto.dart';
-import 'package:danter/data/model/user.dart';
+
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply.dart';
@@ -10,7 +9,7 @@ import 'package:danter/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:date_time_format/date_time_format.dart';
+
 import 'package:intl/intl.dart';
 
 class PostList extends StatelessWidget {
@@ -26,13 +25,19 @@ class PostList extends StatelessWidget {
 
     var newFormat = DateFormat("yy-MM-dd");
     String updatedtime = newFormat.format(DateTime.parse(postEntity.created));
+    int like = 0;
+    int replise= 0;
     return BlocProvider(
       create: (context) =>
           PostBloc(locator.get())..add(PostStartedEvent(postId: postEntity.id)),
       child: GestureDetector(
         onTap: () {
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (context) => RepliesScreen(),
+            builder: (context) => RepliesScreen(
+              postEntity: postEntity,
+              like: like,
+              replies: replise,
+            ),
           ));
         },
         child: Container(
@@ -90,15 +95,18 @@ class PostList extends StatelessWidget {
                                           Theme.of(context).textTheme.headline6,
                                     ),
                                     const Spacer(),
-                                    Text(time.inMinutes == 0?'Now':time.inMinutes < 60
-                                          ? '${time.inMinutes}m'
-                                          : time.inHours < 24
-                                              ? '${time.inHours}h'
-                                              : time.inDays < 8
-                                                  ? '${time.inDays}d'
-                                                  : time.inDays >= 8
-                                                      ? '${updatedtime}'
-                                                      : '',
+                                    Text(
+                                      time.inMinutes == 0
+                                          ? 'Now'
+                                          : time.inMinutes < 60
+                                              ? '${time.inMinutes}m'
+                                              : time.inHours < 24
+                                                  ? '${time.inHours}h'
+                                                  : time.inDays < 8
+                                                      ? '${time.inDays}d'
+                                                      : time.inDays >= 8
+                                                          ? '${updatedtime}'
+                                                          : '',
                                       style:
                                           Theme.of(context).textTheme.subtitle1,
                                     ),
@@ -165,6 +173,8 @@ class PostList extends StatelessWidget {
                                       BlocBuilder<PostBloc, PostState>(
                                         builder: (context, state) {
                                           if (state is PostSuccesState) {
+                                            like = state.totallike;
+                                            replise = state.totareplise;
                                             return Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,

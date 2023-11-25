@@ -3,14 +3,24 @@ import 'package:danter/di/di.dart';
 import 'package:danter/main.dart';
 
 import 'package:danter/screen/home/bloc/home_bloc.dart';
+import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/postlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,12 @@
+import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/di/di.dart';
 import 'package:danter/screen/home/home_screen.dart';
+import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profilescree.dart';
 import 'package:danter/screen/write/write_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 const int homeindex = 0;
 const int cartindex = 1;
@@ -47,6 +51,14 @@ class _RootScreenState extends State<RootScreen> {
   }
 
   @override
+  void dispose() {
+   profileBloc.close();
+    super.dispose();
+  }
+
+
+final profileBloc = ProfileBloc(locator.get());
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillpop,
@@ -54,11 +66,19 @@ class _RootScreenState extends State<RootScreen> {
         body: IndexedStack(
           index: selectedScreenIndex,
           children: [
-            _navigator(_homeKey, homeindex,  HomeScreen()),
+            _navigator(_homeKey, homeindex, const HomeScreen()),
 
-         
-            _navigator(_cartKey, cartindex, WriteScreen()),
-            _navigator(_profileKey, profileindex, const ProfileScreen()),
+ //----------------------------------           
+            BlocProvider.value(
+              value: profileBloc,
+              child: _navigator(_cartKey, cartindex, WriteScreen()),
+            ),
+            BlocProvider.value(
+              value: profileBloc,
+              child:
+                  _navigator(_profileKey, profileindex,  const ProfileScreen()),
+            ),
+  //----------------------------------              
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -129,6 +149,4 @@ class _RootScreenState extends State<RootScreen> {
             ),
           );
   }
-
-
 }

@@ -49,7 +49,7 @@ class AuthRepository implements IAuthRepository {
     sharedPreferences.setString("avatar", authInfo.avatar);
     sharedPreferences.setString("avatarchek", authInfo.avatarchek);
     sharedPreferences.setString("bio", authInfo.bio ?? '');
-    sharedPreferences.setString("name", authInfo.name ?? '');
+    sharedPreferences.setString("name", authInfo.name );
 
     loadAuthInfo();
   }

@@ -8,15 +8,10 @@
 
   
 // }
-
-
-
-
-
 class AuthInfo {
   final String? email;
   final String username;
-  final String? name;
+  final String name;
   final String id;
   final String? bio;
   final String collectionId;

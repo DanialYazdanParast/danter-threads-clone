@@ -1,4 +1,6 @@
+import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/theme.dart';
+import 'package:danter/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -63,16 +65,29 @@ class _FildWriteState extends State<FildWrite> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(300),
-                  child: SizedBox(
-                    width: 47,
-                    height: 47,
-                    child: Image.asset(
-                      'assets/images/me.jpg',
+              (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: SizedBox(
+                          height: 47,
+                          width: 47,
+                          child: ImageLodingService(
+                              imageUrl: AuthRepository.loadAuthInfo()!.avatar)),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 47,
+                        width: 47,
+                        color: LightThemeColors.secondaryTextColor
+                            .withOpacity(0.4),
+                        child: const Icon(
+                          CupertinoIcons.person_fill,
+                          color: Colors.white,
+                          size: 55,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
@@ -128,10 +143,15 @@ class _FildWriteState extends State<FildWrite> {
             ),
           ),
           (widget._controller.text.isNotEmpty)
-              ? const Icon(
-                  CupertinoIcons.multiply,
-                  color: LightThemeColors.secondaryTextColor,
-                )
+              ? GestureDetector(
+                onTap: (){
+                  widget._controller.text ='';
+                },
+                child: const Icon(
+                    CupertinoIcons.multiply,
+                    color: LightThemeColors.secondaryTextColor,
+                  ),
+              )
               : Container(),
         ],
       ),
