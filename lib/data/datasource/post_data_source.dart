@@ -142,11 +142,7 @@ final pb = PocketBase('https://dan.chbk.run');
   Future<void> deleteLike(String likeid) async{
 
     await pb.collection('like').delete(likeid);
-//     await _dio.delete('collections/like/records',
 
-//     data: {":id": "zx4k9bai4mhmaij" }
-    
-//  );
   }
   
   @override

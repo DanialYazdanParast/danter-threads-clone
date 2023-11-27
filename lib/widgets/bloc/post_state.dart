@@ -13,10 +13,10 @@ class PostSuccesState extends PostState {
   final int totallike;
  final List<Replyphoto> totareplisePhoto;
   final int totareplise;
-  final int trueLiseUser;
+   int trueLiseUser;
   final List<LikeId> likeid;
 
-  const PostSuccesState(this.totallike, this.totareplise, this.totareplisePhoto, this.trueLiseUser, this.likeid,);
+   PostSuccesState(this.totallike, this.totareplise, this.totareplisePhoto, this.trueLiseUser, this.likeid,);
 
   @override
   List<Object> get props => [totallike, totareplise];

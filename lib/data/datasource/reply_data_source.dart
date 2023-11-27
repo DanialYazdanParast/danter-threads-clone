@@ -7,7 +7,7 @@ abstract class IReplyDataSource {
   Future<List<PostEntity>> getReply(String postId);
    Future<int> getReplytotalLike(String replyId);
    Future<int> getReplytotalreplise(String replyId);
-    Future<void> sendPostReply(String userId ,String text ,String postid);
+   Future<void> sendPostReply(String userId ,String text ,String postid);
  }
 
 class ReplyRemoteDataSource
