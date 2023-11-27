@@ -1,10 +1,11 @@
 
+import 'package:danter/data/model/like.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/replyphoto.dart';
 
 import 'package:danter/util/response_validator.dart';
 import 'package:dio/dio.dart';
-
+import 'package:pocketbase/pocketbase.dart';
 abstract class IPostDataSource {
   Future<List<PostEntity>> getPost(String userId);
   Future<List<PostEntity>> getPostProfile(String userId);
@@ -12,11 +13,15 @@ abstract class IPostDataSource {
   Future<List<Replyphoto>> getPosttotalreplisePhoto(String postId);
   Future<int> getPosttotalreplise(String postId);
   Future<void> sendPost(String userId ,String text);
+  Future<int> getLikeuser(String postId ,String userId);
+  Future<void> addLike(String userId ,String postid);
+  Future<void> deleteLike(String likeid);
+ Future<List<LikeId>> getLikeid(String postId );
 }
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   final Dio _dio;
-
+final pb = PocketBase('https://dan.chbk.run');
   // final String userId = AuthRepository.readid();
   PostRemoteDataSource(this._dio);
   @override
@@ -109,5 +114,55 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     final response = await _dio.post('collections/post/records',
         data: {"user": userId, "text": text });
     validatResponse(response);
+  }
+  
+  @override
+  Future<int> getLikeuser(String postId, String userId) async{
+    Map<String, dynamic> qParams = {
+      'filter': 'user="$userId"&&post="$postId"',
+    };
+    var response = await _dio.get(
+      'collections/like/records',
+      queryParameters: qParams,
+    );
+    validatResponse(response);
+
+    return   response.data['totalItems'];
+  }
+  
+  @override
+  Future<void> addLike(String userId, String postid)async {
+    
+    final response = await _dio.post('collections/like/records',
+        data: {"user": userId, "post": postid });
+    validatResponse(response);
+  }
+  
+  @override
+  Future<void> deleteLike(String likeid) async{
+
+    await pb.collection('like').delete(likeid);
+//     await _dio.delete('collections/like/records',
+
+//     data: {":id": "zx4k9bai4mhmaij" }
+    
+//  );
+  }
+  
+  @override
+  Future<List<LikeId>> getLikeid(String postId) async{
+     Map<String, dynamic> qParams = {
+      'filter': 'post="$postId"',
+    };
+    var response = await _dio.get(
+      'collections/like/records',
+      queryParameters: qParams,
+    );
+    validatResponse(response);
+
+     return response.data['items']
+          .map<LikeId>((jsonObject) => LikeId.fromJson(jsonObject))
+          .toList();
+    
   }
 }

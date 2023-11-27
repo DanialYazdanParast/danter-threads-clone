@@ -70,7 +70,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     ],
                   );
                 } else if (state is ReplyLodingState) {
-                  return Center(child: CupertinoActivityIndicator());
+                  return const Center(child: CupertinoActivityIndicator());
                 } else if (state is ReplyErrorState) {
                   return AppErrorWidget(
                     exception: state.exception,
@@ -146,7 +146,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                 ),
                                 Text(
                                   'Reply to ${widget.postEntity.user.username}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color(0xffA1A1A1),
                                       fontSize: 17,
                                       fontWeight: FontWeight.w400),
@@ -244,7 +244,7 @@ class ReplyPost extends StatelessWidget {
                                           : time.inDays < 8
                                               ? '${time.inDays}d'
                                               : time.inDays >= 8
-                                                  ? '${updatedtime}'
+                                                  ? updatedtime
                                                   : '',
                               style: Theme.of(context).textTheme.subtitle1,
                             ),

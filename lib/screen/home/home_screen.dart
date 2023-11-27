@@ -3,22 +3,15 @@ import 'package:danter/di/di.dart';
 import 'package:danter/main.dart';
 
 import 'package:danter/screen/home/bloc/home_bloc.dart';
-import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/postlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
 
 
 
@@ -67,8 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     SliverList.builder(
                       itemCount: state.post.length,
                       itemBuilder: (context, index) {
-                        //   final  postlike = state.post[index].id;
-
                         return PostList(postEntity: state.post[index]);
                       },
                     ),

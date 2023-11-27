@@ -23,6 +23,6 @@ class HomeSuccesState extends HomeState {
 
   const HomeSuccesState(this.post);
 
-  @override
-  List<Object> get props => [post];
+  // @override
+  // List<Object> get props => [post];
 }

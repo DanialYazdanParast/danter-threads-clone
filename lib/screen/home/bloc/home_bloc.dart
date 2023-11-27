@@ -22,7 +22,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       } else if (event is HomeRefreshEvent) {
         try {
-        //  emit(HomeLodingState());
+     //     emit(HomeLodingState());
           final post = await postRepository.getPost(event.user);
           emit(HomeSuccesState(post));
         } catch (e) {

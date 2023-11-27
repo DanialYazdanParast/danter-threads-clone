@@ -23,7 +23,7 @@ class ProfileSuccesState extends ProfileState {
 
   const ProfileSuccesState(this.post);
 
-  @override
-  List<Object> get props => [post];
+  // @override
+  // List<Object> get props => [post];
 }
 

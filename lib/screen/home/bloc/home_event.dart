@@ -11,6 +11,7 @@ class HomeStartedEvent extends HomeEvent {
   final String user;
 
  const HomeStartedEvent({required this.user});
+
 }
 
 class HomeRefreshEvent extends HomeEvent {
