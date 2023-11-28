@@ -1,8 +1,8 @@
 part of 'reply_bloc.dart';
 
-sealed class ReplyState extends Equatable {
+abstract class ReplyState extends Equatable {
   const ReplyState();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -20,9 +20,16 @@ class ReplyErrorState extends ReplyState {
 
 class ReplySuccesState extends ReplyState {
   final List<PostEntity> post;
+  final int totallike;
 
-  const ReplySuccesState(this.post);
+  final int totareplise;
+  int trueLikeUser;
+  final List<LikeId> likeid;
+
+  ReplySuccesState(this.post, this.totallike, 
+      this.totareplise, this.likeid, this.trueLikeUser);
 
   @override
-  List<Object> get props => [post];
+  List<Object> get props =>
+      [post, totallike, totareplise, trueLikeUser, likeid];
 }

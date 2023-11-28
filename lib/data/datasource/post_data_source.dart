@@ -16,7 +16,7 @@ abstract class IPostDataSource {
   Future<int> getLikeuser(String postId ,String userId);
   Future<void> addLike(String userId ,String postid);
   Future<void> deleteLike(String likeid);
- Future<List<LikeId>> getLikeid(String postId );
+ Future<List<LikeId>> getLikeid(String postId, String userId );
 }
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
@@ -146,9 +146,9 @@ final pb = PocketBase('https://dan.chbk.run');
   }
   
   @override
-  Future<List<LikeId>> getLikeid(String postId) async{
+  Future<List<LikeId>> getLikeid(String postId, String userId) async{
      Map<String, dynamic> qParams = {
-      'filter': 'post="$postId"',
+      'filter': 'user="$userId"&&post="$postId"',
     };
     var response = await _dio.get(
       'collections/like/records',

@@ -7,43 +7,39 @@ import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/image_user_post.dart';
+import 'package:danter/widgets/time.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class RepliesScreen extends StatefulWidget {
-  const RepliesScreen(
-      {super.key,
-      required this.postEntity,
-      required this.like,
-      required this.replies});
+  const RepliesScreen({
+    super.key,
+    required this.postEntity,
+  });
   final PostEntity postEntity;
-  final int like;
-  final int replies;
 
   @override
   State<RepliesScreen> createState() => _RepliesScreenState();
 }
 
 class _RepliesScreenState extends State<RepliesScreen> {
-
   @override
   void dispose() {
-   replyBloc.close();
+    replyBloc.close();
     super.dispose();
   }
 
-
-
-  final replyBloc = ReplyBloc(locator.get());
+  final replyBloc = ReplyBloc(locator.get(), locator.get());
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          replyBloc..add(ReplyStartedEvent(postI: widget.postEntity.id)),
+      create: (context) => replyBloc
+        ..add(ReplyStartedEvent(
+            postId: widget.postEntity.id, user: AuthRepository.readid())),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(title: const Text('Danter'), elevation: 0.5),
@@ -55,10 +51,188 @@ class _RepliesScreenState extends State<RepliesScreen> {
                   return CustomScrollView(
                     slivers: [
                       SliverToBoxAdapter(
-                        child: ReplyPost(
-                            postEntity: widget.postEntity,
-                            like: widget.like,
-                            replies: widget.replies),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 20, left: 10, right: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ImageUserPost(
+                                        postEntity: widget.postEntity),
+                                    Expanded(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 12),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  widget
+                                                      .postEntity.user.username,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6,
+                                                ),
+                                                const Spacer(),
+                                                TimePost(
+                                                    created: widget
+                                                        .postEntity.created),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Icon(
+                                                  Icons.more_horiz,
+                                                  color: Colors.black87
+                                                      .withOpacity(0.8),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10, right: 10, left: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.postEntity.text,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () async {
+                                            if (state.trueLikeUser == 0) {
+                                              await state.trueLikeUser++;
+
+                                              BlocProvider.of<ReplyBloc>(
+                                                      context)
+                                                  .add(
+                                                AddLikeReplyEvent(
+                                                  postId: widget.postEntity.id,
+                                                  user: AuthRepository.readid(),
+                                                ),
+                                              );
+                                            } else {
+                                              await state.trueLikeUser--;
+                                              BlocProvider.of<ReplyBloc>(
+                                                      context)
+                                                  .add(
+                                                RemoveLikeReplyEvent(
+                                                  postId: widget.postEntity.id,
+                                                  user: AuthRepository.readid(),
+                                                  likeId: state.likeid[0].id,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            child: state.trueLikeUser > 0
+                                                ? const Icon(
+                                                    CupertinoIcons.heart_fill,
+                                                    color: Colors.red,
+                                                    size: 24)
+                                                : const Icon(
+                                                    CupertinoIcons.heart,
+                                                    size: 24,
+                                                  ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 18,
+                                        ),
+                                        GestureDetector(
+                                          // onTap: () {
+                                          //   Navigator.of(context,
+                                          //           rootNavigator: true)
+                                          //       .push(MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         WriteReply(),
+                                          //   ));
+                                          // },
+                                          child: SizedBox(
+                                            height: 22,
+                                            width: 22,
+                                            child: Image.asset(
+                                              'assets/images/comments.png',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+//-----------------------TextReplyAndLike----------------------//
+
+                                        Text(state.totareplise.toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                            state.totareplise <= 1
+                                                ? 'reply'
+                                                : 'replies',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1),
+                                        const SizedBox(width: 18),
+                                        Text(state.totallike.toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                            state.totallike <= 1
+                                                ? 'Like'
+                                                : 'Likes',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1),
+                                      ],
+                                    ),
+                                    const Divider(
+                                      color: Color(0xff999999),
+                                      height: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       SliverList.builder(
                         itemCount: state.post.length,
@@ -66,7 +240,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           return ReplayList(postEntity: state.post[index]);
                         },
                       ),
-                      const SliverPadding(padding: EdgeInsets.only(bottom: 60))
+                      const SliverPadding(padding: EdgeInsets.only(bottom: 60)),
                     ],
                   );
                 } else if (state is ReplyLodingState) {
@@ -161,192 +335,6 @@ class _RepliesScreenState extends State<RepliesScreen> {
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-//-----------ReplyPost-------------//
-class ReplyPost extends StatelessWidget {
-  const ReplyPost({
-    super.key,
-    required this.postEntity,
-    required this.like,
-    required this.replies,
-  });
-  final PostEntity postEntity;
-  final int like;
-  final int replies;
-
-  @override
-  Widget build(BuildContext context) {
-    var time = DateTime.now().difference(DateTime.parse(postEntity.created));
-
-    var newFormat = DateFormat("yy-MM-dd");
-    String updatedtime = newFormat.format(DateTime.parse(postEntity.created));
-
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                (postEntity.user.avatarchek.isNotEmpty)
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: SizedBox(
-                            height: 47,
-                            width: 47,
-                            child: ImageLodingService(
-                                imageUrl: postEntity.user.avatar)),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Container(
-                          height: 47,
-                          width: 47,
-                          color: LightThemeColors.secondaryTextColor
-                              .withOpacity(0.4),
-                          child: const Icon(
-                            CupertinoIcons.person_fill,
-                            color: Colors.white,
-                            size: 55,
-                          ),
-                        ),
-                      ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              postEntity.user.username,
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                            const Spacer(),
-                            Text(
-                              time.inMinutes == 0
-                                  ? 'Now'
-                                  : time.inMinutes < 60
-                                      ? '${time.inMinutes}m'
-                                      : time.inHours < 24
-                                          ? '${time.inHours}h'
-                                          : time.inDays < 8
-                                              ? '${time.inDays}d'
-                                              : time.inDays >= 8
-                                                  ? updatedtime
-                                                  : '',
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-
-                            Icon(
-                              Icons.more_horiz,
-                              color: Colors.black87.withOpacity(0.8),
-                            )
-                            // Text('---',
-                            //     style: Theme.of(context).textTheme.subtitle2),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  postEntity.text,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 16),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const Icon(CupertinoIcons.heart, size: 24),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    GestureDetector(
-                      // onTap: () {
-                      //   Navigator.of(context, rootNavigator: true)
-                      //       .push(MaterialPageRoute(
-                      //     builder: (context) => WriteReply(),
-                      //   ));
-                      // },
-                      child: SizedBox(
-                        height: 22,
-                        width: 22,
-                        child: Image.asset(
-                          'assets/images/comments.png',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      replies.toString(),
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    Text(
-                      'replies',
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    Text(
-                      like.toString(),
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    Text(
-                      'likes',
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          const Divider(
-            color: Color(0xff999999),
-            height: 20,
-          ),
-        ],
       ),
     );
   }

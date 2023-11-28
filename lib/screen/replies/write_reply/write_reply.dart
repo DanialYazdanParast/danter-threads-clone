@@ -63,7 +63,7 @@ class WriteReply extends StatelessWidget {
                         if (state is WriteReplySuccesState) {
                           BlocProvider.of<ReplyBloc>(context).add(
                               ReplyRefreshEvent(
-                                  postI:postEntity.id ));
+                                  postId: postEntity.id, user: AuthRepository.readid()));
                           _controller.text = '';
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

@@ -12,15 +12,24 @@ abstract class ReplyListState extends Equatable {
 
 
 class ReplyListSuccesState extends ReplyListState {
-  final int totallike;
-// final List<Replyphoto> totareplisePhoto;
+    final int totallike;
+ 
   final int totareplise;
+  int trueLikeUser;
+  final List<LikeId> likeid;
 
-  const ReplyListSuccesState(this.totallike, this.totareplise, );
+  ReplyListSuccesState(
+    this.totallike,
+    this.totareplise,
+   
+    this.trueLikeUser,
+    this.likeid,
+  );
 
   @override
-  List<Object> get props => [totallike,totareplise ];
+  List<Object> get props => [totallike, totareplise,trueLikeUser,likeid];
 }
+
 
 class ReplyListErrorState extends ReplyListState {
   final AppException exception;

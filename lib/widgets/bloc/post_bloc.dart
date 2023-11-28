@@ -19,7 +19,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           final totareplise =await postRepository.getPosttotalreplise(event.postId);
           final getPosttotalreplisePhoto = await postRepository.getPosttotalreplisePhoto(event.postId);
           final trueLiseUser = await postRepository.getLikeuser(event.postId ,event.user);    
-           final likeid = await postRepository.getLikeid(event.postId);
+        final likeid = await postRepository.getLikeid(event.postId ,event.user);
           emit(PostSuccesState(totallike, totareplise, getPosttotalreplisePhoto ,trueLiseUser, likeid));
         } catch (e) {
           emit(PostErrorState(
@@ -33,7 +33,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           final totareplise =await postRepository.getPosttotalreplise(event.postId);
           final getPosttotalreplisePhoto = await postRepository.getPosttotalreplisePhoto(event.postId);
           final trueLiseUser = await postRepository.getLikeuser(event.postId ,event.user);    
-        final likeid = await postRepository.getLikeid(event.postId);
+       final likeid = await postRepository.getLikeid(event.postId ,event.user);
           emit(PostSuccesState(totallike, totareplise, getPosttotalreplisePhoto ,trueLiseUser, likeid));
         } catch (e) {
           emit(PostErrorState(
@@ -47,7 +47,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           final totareplise =await postRepository.getPosttotalreplise(event.postId);
           final getPosttotalreplisePhoto = await postRepository.getPosttotalreplisePhoto(event.postId);
           final trueLiseUser = await postRepository.getLikeuser(event.postId ,event.user);    
-         final likeid = await postRepository.getLikeid(event.postId);
+         final likeid = await postRepository.getLikeid(event.postId ,event.user);
           emit(PostSuccesState(totallike, totareplise, getPosttotalreplisePhoto ,trueLiseUser, likeid));
         } catch (e) {
           emit(PostErrorState(

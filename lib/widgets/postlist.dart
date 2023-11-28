@@ -1,12 +1,12 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
-
 import 'package:danter/theme.dart';
+import 'package:danter/widgets/Row_Image_Name_Text.dart';
 import 'package:danter/widgets/bloc/post_bloc.dart';
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/image_user_post.dart';
 import 'package:danter/widgets/time.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +21,7 @@ class PostList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int like = 0;
-    int replise = 0;
-    int likeuser = 0;
 
-    // like = state.totallike;
-    //                                     likeuser = state.trueLiseUser;
-    //                                     replise = state.totareplise;
     return BlocProvider(
       create: (context) => PostBloc(locator.get())
         ..add(PostStartedEvent(
@@ -37,8 +31,7 @@ class PostList extends StatelessWidget {
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (context) => RepliesScreen(
               postEntity: postEntity,
-              like: like,
-              replies: replise,
+       
             ),
           ));
         },
@@ -60,8 +53,8 @@ class PostList extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: () async {
-                                  if (state.trueLiseUser == 0) {
-                                    await state.trueLiseUser++;
+                                  if (state.trueLikeUser == 0) {
+                                    await state.trueLikeUser++;
 
                                     BlocProvider.of<PostBloc>(context).add(
                                       AddLikePostEvent(
@@ -70,6 +63,7 @@ class PostList extends StatelessWidget {
                                       ),
                                     );
                                   } else {
+                                    await state.trueLikeUser--;
                                     BlocProvider.of<PostBloc>(context).add(
                                       RemoveLikePostEvent(
                                         postId: postEntity.id,
@@ -80,7 +74,7 @@ class PostList extends StatelessWidget {
                                   }
                                 },
                                 child: Container(
-                                  child: state.trueLiseUser > 0
+                                  child: state.trueLikeUser > 0
                                       ? const Icon(CupertinoIcons.heart_fill,
                                           color: Colors.red, size: 24)
                                       : const Icon(
@@ -255,93 +249,22 @@ class InitState extends StatelessWidget {
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(left: 67, top: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('0',
-                    style: Theme.of(context).textTheme.subtitle1),
+                Text('0', style: Theme.of(context).textTheme.subtitle1),
                 const SizedBox(width: 6),
-                Text('reply',
-                    style: Theme.of(context).textTheme.subtitle1),
+                Text('reply', style: Theme.of(context).textTheme.subtitle1),
                 const SizedBox(width: 18),
-                Text('0',
-                    style: Theme.of(context).textTheme.subtitle1),
+                Text('0', style: Theme.of(context).textTheme.subtitle1),
                 const SizedBox(width: 6),
-                Text('Like',
-                    style: Theme.of(context).textTheme.subtitle1),
+                Text('Like', style: Theme.of(context).textTheme.subtitle1),
               ],
             ),
           ),
           const Divider(height: 20),
-        ],
-      ),
-    );
-  }
-}
-
-class ImageAndNameAndText extends StatelessWidget {
-  const ImageAndNameAndText({
-    super.key,
-    required this.postEntity,
-  });
-
-  final PostEntity postEntity;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //----------------------ImageUserPost----------------------//
-          ImageUserPost(postEntity: postEntity),
-          //----------------------ImageUserPost----------------------//
-
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        postEntity.user.username,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      const Spacer(),
-                      //TimePost
-                      TimePost(created: postEntity.created),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.more_horiz,
-                        color: Colors.black87.withOpacity(0.8),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5, right: 7),
-                    child: Text(
-                      postEntity.text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontWeight: FontWeight.w500, fontSize: 16),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -397,42 +320,6 @@ class PhotoReplyUserNoPhoto extends StatelessWidget {
         color: Colors.white,
         size: 22,
       ),
-    );
-  }
-}
-
-class ImageUserPost extends StatelessWidget {
-  const ImageUserPost({
-    super.key,
-    required this.postEntity,
-  });
-
-  final PostEntity postEntity;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: (postEntity.user.avatarchek.isNotEmpty)
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: SizedBox(
-                  height: 47,
-                  width: 47,
-                  child: ImageLodingService(imageUrl: postEntity.user.avatar)),
-            )
-          : ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Container(
-                height: 47,
-                width: 47,
-                color: LightThemeColors.secondaryTextColor.withOpacity(0.4),
-                child: const Icon(
-                  CupertinoIcons.person_fill,
-                  color: Colors.white,
-                  size: 55,
-                ),
-              ),
-            ),
     );
   }
 }
