@@ -2,6 +2,7 @@ import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
+import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/Row_Image_Name_Text.dart';
 import 'package:danter/widgets/bloc/post_bloc.dart';
@@ -14,9 +15,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostList extends StatelessWidget {
   final PostEntity postEntity;
+      final GestureTapCallback onTabNameUser;
   const PostList({
     super.key,
-    required this.postEntity,
+    required this.postEntity, required this.onTabNameUser,
   });
 
   @override
@@ -46,7 +48,7 @@ class PostList extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        ImageAndNameAndText(postEntity: postEntity),
+                        ImageAndNameAndText(postEntity: postEntity,onTabNameUser: onTabNameUser),
                         Padding(
                           padding: const EdgeInsets.only(left: 65),
                           child: Row(
@@ -87,14 +89,14 @@ class PostList extends StatelessWidget {
                                 width: 18,
                               ),
                               GestureDetector(
-                                // onTap: () {
-                                //   Navigator.of(context,
-                                //           rootNavigator: true)
-                                //       .push(MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         WriteReply(),
-                                //   ));
-                                // },
+                                onTap: () {
+                                  Navigator.of(context,
+                                          rootNavigator: true)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        WriteReply(postEntity: postEntity),
+                                  ));
+                                },
                                 child: SizedBox(
                                   height: 22,
                                   width: 22,
@@ -227,7 +229,7 @@ class InitState extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          ImageAndNameAndText(postEntity: postEntity),
+          ImageAndNameAndText(postEntity: postEntity,onTabNameUser:(){} ),
           Padding(
             padding: const EdgeInsets.only(left: 65),
             child: Row(

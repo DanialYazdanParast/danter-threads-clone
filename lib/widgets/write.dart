@@ -4,40 +4,6 @@ import 'package:danter/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SendPostWrite extends StatelessWidget {
-  const SendPostWrite({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      color: Colors.white,
-      height: 35,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Anyone can reply',
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1!
-                .apply(fontSizeFactor: 0.9),
-          ),
-          const Text(
-            'Post',
-            style: TextStyle(
-                fontFamily: 'Shabnam',
-                fontSize: 18,
-                color: Colors.blue,
-                fontWeight: FontWeight.w600),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class FildWrite extends StatefulWidget {
   const FildWrite({
@@ -96,7 +62,7 @@ class _FildWriteState extends State<FildWrite> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Daniel',
+                          AuthRepository.loadAuthInfo()!.username,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         const SizedBox(

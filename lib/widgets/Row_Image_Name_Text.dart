@@ -8,15 +8,16 @@ import 'package:flutter/material.dart';
 class ImageAndNameAndText extends StatelessWidget {
   const ImageAndNameAndText({
     super.key,
-    required this.postEntity,
+    required this.postEntity, required this.onTabNameUser,
   });
-
+ 
   final PostEntity postEntity;
+    final GestureTapCallback onTabNameUser;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,9 +33,12 @@ class ImageAndNameAndText extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        postEntity.user.username,
-                        style: Theme.of(context).textTheme.headline6,
+                      GestureDetector(
+                        onTap:onTabNameUser ,
+                        child: Text(
+                          postEntity.user.username,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
                       ),
                       const Spacer(),
                       //TimePost

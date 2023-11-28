@@ -61,17 +61,17 @@ class WriteReply extends StatelessWidget {
                     BlocConsumer<WriteReplyBloc, WriteReplyState>(
                       listener: (context, state) {
                         if (state is WriteReplySuccesState) {
-                          BlocProvider.of<ReplyBloc>(context).add(
-                              ReplyRefreshEvent(
-                                  postId: postEntity.id, user: AuthRepository.readid()));
                           _controller.text = '';
+                          Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Center(child: Text('با موفقیت ثبت شد')),
                             ),
                           );
-
-                          Navigator.pop(context);
+                          BlocProvider.of<ReplyBloc>(context).add(
+                              ReplyRefreshEvent(
+                                  postId: postEntity.id,
+                                  user: AuthRepository.readid()));
                         } else if (state is WriteReplyErrorState) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -89,8 +89,7 @@ class WriteReply extends StatelessWidget {
                                   WriteReplySendPostEvent(
                                       user: AuthRepository.readid(),
                                       text: _controller.text,
-                                      postid: postEntity.id
-                                      ));
+                                      postid: postEntity.id));
                             }
                           },
                           child: state is WriteLodingState

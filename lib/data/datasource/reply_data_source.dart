@@ -5,8 +5,7 @@ import 'package:dio/dio.dart';
 
 abstract class IReplyDataSource {
   Future<List<PostEntity>> getReply(String postId);
-   Future<int> getReplytotalLike(String replyId);
-   Future<int> getReplytotalreplise(String replyId);
+
    Future<void> sendPostReply(String userId ,String text ,String postid);
  }
 
@@ -33,33 +32,7 @@ class ReplyRemoteDataSource
         .toList();
   }
   
-  @override
-  Future<int> getReplytotalLike(String replyId)async {
-    Map<String, dynamic> qParams = {
-      'filter': 'post="$replyId"',
-    };
-    var response = await _dio.get(
-      'collections/like/records',
-      queryParameters: qParams,
-    );
-    validatResponse(response);
-
-    return response.data['totalItems'];
-  }
   
-  @override
-  Future<int> getReplytotalreplise(String replyId) async{
-        Map<String, dynamic> qParams = {
-      'filter': 'postid="$replyId"',
-    };
-    var response = await _dio.get(
-      'collections/post/records',
-      queryParameters: qParams,
-    );
-    validatResponse(response);
-
-    return response.data['totalItems'];
-  }
   
   @override
   Future<void> sendPostReply(String userId, String text, String postid) async{

@@ -3,6 +3,7 @@ import 'package:danter/di/di.dart';
 import 'package:danter/main.dart';
 
 import 'package:danter/screen/home/bloc/home_bloc.dart';
+import 'package:danter/screen/profile_user/profile_user.dart';
 
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/postlist.dart';
@@ -12,9 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +58,18 @@ class HomeScreen extends StatelessWidget {
                     SliverList.builder(
                       itemCount: state.post.length,
                       itemBuilder: (context, index) {
-                        return PostList(postEntity: state.post[index]);
+                        return PostList(postEntity: state.post[index],onTabNameUser: (){
+
+                           Navigator.of(context, rootNavigator: true)
+                                .push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ProfileUser(user: state.post[index].user ,);
+                                },
+                              ),
+                            );
+
+                        },);
                       },
                     ),
                   ],

@@ -1,6 +1,9 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
+import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+import 'package:danter/screen/profile/profile_screen.dart';
+import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/bloc/reply_bloc.dart';
 import 'package:danter/screen/replies/reply_list/replyList.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
@@ -78,19 +81,60 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  widget
-                                                      .postEntity.user.username,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    if (widget.postEntity.user
+                                                            .id ==
+                                                        AuthRepository
+                                                            .readid()) {
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .push(
+                                                        MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return BlocProvider(
+                                                              create: (context) =>
+                                                                  ProfileBloc(
+                                                                      locator
+                                                                          .get()),
+                                                              child:
+                                                                  ProfileScreen(),
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .push(
+                                                        MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return ProfileUser(
+                                                              user: widget
+                                                                  .postEntity
+                                                                  .user,
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Text(
+                                                    widget.postEntity.user
+                                                        .username,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline6,
+                                                  ),
                                                 ),
                                                 const Spacer(),
                                                 TimePost(
                                                     created: widget
                                                         .postEntity.created),
                                                 const SizedBox(
-                                                  width: 20,
+                                                  width: 10,
                                                 ),
                                                 Icon(
                                                   Icons.more_horiz,
@@ -169,14 +213,21 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                           width: 18,
                                         ),
                                         GestureDetector(
-                                          // onTap: () {
-                                          //   Navigator.of(context,
-                                          //           rootNavigator: true)
-                                          //       .push(MaterialPageRoute(
-                                          //     builder: (context) =>
-                                          //         WriteReply(),
-                                          //   ));
-                                          // },
+                                          onTap: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BlocProvider.value(
+                                                  value: replyBloc,
+                                                  child: WriteReply(
+                                                      postEntity:
+                                                          widget.postEntity),
+                                                ),
+                                              ),
+                                            );
+                                          },
                                           child: SizedBox(
                                             height: 22,
                                             width: 22,

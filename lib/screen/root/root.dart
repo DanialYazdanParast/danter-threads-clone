@@ -2,7 +2,7 @@
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/home/home_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
-import 'package:danter/screen/profile/profilescree.dart';
+import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/write/write_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

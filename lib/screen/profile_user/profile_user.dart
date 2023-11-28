@@ -1,73 +1,123 @@
-import 'package:danter/screen/profile/profilescree.dart';
-import 'package:danter/widgets/postlist.dart';
+import 'package:danter/data/model/user.dart';
+import 'package:danter/di/di.dart';
+import 'package:danter/screen/profile/profile_screen.dart';
+import 'package:danter/screen/profile_user/bloc/profile_user_bloc.dart';
 import 'package:danter/theme.dart';
-
+import 'package:danter/widgets/error.dart';
+import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/postlist.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileUser extends StatelessWidget {
-  const ProfileUser({super.key});
+  const ProfileUser({super.key, required this.user});
+  final User user;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: DefaultTabController(
-          length: 2,
-          child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  pinned: true,
-                  actions: [
-                    SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Image.asset(
-                        'assets/images/more.png',
+      body: BlocProvider(
+        create: (context) => ProfileUserBloc(locator.get())
+          ..add(ProfileUserStartedEvent(user: user.id)),
+        child: SafeArea(
+          child: BlocBuilder<ProfileUserBloc, ProfileUserState>(
+            builder: (context, state) {
+                if (state is ProfileUserSuccesState) {
+
+                                return DefaultTabController(
+                length: 2,
+                child: NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    return [
+                      SliverAppBar(
+                        pinned: true,
+                        actions: [
+                          SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: Image.asset(
+                              'assets/images/more.png',
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
-                const SliverToBoxAdapter(
-                  child: HederProfile(),
-                ),
-                SliverPersistentHeader(
-                  delegate: TabBarViewDelegate(
-                    const TabBar(
-                      indicatorWeight: 0.5,
-                      indicatorColor: Colors.black,
-                      labelColor: Colors.black,
-                      unselectedLabelColor: LightThemeColors.secondaryTextColor,
-                      tabs: [
-                        Tab(icon: Text('Danter')),
-                        Tab(icon: Text('Replies')),
+                      SliverToBoxAdapter(
+                        child: HederProfile(user: user),
+                      ),
+                      SliverPersistentHeader(
+                        delegate: TabBarViewDelegate(
+                          const TabBar(
+                            indicatorWeight: 0.5,
+                            indicatorColor: Colors.black,
+                            labelColor: Colors.black,
+                            unselectedLabelColor:
+                                LightThemeColors.secondaryTextColor,
+                            tabs: [
+                              Tab(icon: Text('Danter')),
+                              Tab(icon: Text('Replies')),
+                            ],
+                          ),
+                        ),
+                        pinned: false,
+                        floating: true,
+                      ),
+                    ];
+                  },
+                  body: TabBarView(children: [
+                    CustomScrollView(
+                      slivers: [
+                       (state.post.isNotEmpty)
+                              ? SliverList.builder(
+                                  itemCount: state.post.length,
+                                  itemBuilder: (context, index) {
+                                    return PostList(
+                                      postEntity: state.post[index],
+                                      onTabNameUser: (){},
+                                    );
+                                  },
+                                )
+                              : SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 40),
+                                    child: Center(
+                                      child: Text(
+                                        'You haven\'t postted any danter yet',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1!
+                                            .copyWith(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w100),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                       ],
                     ),
-                  ),
-                  pinned: false,
-                  floating: true,
+                    Container(
+                      color: const Color(0xff1C1F2E),
+                    ),
+                  ]),
                 ),
-              ];
+              );
+
+                }else if (state is ProfileUserLodingState) {
+                    return Center(child: CupertinoActivityIndicator());
+                  } else if (state is ProfileUserErrorState) {
+                    return AppErrorWidget(
+                      exception: state.exception,
+                      onpressed: () {},
+                    );
+                  } else {
+                    throw Exception('state is not supported ');
+                  }
+
             },
-            body: TabBarView(children: [
-              CustomScrollView(
-                slivers: [
-                  // SliverList.builder(
-                  //   itemCount: 30,
-                  //   itemBuilder: (context, index) {
-                  //     return const PostList();
-                  //   },
-                  // ),
-                ],
-              ),
-              Container(
-                color: const Color(0xff1C1F2E),
-              ),
-            ]),
           ),
         ),
       ),
@@ -77,8 +127,10 @@ class ProfileUser extends StatelessWidget {
 
 //---------HederProfile-------------//
 class HederProfile extends StatelessWidget {
+  final User user;
   const HederProfile({
     super.key,
+    required this.user,
   });
 
   @override
@@ -100,7 +152,7 @@ class HederProfile extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Daniel YazdanParast',
+                      user.name == '' ? '${user.username}' : '${user.name}',
                       style: Theme.of(context)
                           .textTheme
                           .headline6!
@@ -112,7 +164,7 @@ class HederProfile extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'Daniel',
+                          '${user.username}',
                           style: Theme.of(context)
                               .textTheme
                               .headline6!
@@ -143,12 +195,23 @@ class HederProfile extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      'bio fhgfjghjgjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontSize: 18, fontWeight: FontWeight.w400),
+                    Visibility(
+                      visible: user.bio!.isNotEmpty,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            '${user.bio}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(
+                                    fontSize: 18, fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
@@ -156,7 +219,7 @@ class HederProfile extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                          const PhotoUserFollowers(),
+                        const PhotoUserFollowers(),
                         const SizedBox(
                           width: 18,
                         ),
@@ -182,16 +245,28 @@ class HederProfile extends StatelessWidget {
                   ],
                 ),
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: SizedBox(
-                  height: 84,
-                  width: 84,
-                  child: Image.asset(
-                    'assets/images/me.jpg',
-                  ),
-                ),
-              ),
+              (user.avatarchek.isNotEmpty)
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: SizedBox(
+                          height: 84,
+                          width: 84,
+                          child: ImageLodingService(imageUrl: user.avatar)),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 84,
+                        width: 84,
+                        color: LightThemeColors.secondaryTextColor
+                            .withOpacity(0.4),
+                        child: const Icon(
+                          CupertinoIcons.person_fill,
+                          color: Colors.white,
+                          size: 97,
+                        ),
+                      ),
+                    )
             ],
           ),
           const SizedBox(

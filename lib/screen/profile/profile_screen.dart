@@ -45,7 +45,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 20,
                     ),
                   ],
-                  leading: Icon(Icons.language),
+           //       leading: Icon(Icons.language),
+           
                 ),
                 const SliverToBoxAdapter(
                   child: HederProfile(),
@@ -85,6 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   itemBuilder: (context, index) {
                                     return PostList(
                                       postEntity: state.post[index],
+                                      onTabNameUser: (){},
                                     );
                                   },
                                 )
@@ -103,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
                         ],
                       ),
                     );

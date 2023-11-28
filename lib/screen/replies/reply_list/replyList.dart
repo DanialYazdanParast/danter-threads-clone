@@ -1,8 +1,12 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+import 'package:danter/screen/profile/profile_screen.dart';
+import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 
 import 'package:danter/screen/replies/reply_list/bloc/reply_list_bloc.dart';
+import 'package:danter/screen/replies/write_reply/write_reply.dart';
 
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/Row_Image_Name_Text.dart';
@@ -11,7 +15,6 @@ import 'package:danter/widgets/postlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 import '../../../di/di.dart';
 
@@ -24,16 +27,17 @@ class ReplayList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
       create: (context) => ReplyListBloc(locator.get())
-        ..add(ReplyListStartedEvent(  postId: postEntity.id, user: AuthRepository.readid()),),
+        ..add(
+          ReplyListStartedEvent(
+              postId: postEntity.id, user: AuthRepository.readid()),
+        ),
       child: GestureDetector(
         onTap: () {
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (context) => RepliesScreen(
               postEntity: postEntity,
-        
             ),
           ));
         },
@@ -45,7 +49,32 @@ class ReplayList extends StatelessWidget {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    ImageAndNameAndText(postEntity: postEntity),
+                    ImageAndNameAndText(
+                        postEntity: postEntity,
+                        onTabNameUser: () {
+                          if (postEntity.user.id == AuthRepository.readid()) {
+                            Navigator.of(context, rootNavigator: true).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return BlocProvider(
+                                    create: (context) => ProfileBloc(locator.get()),
+                                    child: ProfileScreen(),
+                                  );
+                                },
+                              ),
+                            );
+                          } else {
+                            Navigator.of(context, rootNavigator: true).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ProfileUser(
+                                    user: postEntity.user,
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                        }),
                     Padding(
                       padding: const EdgeInsets.only(left: 65),
                       child: Row(
@@ -86,14 +115,14 @@ class ReplayList extends StatelessWidget {
                             width: 18,
                           ),
                           GestureDetector(
-                            // onTap: () {
-                            //   Navigator.of(context,
-                            //           rootNavigator: true)
-                            //       .push(MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         WriteReply(),
-                            //   ));
-                            // },
+ onTap: () {
+                                  Navigator.of(context,
+                                          rootNavigator: true)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        WriteReply(postEntity: postEntity),
+                                  ));
+                                },
                             child: SizedBox(
                               height: 22,
                               width: 22,
@@ -111,9 +140,7 @@ class ReplayList extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                         
 //-----------------------TextReplyAndLike----------------------//
-                      
 
                           Text(state.totareplise.toString(),
                               style: Theme.of(context).textTheme.subtitle1),
