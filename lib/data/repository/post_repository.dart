@@ -14,6 +14,7 @@ abstract class IPostRepository {
   Future<void> addLike(String userId, String postid);
   Future<void> deleteLike(String likeid);
   Future<List<LikeId>> getLikeid(String postId, String userId);
+  Future<int> getTotalfollowers(String userId);
 }
 
 class PostRepository implements IPostRepository {
@@ -67,5 +68,10 @@ class PostRepository implements IPostRepository {
   @override
   Future<List<LikeId>> getLikeid(String postId, String userId) {
     return dataSource.getLikeid(postId, userId);
+  }
+
+  @override
+  Future<int> getTotalfollowers(String userId) {
+    return dataSource.getTotalfollowers(userId);
   }
 }

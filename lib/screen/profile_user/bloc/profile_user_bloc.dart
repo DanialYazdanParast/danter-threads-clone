@@ -15,7 +15,9 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
         try {
           emit(ProfileUserLodingState());
           final post = await postRepository.getPostProfile(event.user);
-          emit(ProfileUserSuccesState(post));
+                final totalfollowers =
+              await postRepository.getTotalfollowers(event.user);
+          emit(ProfileUserSuccesState(post,totalfollowers));
         } catch (e) {
           emit(ProfileUserErrorState(
           exception: e is AppException ? e : AppException()));
@@ -23,7 +25,9 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
       }else if (event is ProfileUserRefreshEvent ) {
         try { 
           final post = await postRepository.getPostProfile(event.user);
-          emit(ProfileUserSuccesState(post));
+            final totalfollowers =
+              await postRepository.getTotalfollowers(event.user);
+          emit(ProfileUserSuccesState(post,totalfollowers));
         } catch (e) {
           emit(ProfileUserErrorState(
           exception: e is AppException ? e : AppException()));

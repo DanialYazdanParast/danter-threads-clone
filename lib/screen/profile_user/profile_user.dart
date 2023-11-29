@@ -47,7 +47,7 @@ class ProfileUser extends StatelessWidget {
                         ],
                       ),
                       SliverToBoxAdapter(
-                        child: HederProfile(user: user),
+                        child: HederProfile(user: user,totalfollowers: state.totalfollowers),
                       ),
                       SliverPersistentHeader(
                         delegate: TabBarViewDelegate(
@@ -128,9 +128,10 @@ class ProfileUser extends StatelessWidget {
 //---------HederProfile-------------//
 class HederProfile extends StatelessWidget {
   final User user;
+   final int totalfollowers;
   const HederProfile({
     super.key,
-    required this.user,
+    required this.user, required this.totalfollowers,
   });
 
   @override
@@ -224,7 +225,7 @@ class HederProfile extends StatelessWidget {
                           width: 18,
                         ),
                         Text(
-                          '412',
+                         totalfollowers.toString(),
                           style:
                               Theme.of(context).textTheme.subtitle1!.copyWith(
                                     fontSize: 20,

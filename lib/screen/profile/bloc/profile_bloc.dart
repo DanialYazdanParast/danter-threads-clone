@@ -8,23 +8,26 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-    final IPostRepository postRepository;
+  final IPostRepository postRepository;
   ProfileBloc(this.postRepository) : super(ProfileLodingState()) {
-    on<ProfileEvent>((event, emit) async{
-       if (event is ProfileStartedEvent ) {
+    on<ProfileEvent>((event, emit) async {
+      if (event is ProfileStartedEvent) {
         try {
           emit(ProfileLodingState());
           final post = await postRepository.getPostProfile(event.user);
-          emit(ProfileSuccesState(post));
+          final totalfollowers =
+              await postRepository.getTotalfollowers(event.user);
+          emit(ProfileSuccesState(post ,totalfollowers));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));
         }
-      }else if (event is ProfileRefreshEvent ) {
+      } else if (event is ProfileRefreshEvent) {
         try {
-          
           final post = await postRepository.getPostProfile(event.user);
-          emit(ProfileSuccesState(post));
+          final totalfollowers =
+              await postRepository.getTotalfollowers(event.user);
+          emit(ProfileSuccesState(post ,totalfollowers));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));
