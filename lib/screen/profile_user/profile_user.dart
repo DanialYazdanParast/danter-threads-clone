@@ -1,18 +1,22 @@
 import 'package:danter/data/model/user.dart';
+import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
-import 'package:danter/screen/profile/profile_screen.dart';
+import 'package:danter/screen/likes/bloc/likes_bloc.dart';
+
 import 'package:danter/screen/profile_user/bloc/profile_user_bloc.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/photoUserFollowers.dart';
 import 'package:danter/widgets/postlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileUser extends StatelessWidget {
-  const ProfileUser({super.key, required this.user});
+  const ProfileUser({super.key, required this.user , this.idpostEntity='0'});
   final User user;
+    final String idpostEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -20,64 +24,97 @@ class ProfileUser extends StatelessWidget {
       backgroundColor: Colors.white,
       body: BlocProvider(
         create: (context) => ProfileUserBloc(locator.get())
-          ..add(ProfileUserStartedEvent(user: user.id)),
+          ..add(ProfileUserStartedEvent(
+              myuserId: AuthRepository.readid(), userIdProfile: user.id)),
         child: SafeArea(
           child: BlocBuilder<ProfileUserBloc, ProfileUserState>(
             builder: (context, state) {
-                if (state is ProfileUserSuccesState) {
-
-                                return DefaultTabController(
-                length: 2,
-                child: NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverAppBar(
-                        pinned: true,
-                        actions: [
-                          SizedBox(
-                            height: 24,
-                            width: 24,
-                            child: Image.asset(
-                              'assets/images/more.png',
+              if (state is ProfileUserSuccesState) {
+                return DefaultTabController(
+                  length: 2,
+                  child: NestedScrollView(
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        SliverAppBar(
+                          pinned: true,
+                          actions: [
+                            SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: Image.asset(
+                                'assets/images/more.png',
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                      ),
-                      SliverToBoxAdapter(
-                        child: HederProfile(user: user,totalfollowers: state.totalfollowers),
-                      ),
-                      SliverPersistentHeader(
-                        delegate: TabBarViewDelegate(
-                          const TabBar(
-                            indicatorWeight: 0.5,
-                            indicatorColor: Colors.black,
-                            labelColor: Colors.black,
-                            unselectedLabelColor:
-                                LightThemeColors.secondaryTextColor,
-                            tabs: [
-                              Tab(icon: Text('Danter')),
-                              Tab(icon: Text('Replies')),
-                            ],
+                            const SizedBox(
+                              width: 20,
+                            ),
+                          ],
+                        ),
+                        SliverToBoxAdapter(
+                          child: HederProfile(
+                            user: user,
+                            totalfollowers: state.totalfollowers,
+                            truefollowing: state.truefollowing,
+                            onTabfollow: () async {
+                              if (state.truefollowing == 0) {
+                                await state.truefollowing++;
+
+                                BlocProvider.of<ProfileUserBloc>(context).add(
+                                  ProfileUserAddfollowhEvent(
+                                      myuserId: AuthRepository.readid(),
+                                      userIdProfile: user.id),);
+
+
+                                  BlocProvider.of<LikesBloc>(context).add(
+                                  LikesStartedEvent(postId: idpostEntity
+                                   ) );     
+
+
+                              } else {
+                                await state.truefollowing--;
+                                BlocProvider.of<ProfileUserBloc>(context).add(
+                                  ProfileUserDelletfollowhEvent(
+                                      myuserId: AuthRepository.readid(),
+                                      userIdProfile: user.id,
+                                      followId: state.followId[0].id),
+                                );
+
+                                BlocProvider.of<LikesBloc>(context).add(
+                                  LikesStartedEvent(postId: idpostEntity
+                                   ) );    
+                              }
+                            },
                           ),
                         ),
-                        pinned: false,
-                        floating: true,
-                      ),
-                    ];
-                  },
-                  body: TabBarView(children: [
-                    CustomScrollView(
-                      slivers: [
-                       (state.post.isNotEmpty)
+                        SliverPersistentHeader(
+                          delegate: TabBarViewDelegate(
+                            const TabBar(
+                              indicatorWeight: 0.5,
+                              indicatorColor: Colors.black,
+                              labelColor: Colors.black,
+                              unselectedLabelColor:
+                                  LightThemeColors.secondaryTextColor,
+                              tabs: [
+                                Tab(icon: Text('Danter')),
+                                Tab(icon: Text('Replies')),
+                              ],
+                            ),
+                          ),
+                          pinned: false,
+                          floating: true,
+                        ),
+                      ];
+                    },
+                    body: TabBarView(children: [
+                      CustomScrollView(
+                        slivers: [
+                          (state.post.isNotEmpty)
                               ? SliverList.builder(
                                   itemCount: state.post.length,
                                   itemBuilder: (context, index) {
                                     return PostList(
                                       postEntity: state.post[index],
-                                      onTabNameUser: (){},
+                                      onTabNameUser: () {},
                                     );
                                   },
                                 )
@@ -86,7 +123,7 @@ class ProfileUser extends StatelessWidget {
                                     padding: const EdgeInsets.only(top: 40),
                                     child: Center(
                                       child: Text(
-                                        'You haven\'t postted any danter yet',
+                                        'No danter yet',
                                         style: Theme.of(context)
                                             .textTheme
                                             .subtitle1!
@@ -97,26 +134,24 @@ class ProfileUser extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                      ],
-                    ),
-                    Container(
-                      color: const Color(0xff1C1F2E),
-                    ),
-                  ]),
-                ),
-              );
-
-                }else if (state is ProfileUserLodingState) {
-                    return Center(child: CupertinoActivityIndicator());
-                  } else if (state is ProfileUserErrorState) {
-                    return AppErrorWidget(
-                      exception: state.exception,
-                      onpressed: () {},
-                    );
-                  } else {
-                    throw Exception('state is not supported ');
-                  }
-
+                        ],
+                      ),
+                      Container(
+                        color: const Color(0xff1C1F2E),
+                      ),
+                    ]),
+                  ),
+                );
+              } else if (state is ProfileUserLodingState) {
+                return Center(child: CupertinoActivityIndicator());
+              } else if (state is ProfileUserErrorState) {
+                return AppErrorWidget(
+                  exception: state.exception,
+                  onpressed: () {},
+                );
+              } else {
+                throw Exception('state is not supported ');
+              }
             },
           ),
         ),
@@ -128,10 +163,15 @@ class ProfileUser extends StatelessWidget {
 //---------HederProfile-------------//
 class HederProfile extends StatelessWidget {
   final User user;
-   final int totalfollowers;
+  final int totalfollowers;
+  final int truefollowing;
+  final GestureTapCallback onTabfollow;
   const HederProfile({
     super.key,
-    required this.user, required this.totalfollowers,
+    required this.user,
+    required this.totalfollowers,
+    required this.truefollowing,
+    required this.onTabfollow,
   });
 
   @override
@@ -225,7 +265,7 @@ class HederProfile extends StatelessWidget {
                           width: 18,
                         ),
                         Text(
-                         totalfollowers.toString(),
+                          totalfollowers.toString(),
                           style:
                               Theme.of(context).textTheme.subtitle1!.copyWith(
                                     fontSize: 20,
@@ -235,7 +275,7 @@ class HederProfile extends StatelessWidget {
                           width: 6,
                         ),
                         Text(
-                          'followers',
+                          totalfollowers < 2 ? 'follower' : 'followers',
                           style:
                               Theme.of(context).textTheme.subtitle1!.copyWith(
                                     fontSize: 20,
@@ -273,9 +313,10 @@ class HederProfile extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Row(
+          Row(
             children: [
-              ButtonPrpfile(),
+              ButtonPrpfile(
+                  truefollowing: truefollowing, onTabfollow: onTabfollow),
             ],
           ),
         ],
@@ -286,24 +327,30 @@ class HederProfile extends StatelessWidget {
 
 //---------ButtonPrpfile-------------//
 class ButtonPrpfile extends StatelessWidget {
+  final int truefollowing;
   const ButtonPrpfile({
     super.key,
+    required this.truefollowing,
+    required this.onTabfollow,
   });
+
+  final GestureTapCallback onTabfollow;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
-              backgroundColor: Colors.black,
+              backgroundColor:
+                  truefollowing < 1 ? Colors.black : Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               )),
-          onPressed: () {},
-          child: const Text(
-            'Follow',
+          onPressed: onTabfollow,
+          child: Text(
+            truefollowing < 1 ? 'Follow' : 'Following',
             style: TextStyle(
-              color: Colors.white,
+              color: truefollowing < 1 ? Colors.white : Colors.black,
             ),
           )),
     );

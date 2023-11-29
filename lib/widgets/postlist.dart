@@ -1,14 +1,14 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
+import 'package:danter/screen/likes/likes_Screen.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/Row_Image_Name_Text.dart';
 import 'package:danter/widgets/bloc/post_bloc.dart';
 import 'package:danter/widgets/image.dart';
-import 'package:danter/widgets/image_user_post.dart';
-import 'package:danter/widgets/time.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -174,8 +174,19 @@ class PostList extends StatelessWidget {
                               Text(state.totallike.toString(),
                                   style: Theme.of(context).textTheme.subtitle1),
                               const SizedBox(width: 6),
-                              Text(state.totallike <= 1 ? 'Like' : 'Likes',
-                                  style: Theme.of(context).textTheme.subtitle1),
+                              GestureDetector(
+                                onTap: (){
+                                   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (context) => LikesScreen(
+              idpostEntity: postEntity.id,
+       
+            ),
+          ));
+
+                                },
+                                child: Text(state.totallike <= 1 ? 'Like' : 'Likes',
+                                    style: Theme.of(context).textTheme.subtitle1),
+                              ),
                             ],
                           ),
                         ),

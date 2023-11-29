@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/util/exceptions.dart';
@@ -14,20 +15,60 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
         if (event is ProfileUserStartedEvent ) {
         try {
           emit(ProfileUserLodingState());
-          final post = await postRepository.getPostProfile(event.user);
+          final post = await postRepository.getPostProfile(event.userIdProfile);
                 final totalfollowers =
-              await postRepository.getTotalfollowers(event.user);
-          emit(ProfileUserSuccesState(post,totalfollowers));
+              await postRepository.getTotalfollowers(event.userIdProfile);
+
+               final truefollowing =
+              await postRepository.getTruefollowing(event.myuserId,event.userIdProfile);
+          final followid =
+              await postRepository.getFollowid(event.myuserId,event.userIdProfile);
+          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid));
         } catch (e) {
           emit(ProfileUserErrorState(
           exception: e is AppException ? e : AppException()));
         }
       }else if (event is ProfileUserRefreshEvent ) {
         try { 
-          final post = await postRepository.getPostProfile(event.user);
+          final post = await postRepository.getPostProfile(event.userIdProfile);
             final totalfollowers =
-              await postRepository.getTotalfollowers(event.user);
-          emit(ProfileUserSuccesState(post,totalfollowers));
+              await postRepository.getTotalfollowers(event.userIdProfile);
+          final truefollowing =
+              await postRepository.getTruefollowing(event.myuserId,event.userIdProfile);
+              final followid =
+              await postRepository.getFollowid(event.myuserId,event.userIdProfile);
+          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid));
+        } catch (e) {
+          emit(ProfileUserErrorState(
+          exception: e is AppException ? e : AppException()));
+        }
+      }else if (event is ProfileUserAddfollowhEvent ) {
+        try { 
+              await postRepository.addfollow(event.myuserId,event.userIdProfile);
+          final post = await postRepository.getPostProfile(event.userIdProfile);
+            final totalfollowers =
+              await postRepository.getTotalfollowers(event.userIdProfile);
+          final truefollowing =
+              await postRepository.getTruefollowing(event.myuserId,event.userIdProfile);
+          final followid =
+              await postRepository.getFollowid(event.myuserId,event.userIdProfile);
+          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid));
+        } catch (e) {
+          emit(ProfileUserErrorState(
+          exception: e is AppException ? e : AppException()));
+        }
+      }else if (event is ProfileUserDelletfollowhEvent ) {
+        try { 
+          
+              await postRepository.deleteFollow(event.followId);
+         final post = await postRepository.getPostProfile(event.userIdProfile);
+            final totalfollowers =
+              await postRepository.getTotalfollowers(event.userIdProfile);
+          final truefollowing =
+              await postRepository.getTruefollowing(event.myuserId,event.userIdProfile);
+          final followid =
+              await postRepository.getFollowid(event.myuserId,event.userIdProfile);
+          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid));
         } catch (e) {
           emit(ProfileUserErrorState(
           exception: e is AppException ? e : AppException()));

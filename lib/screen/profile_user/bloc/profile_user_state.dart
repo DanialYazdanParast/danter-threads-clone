@@ -1,10 +1,8 @@
 part of 'profile_user_bloc.dart';
 
-sealed class ProfileUserState extends Equatable {
+abstract class ProfileUserState  {
   const ProfileUserState();
   
-  @override
-  List<Object> get props => [];
 }
 
 class ProfileUserLodingState extends ProfileUserState {}
@@ -14,16 +12,15 @@ class ProfileUserErrorState extends ProfileUserState {
 
   const ProfileUserErrorState({required this.exception});
 
-  @override
-  List<Object> get props => [exception];
+
 }
 
 class ProfileUserSuccesState extends ProfileUserState {
   final List<PostEntity> post;
     final int totalfollowers;
+    int truefollowing;
+    final List<FollowId> followId;
 
-  const ProfileUserSuccesState(this.post, this.totalfollowers);
+   ProfileUserSuccesState(this.post, this.totalfollowers ,this.truefollowing, this.followId);
 
-  @override
-  List<Object> get props => [post];
 }

@@ -1,4 +1,5 @@
 import 'package:danter/data/datasource/post_data_source.dart';
+import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/like.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/replyphoto.dart';
@@ -15,6 +16,12 @@ abstract class IPostRepository {
   Future<void> deleteLike(String likeid);
   Future<List<LikeId>> getLikeid(String postId, String userId);
   Future<int> getTotalfollowers(String userId);
+  Future<int> getTruefollowing(String myuserId, String userIdProfile);
+  Future<void> addfollow(String myuserId, String userIdProfile);
+  Future<List<FollowId>> getFollowid(String myuserId, String userIdProfile);
+  Future<void> deleteFollow(String followid);
+
+  Future<List<LikeUser>> getAllLikePost(String postId);
 }
 
 class PostRepository implements IPostRepository {
@@ -73,5 +80,30 @@ class PostRepository implements IPostRepository {
   @override
   Future<int> getTotalfollowers(String userId) {
     return dataSource.getTotalfollowers(userId);
+  }
+
+  @override
+  Future<int> getTruefollowing(String myuserId, String userIdProfile) {
+    return dataSource.getTruefollowing(myuserId, userIdProfile);
+  }
+
+  @override
+  Future<void> addfollow(String myuserId, String userIdProfile) {
+    return dataSource.addfollow(myuserId, userIdProfile);
+  }
+
+  @override
+  Future<List<FollowId>> getFollowid(String myuserId, String userIdProfile) {
+    return dataSource.getFollowid(myuserId, userIdProfile);
+  }
+
+  @override
+  Future<void> deleteFollow(String followid) {
+    return dataSource.deleteFollow(followid);
+  }
+
+  @override
+  Future<List<LikeUser>> getAllLikePost(String postId) {
+    return dataSource.getAllLikePost(postId);
   }
 }

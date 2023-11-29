@@ -8,11 +8,33 @@ sealed class ProfileUserEvent extends Equatable {
 }
 
 class ProfileUserStartedEvent extends ProfileUserEvent {
- final String user;
- const ProfileUserStartedEvent({required this.user});
+  final String myuserId;
+  final String userIdProfile;
+  const ProfileUserStartedEvent(
+   {required this.myuserId,
+   required this.userIdProfile,}
+  );
 }
 
 class ProfileUserRefreshEvent extends ProfileUserEvent {
- final String user;
- const ProfileUserRefreshEvent({required this.user});
+   final String myuserId;
+  final String userIdProfile;
+  const ProfileUserRefreshEvent({required this.myuserId,required this.userIdProfile,});
+}
+
+
+
+class ProfileUserAddfollowhEvent extends ProfileUserEvent {
+   final String myuserId;
+  final String userIdProfile;
+  const ProfileUserAddfollowhEvent({required this.myuserId,required this.userIdProfile,});
+}
+
+
+
+class ProfileUserDelletfollowhEvent extends ProfileUserEvent {
+   final String myuserId;
+  final String userIdProfile;
+  final String followId;
+  const ProfileUserDelletfollowhEvent({required this.myuserId,required this.userIdProfile,required this.followId});
 }

@@ -1,11 +1,7 @@
 import 'package:danter/di/di.dart';
-
 import 'package:danter/screen/auth/bloc/auth_bloc.dart';
-import 'package:danter/screen/home/home_screen.dart';
-import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/root/root.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -22,9 +18,6 @@ class _AuthScreenState extends State<AuthScreen> {
       TextEditingController(text: '12345678');
   final TextEditingController passwordConfirmController =
       TextEditingController(text: '12345678');
-
-
-  
 
   @override
   Widget build(BuildContext context) {

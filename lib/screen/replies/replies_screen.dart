@@ -68,7 +68,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     ImageUserPost(
-                                        postEntity: widget.postEntity),
+                                        user: widget.postEntity.user),
                                     Expanded(
                                       child: Padding(
                                         padding:

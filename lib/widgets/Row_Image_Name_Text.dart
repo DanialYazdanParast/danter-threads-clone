@@ -22,7 +22,7 @@ class ImageAndNameAndText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //----------------------ImageUserPost----------------------//
-          ImageUserPost(postEntity: postEntity),
+          ImageUserPost(user: postEntity.user),
           //----------------------ImageUserPost----------------------//
 
           Expanded(
