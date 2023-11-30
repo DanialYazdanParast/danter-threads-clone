@@ -1,13 +1,4 @@
-// class AuthInfo {
 
-//   final String id;
-
-//   final String token;
-
-//   AuthInfo({required this.id, required this.token});
-
-  
-// }
 class AuthInfo {
   final String? email;
   final String username;

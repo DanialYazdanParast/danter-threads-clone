@@ -1,4 +1,5 @@
 import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/screen/followers/followers_screen.dart';
 
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/widgets/error.dart';
@@ -55,8 +56,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                           //       leading: Icon(Icons.language),
                         ),
-                         SliverToBoxAdapter(
-                          child: HederProfile(totalfollowers: state.totalfollowers),
+                        SliverToBoxAdapter(
+                          child: HederProfile(
+                              totalfollowers: state.totalfollowers),
                         ),
                         SliverPersistentHeader(
                           delegate: TabBarViewDelegate(
@@ -134,9 +136,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 //---------HederProfile-------------//
 class HederProfile extends StatelessWidget {
- final int totalfollowers;
+  final int totalfollowers;
   const HederProfile({
-    super.key, required this.totalfollowers,
+    super.key,
+    required this.totalfollowers,
   });
 
   @override
@@ -221,31 +224,42 @@ class HederProfile extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const PhotoUserFollowers(),
-                        const SizedBox(
-                          width: 18,
-                        ),
-                        Text(
-                          totalfollowers.toString(),
-                          style:
-                              Theme.of(context).textTheme.subtitle1!.copyWith(
-                                    fontSize: 20,
-                                  ),
-                        ),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          'followers',
-                          style:
-                              Theme.of(context).textTheme.subtitle1!.copyWith(
-                                    fontSize: 20,
-                                  ),
-                        ),
-                      ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true)
+                            .push(MaterialPageRoute(
+                          builder: (context) => FollowersScreen(
+                            userid: AuthRepository.readid(),
+                            username: AuthRepository.loadAuthInfo()!.username,
+                          ),
+                        ));
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const PhotoUserFollowers(),
+                          const SizedBox(
+                            width: 18,
+                          ),
+                          Text(
+                            totalfollowers.toString(),
+                            style:
+                                Theme.of(context).textTheme.subtitle1!.copyWith(
+                                      fontSize: 20,
+                                    ),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            'followers',
+                            style:
+                                Theme.of(context).textTheme.subtitle1!.copyWith(
+                                      fontSize: 20,
+                                    ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

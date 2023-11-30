@@ -1,11 +1,7 @@
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
-
 import 'package:danter/screen/likes/likes_detail_screen/bloc/liked_detail_bloc.dart';
-import 'package:danter/screen/profile/bloc/profile_bloc.dart';
-import 'package:danter/screen/profile/profile_screen.dart';
-import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image_user_post.dart';

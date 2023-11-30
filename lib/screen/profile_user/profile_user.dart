@@ -1,6 +1,7 @@
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
+import 'package:danter/screen/followers/followers_screen.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
 
 import 'package:danter/screen/profile_user/bloc/profile_user_bloc.dart';
@@ -14,9 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileUser extends StatelessWidget {
-  const ProfileUser({super.key, required this.user , this.idpostEntity='0'});
+  const ProfileUser({super.key, required this.user, this.idpostEntity = '0'});
   final User user;
-    final String idpostEntity;
+  final String idpostEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +63,11 @@ class ProfileUser extends StatelessWidget {
                                 BlocProvider.of<ProfileUserBloc>(context).add(
                                   ProfileUserAddfollowhEvent(
                                       myuserId: AuthRepository.readid(),
-                                      userIdProfile: user.id),);
+                                      userIdProfile: user.id),
+                                );
 
-
-                                  BlocProvider.of<LikesBloc>(context).add(
-                                  LikesStartedEvent(postId: idpostEntity
-                                   ) );     
-
-
+                                BlocProvider.of<LikesBloc>(context).add(
+                                    LikesStartedEvent(postId: idpostEntity));
                               } else {
                                 await state.truefollowing--;
                                 BlocProvider.of<ProfileUserBloc>(context).add(
@@ -80,8 +78,7 @@ class ProfileUser extends StatelessWidget {
                                 );
 
                                 BlocProvider.of<LikesBloc>(context).add(
-                                  LikesStartedEvent(postId: idpostEntity
-                                   ) );    
+                                    LikesStartedEvent(postId: idpostEntity));
                               }
                             },
                           ),
@@ -257,31 +254,42 @@ class HederProfile extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const PhotoUserFollowers(),
-                        const SizedBox(
-                          width: 18,
-                        ),
-                        Text(
-                          totalfollowers.toString(),
-                          style:
-                              Theme.of(context).textTheme.subtitle1!.copyWith(
-                                    fontSize: 20,
-                                  ),
-                        ),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          totalfollowers < 2 ? 'follower' : 'followers',
-                          style:
-                              Theme.of(context).textTheme.subtitle1!.copyWith(
-                                    fontSize: 20,
-                                  ),
-                        ),
-                      ],
+                    GestureDetector(
+                      onTap: (){
+                          Navigator.of(context, rootNavigator: true)
+                            .push(MaterialPageRoute(
+                          builder: (context) => FollowersScreen(
+                            userid: user.id,
+                            username: user.username,
+                          ),
+                        ));
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const PhotoUserFollowers(),
+                          const SizedBox(
+                            width: 18,
+                          ),
+                          Text(
+                            totalfollowers.toString(),
+                            style:
+                                Theme.of(context).textTheme.subtitle1!.copyWith(
+                                      fontSize: 20,
+                                    ),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            totalfollowers < 2 ? 'follower' : 'followers',
+                            style:
+                                Theme.of(context).textTheme.subtitle1!.copyWith(
+                                      fontSize: 20,
+                                    ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

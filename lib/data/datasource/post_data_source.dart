@@ -21,10 +21,11 @@ abstract class IPostDataSource {
   Future<int> getTotalfollowers(String userId);
   Future<int> getTruefollowing(String myuserId,String userIdProfile);
   Future<void> addfollow(String myuserId,String userIdProfile);
-   Future<List<FollowId>> getFollowid(String myuserId,String userIdProfile);
-   Future<void> deleteFollow(String followid);
-
-    Future<List<LikeUser>> getAllLikePost(String postId);
+  Future<List<FollowId>> getFollowid(String myuserId,String userIdProfile);
+  Future<void> deleteFollow(String followid);
+  Future<List<LikeUser>> getAllLikePost(String postId);
+  Future<List<Followers>> geAllfollowers(String userId);
+  Future<List<Following>> geAllfollowing(String userId);
 }
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
@@ -233,6 +234,43 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     return response.data['items']
         .map<LikeUser>((jsonObject) => LikeUser.fromJson(jsonObject))
         .toList();
+  }
+  
+  @override
+  Future<List<Followers>> geAllfollowers(String userId) async{
+     Map<String, dynamic> qParams = {
+      'filter': 'fielduserfollower="$userId"',
+      'expand': 'userfollowing',
+      'sort': '-created'
+    };
+    var response = await _dio.get(
+      'collections/follow/records',
+      queryParameters: qParams,
+    );
+    validatResponse(response);
+
+    return response.data['items']
+        .map<Followers>((jsonObject) => Followers.fromJson(jsonObject))
+        .toList();
+  }
+  
+  @override
+  Future<List<Following>> geAllfollowing(String userId) async{
+         Map<String, dynamic> qParams = {
+      'filter': 'userfollowing="$userId"',
+      'expand': 'fielduserfollower',
+      'sort': '-created'
+    };
+    var response = await _dio.get(
+      'collections/follow/records',
+      queryParameters: qParams,
+    );
+    validatResponse(response);
+
+    return response.data['items']
+        .map<Following>((jsonObject) => Following.fromJson(jsonObject))
+        .toList();
+   
   }
   }
 

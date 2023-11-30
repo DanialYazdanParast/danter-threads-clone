@@ -1,4 +1,3 @@
-
 import 'package:danter/data/repository/auth_repository.dart';
 
 import 'package:danter/di/di.dart';
@@ -9,16 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark));
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+
+
 
   WidgetsFlutterBinding.ensureInitialized();
   await getItInit();
 
-   // IAuthRepository authRepository = locator.get();
   AuthRepository.loadAuthInfo();
   runApp(const MyApp());
 }
@@ -29,7 +33,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     // IPostRepository postRepository = locator.get();
     // postRepository.getPost().then((value) {
     //   debugPrint(value.toString());
