@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/util/exceptions.dart';
@@ -17,7 +18,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           final post = await postRepository.getPostProfile(event.user);
           final totalfollowers =
               await postRepository.getTotalfollowers(event.user);
-          emit(ProfileSuccesState(post ,totalfollowers));
+              final follwers = await postRepository.geAllfollowers(event.user);
+          emit(ProfileSuccesState(post ,totalfollowers,follwers));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));
@@ -27,7 +29,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           final post = await postRepository.getPostProfile(event.user);
           final totalfollowers =
               await postRepository.getTotalfollowers(event.user);
-          emit(ProfileSuccesState(post ,totalfollowers));
+             final follwers = await postRepository.geAllfollowers(event.user);
+          emit(ProfileSuccesState(post ,totalfollowers,follwers));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));

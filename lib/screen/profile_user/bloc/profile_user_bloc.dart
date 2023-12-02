@@ -23,7 +23,8 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
               await postRepository.getTruefollowing(event.myuserId,event.userIdProfile);
           final followid =
               await postRepository.getFollowid(event.myuserId,event.userIdProfile);
-          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid));
+              final follwers = await postRepository.geAllfollowers(event.userIdProfile);
+          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid ,follwers));
         } catch (e) {
           emit(ProfileUserErrorState(
           exception: e is AppException ? e : AppException()));
@@ -37,7 +38,8 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
               await postRepository.getTruefollowing(event.myuserId,event.userIdProfile);
               final followid =
               await postRepository.getFollowid(event.myuserId,event.userIdProfile);
-          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid));
+                final follwers = await postRepository.geAllfollowers(event.userIdProfile);
+          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid ,follwers));
         } catch (e) {
           emit(ProfileUserErrorState(
           exception: e is AppException ? e : AppException()));
@@ -52,7 +54,8 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
               await postRepository.getTruefollowing(event.myuserId,event.userIdProfile);
           final followid =
               await postRepository.getFollowid(event.myuserId,event.userIdProfile);
-          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid));
+                  final follwers = await postRepository.geAllfollowers(event.userIdProfile);
+          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid ,follwers));
         } catch (e) {
           emit(ProfileUserErrorState(
           exception: e is AppException ? e : AppException()));
@@ -68,7 +71,8 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
               await postRepository.getTruefollowing(event.myuserId,event.userIdProfile);
           final followid =
               await postRepository.getFollowid(event.myuserId,event.userIdProfile);
-          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid));
+                 final follwers = await postRepository.geAllfollowers(event.userIdProfile);
+          emit(ProfileUserSuccesState(post,totalfollowers ,truefollowing ,followid ,follwers));
         } catch (e) {
           emit(ProfileUserErrorState(
           exception: e is AppException ? e : AppException()));

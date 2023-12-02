@@ -20,7 +20,8 @@ class ProfileUserSuccesState extends ProfileUserState {
     final int totalfollowers;
     int truefollowing;
     final List<FollowId> followId;
+       final List<Followers> userFollowers;
 
-   ProfileUserSuccesState(this.post, this.totalfollowers ,this.truefollowing, this.followId);
+   ProfileUserSuccesState(this.post, this.totalfollowers ,this.truefollowing, this.followId, this.userFollowers);
 
 }

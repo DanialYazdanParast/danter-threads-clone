@@ -21,8 +21,9 @@ class ProfileErrorState extends ProfileState {
 class ProfileSuccesState extends ProfileState {
   final List<PostEntity> post;
   final int totalfollowers;
+   final List<Followers> userFollowers;
 
-  const ProfileSuccesState(this.post, this.totalfollowers);
+  const ProfileSuccesState(this.post, this.totalfollowers, this.userFollowers);
 
   @override
   List<Object> get props => [post];
