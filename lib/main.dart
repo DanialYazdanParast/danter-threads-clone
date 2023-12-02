@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-  
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.white,
@@ -17,8 +16,6 @@ void main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
-
-
 
   WidgetsFlutterBinding.ensureInitialized();
   await getItInit();
@@ -89,7 +86,7 @@ class MyApp extends StatelessWidget {
             background: Colors.white,
           ),
           //-----------------------------------
-          //  useMaterial3: true,
+          //   useMaterial3: true,
         ),
         home:
             (AuthRepository.readAuth().isEmpty) ? AuthScreen() : RootScreen());

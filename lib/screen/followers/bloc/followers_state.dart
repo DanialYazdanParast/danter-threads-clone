@@ -1,10 +1,9 @@
 part of 'followers_bloc.dart';
 
-abstract class FollowersState extends Equatable {
+abstract class FollowersState {
   const FollowersState();
   
-  @override
-  List<Object> get props => [];
+
 }
 
 class FollowersLodingState extends FollowersState {}
@@ -14,8 +13,6 @@ class FollowersErrorState extends FollowersState {
 
   const FollowersErrorState({required this.exception});
 
-  @override
-  List<Object> get props => [exception];
 }
 
 class FollowersSuccesState extends FollowersState {
@@ -24,6 +21,4 @@ class FollowersSuccesState extends FollowersState {
 
   const FollowersSuccesState(this.userFollowers, this.userFollowing);
 
-  @override
-  List<Object> get props => [userFollowers ,userFollowing];
 }

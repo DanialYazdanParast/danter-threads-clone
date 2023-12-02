@@ -22,6 +22,15 @@ class FollowersBloc extends Bloc<FollowersEvent, FollowersState> {
           emit(FollowersErrorState(
               exception: e is AppException ? e : AppException()));
         }
+      }else  if (event is FollowersRefreshEvent ) {
+        try {
+          final follwers = await postRepository.geAllfollowers(event.user);
+          final follwing = await postRepository.geAllfollowing(event.user);
+          emit(FollowersSuccesState(follwers ,follwing));
+        } catch (e) {
+          emit(FollowersErrorState(
+              exception: e is AppException ? e : AppException()));
+        }
       }
      
     });

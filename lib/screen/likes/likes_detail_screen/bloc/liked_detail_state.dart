@@ -6,7 +6,7 @@ sealed class LikedDetailState   {
   
 }
 
-final class LikedDetailInitial extends LikedDetailState {}
+ class LikedDetailInitial extends LikedDetailState {}
 
 
 

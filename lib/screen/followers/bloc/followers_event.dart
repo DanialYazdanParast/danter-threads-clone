@@ -1,16 +1,20 @@
 part of 'followers_bloc.dart';
 
- class FollowersEvent extends Equatable {
+ class FollowersEvent  {
   const FollowersEvent();
 
-  @override
-  List<Object> get props => [];
 }
 
 
 class FollowersStartedEvent extends FollowersEvent {
   final String user;
-
  const FollowersStartedEvent({required this.user});
+
+}
+
+
+class FollowersRefreshEvent extends FollowersEvent {
+  final String user;
+ const FollowersRefreshEvent({required this.user});
 
 }

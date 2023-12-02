@@ -1,9 +1,9 @@
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
+import 'package:danter/screen/followers/bloc/followers_bloc.dart';
 import 'package:danter/screen/followers/followers_screen.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
-
 import 'package:danter/screen/profile_user/bloc/profile_user_bloc.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
@@ -15,9 +15,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileUser extends StatelessWidget {
-  const ProfileUser({super.key, required this.user, this.idpostEntity = '0'});
+  const ProfileUser(
+      {super.key,
+      required this.user,
+      this.idpostEntity = '0',
+      this.userid = '0'});
   final User user;
   final String idpostEntity;
+  final String userid;
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +70,19 @@ class ProfileUser extends StatelessWidget {
                                       myuserId: AuthRepository.readid(),
                                       userIdProfile: user.id),
                                 );
+                                if (userid != '0') {
+                                  BlocProvider.of<FollowersBloc>(context).add(
+                                    FollowersStartedEvent(user: userid),
+                                  );
+                                }
 
+                                if (idpostEntity != '0') {
+                                  
                                 BlocProvider.of<LikesBloc>(context).add(
                                     LikesStartedEvent(postId: idpostEntity));
+                                }
+
+                               
                               } else {
                                 await state.truefollowing--;
                                 BlocProvider.of<ProfileUserBloc>(context).add(
@@ -77,8 +92,18 @@ class ProfileUser extends StatelessWidget {
                                       followId: state.followId[0].id),
                                 );
 
+                                 if (userid != '0') {
+                                  BlocProvider.of<FollowersBloc>(context).add(
+                                    FollowersStartedEvent(user: userid),
+                                  );
+                                }
+
+                                if (idpostEntity != '0') {
+                                  
                                 BlocProvider.of<LikesBloc>(context).add(
                                     LikesStartedEvent(postId: idpostEntity));
+                                }
+
                               }
                             },
                           ),
@@ -255,8 +280,8 @@ class HederProfile extends StatelessWidget {
                       height: 10,
                     ),
                     GestureDetector(
-                      onTap: (){
-                          Navigator.of(context, rootNavigator: true)
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true)
                             .push(MaterialPageRoute(
                           builder: (context) => FollowersScreen(
                             userid: user.id,
