@@ -35,7 +35,7 @@ class FollowingPage extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ImageUserPost(user: userFollowing.user),
+                    ImageUserPost(user: userFollowing.user ,onTabNameUser: onTabProfileUser,),
                     const SizedBox(
                       width: 15,
                     ),

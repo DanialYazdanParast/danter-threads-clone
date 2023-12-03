@@ -25,6 +25,7 @@ abstract class IPostDataSource {
   Future<List<LikeUser>> getAllLikePost(String postId);
   Future<List<Followers>> geAllfollowers(String userId);
   Future<List<Following>> geAllfollowing(String userId);
+    Future<void> deletePost(String postid);
 }
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
@@ -270,6 +271,11 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
         .map<Following>((jsonObject) => Following.fromJson(jsonObject))
         .toList();
    
+  }
+  
+  @override
+  Future<void> deletePost(String postid) async{
+    await pb.collection('post').delete(postid);
   }
   }
 

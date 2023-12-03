@@ -9,12 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WriteScreen extends StatelessWidget {
-  WriteScreen({super.key});
-
-  final TextEditingController _controller = TextEditingController();
+  const WriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _controller = TextEditingController();
     return BlocProvider(
       create: (context) => WriteBloc(locator.get()),
       child: Scaffold(
@@ -65,8 +64,21 @@ class WriteScreen extends StatelessWidget {
                                   user: AuthRepository.readid()));
                           _controller.text = '';
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Center(child: Text('با موفقیت ثبت شد')),
+                             SnackBar(
+                            margin: const EdgeInsets.only(bottom: 45,left: 30,right: 30),
+                              
+                            //  width: 280.0,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(15)
+                              ),
+                              content: const Center(child: Padding(
+                                padding: EdgeInsets.all(14),
+                                child: Text('با موفقیت ثبت شد'),
+                              )),
                             ),
                           );
                         } else if (state is WriteErrorState) {

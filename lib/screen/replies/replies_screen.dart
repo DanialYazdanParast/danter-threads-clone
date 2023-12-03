@@ -68,7 +68,39 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     ImageUserPost(
-                                        user: widget.postEntity.user),
+                                      user: widget.postEntity.user,
+                                      onTabNameUser: () {
+                                        if (widget.postEntity.user.id ==
+                                            AuthRepository.readid()) {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return BlocProvider(
+                                                  create: (context) =>
+                                                      ProfileBloc(
+                                                          locator.get()),
+                                                  child: const ProfileScreen(),
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        } else {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return ProfileUser(
+                                                  user: widget.postEntity.user,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
                                     Expanded(
                                       child: Padding(
                                         padding:
@@ -99,7 +131,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                                                       locator
                                                                           .get()),
                                                               child:
-                                                                  ProfileScreen(),
+                                                                  const ProfileScreen(),
                                                             );
                                                           },
                                                         ),
@@ -150,137 +182,142 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10, right: 10, left: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      widget.postEntity.text,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10, right: 10, left: 10),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        GestureDetector(
-                                          onTap: () async {
-                                            if (state.trueLikeUser == 0) {
-                                              await state.trueLikeUser++;
-
-                                              BlocProvider.of<ReplyBloc>(
-                                                      context)
-                                                  .add(
-                                                AddLikeReplyEvent(
-                                                  postId: widget.postEntity.id,
-                                                  user: AuthRepository.readid(),
-                                                ),
-                                              );
-                                            } else {
-                                              await state.trueLikeUser--;
-                                              BlocProvider.of<ReplyBloc>(
-                                                      context)
-                                                  .add(
-                                                RemoveLikeReplyEvent(
-                                                  postId: widget.postEntity.id,
-                                                  user: AuthRepository.readid(),
-                                                  likeId: state.likeid[0].id,
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          child: Container(
-                                            child: state.trueLikeUser > 0
-                                                ? const Icon(
-                                                    CupertinoIcons.heart_fill,
-                                                    color: Colors.red,
-                                                    size: 24)
-                                                : const Icon(
-                                                    CupertinoIcons.heart,
-                                                    size: 24,
-                                                  ),
-                                          ),
+                                        Text(
+                                          widget.postEntity.text,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 18,
+                                          height: 10,
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context,
-                                                    rootNavigator: true)
-                                                .push(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BlocProvider.value(
-                                                  value: replyBloc,
-                                                  child: WriteReply(
-                                                      postEntity:
-                                                          widget.postEntity),
+                                        Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () async {
+                                                if (state.trueLikeUser == 0) {
+                                                  await state.trueLikeUser++;
+
+                                                  BlocProvider.of<ReplyBloc>(
+                                                          context)
+                                                      .add(
+                                                    AddLikeReplyEvent(
+                                                      postId: widget.postEntity.id,
+                                                      user: AuthRepository.readid(),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  await state.trueLikeUser--;
+                                                  BlocProvider.of<ReplyBloc>(
+                                                          context)
+                                                      .add(
+                                                    RemoveLikeReplyEvent(
+                                                      postId: widget.postEntity.id,
+                                                      user: AuthRepository.readid(),
+                                                      likeId: state.likeid[0].id,
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                              child: Container(
+                                                child: state.trueLikeUser > 0
+                                                    ? const Icon(
+                                                        CupertinoIcons.heart_fill,
+                                                        color: Colors.red,
+                                                        size: 24)
+                                                    : const Icon(
+                                                        CupertinoIcons.heart,
+                                                        size: 24,
+                                                      ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 18,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BlocProvider.value(
+                                                      value: replyBloc,
+                                                      child: WriteReply(
+                                                          postEntity:
+                                                              widget.postEntity),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              child: SizedBox(
+                                                height: 22,
+                                                width: 22,
+                                                child: Image.asset(
+                                                  'assets/images/comments.png',
                                                 ),
                                               ),
-                                            );
-                                          },
-                                          child: SizedBox(
-                                            height: 22,
-                                            width: 22,
-                                            child: Image.asset(
-                                              'assets/images/comments.png',
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
 //-----------------------TextReplyAndLike----------------------//
 
-                                        Text(state.totareplise.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1),
-                                        const SizedBox(width: 6),
-                                        Text(
-                                            state.totareplise <= 1
-                                                ? 'reply'
-                                                : 'replies',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1),
-                                        const SizedBox(width: 18),
-                                        Text(state.totallike.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1),
-                                        const SizedBox(width: 6),
-                                        Text(
-                                            state.totallike <= 1
-                                                ? 'Like'
-                                                : 'Likes',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1),
+                                            Text(state.totareplise.toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1),
+                                            const SizedBox(width: 6),
+                                            Text(
+                                                state.totareplise <= 1
+                                                    ? 'reply'
+                                                    : 'replies',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1),
+                                            const SizedBox(width: 18),
+                                            Text(state.totallike.toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1),
+                                            const SizedBox(width: 6),
+                                            Text(
+                                                state.totallike <= 1
+                                                    ? 'Like'
+                                                    : 'Likes',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1),
+                                          ],
+                                        ),
+                                       
                                       ],
                                     ),
-                                    const Divider(
-                                      color: Color(0xff999999),
-                                      height: 20,
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
+                               const Divider(
+                                          color: Color(0xff999999),
+                                          height: 20,
+                                        ),
                             ],
                           ),
                         ),
@@ -332,6 +369,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const SizedBox(
                                   width: 8,

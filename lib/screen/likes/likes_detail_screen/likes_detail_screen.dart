@@ -33,7 +33,7 @@ class LikedDetailScreen extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ImageUserPost(user: user),
+                    ImageUserPost(user: user,onTabNameUser: onTabProfile),
                     SizedBox(
                       width: 15,
                     ),

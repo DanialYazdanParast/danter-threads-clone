@@ -19,3 +19,13 @@ class ProfileRefreshEvent extends ProfileEvent {
  const ProfileRefreshEvent({required this.user});
  
 }
+
+
+class ProfiledeletPostEvent extends ProfileEvent {
+  final String user;
+  final String postid;
+
+
+ const ProfiledeletPostEvent({required this.user ,required this.postid});
+ 
+}

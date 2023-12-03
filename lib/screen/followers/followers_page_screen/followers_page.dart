@@ -17,7 +17,8 @@ class FollowersPage extends StatelessWidget {
   const FollowersPage({
     super.key,
     required this.userFollowers,
-    required this.userid, required this.onTabProfileUser,
+    required this.userid,
+    required this.onTabProfileUser,
   });
 
   @override
@@ -38,7 +39,9 @@ class FollowersPage extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ImageUserPost(user: userFollowers.user),
+                    ImageUserPost(
+                        user: userFollowers.user,
+                        onTabNameUser: onTabProfileUser),
                     const SizedBox(
                       width: 15,
                     ),
@@ -77,6 +80,7 @@ class FollowersPage extends StatelessWidget {
                                 context: context2,
                                 builder: (context) {
                                   return CustomAlertDialog(
+                                    button: "Remove",
                                     title: "Remove Followers?",
                                     description:
                                         "${userFollowers.user.username}",

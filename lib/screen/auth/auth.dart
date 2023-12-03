@@ -165,7 +165,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                             passwordConfirmController.text));
                                   },
                                   child: state is AuthLoading
-                                      ? CircularProgressIndicator()
+                                      ? CircularProgressIndicator(
+                                        color: Colors.black,
+                                      )
                                       : Text(
                                           state.isLoginMode
                                               ? 'ورود'

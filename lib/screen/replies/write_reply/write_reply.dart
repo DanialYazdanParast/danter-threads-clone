@@ -63,9 +63,22 @@ class WriteReply extends StatelessWidget {
                         if (state is WriteReplySuccesState) {
                           _controller.text = '';
                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Center(child: Text('با موفقیت ثبت شد')),
+                                                       ScaffoldMessenger.of(context).showSnackBar(
+                             SnackBar(
+                            margin: const EdgeInsets.only(bottom: 55,left: 30,right: 30),
+                              
+                            //  width: 280.0,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(15)
+                              ),
+                              content: const Center(child: Padding(
+                                padding: EdgeInsets.all(14),
+                                child: Text('با موفقیت ثبت شد'),
+                              )),
                             ),
                           );
                           BlocProvider.of<ReplyBloc>(context).add(
@@ -73,10 +86,22 @@ class WriteReply extends StatelessWidget {
                                   postId: postEntity.id,
                                   user: AuthRepository.readid()));
                         } else if (state is WriteReplyErrorState) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content:
-                                  Center(child: Text(state.exception.message)),
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                             SnackBar(
+                            margin: const EdgeInsets.only(bottom: 55,left: 30,right: 30),
+                              
+                            //  width: 280.0,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(15)
+                              ),
+                              content:  Center(child: Padding(
+                                padding: EdgeInsets.all(14),
+                                child: Text(state.exception.message),
+                              )),
                             ),
                           );
                         }

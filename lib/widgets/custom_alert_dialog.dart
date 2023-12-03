@@ -6,10 +6,10 @@ class CustomAlertDialog extends StatefulWidget {
   const CustomAlertDialog({
     Key? key,
     required this.title,
-    required this.description, required this.onTabRemove,
+    required this.description, required this.onTabRemove, required this.button,
   }) : super(key: key);
 
-    final String title, description;
+    final String title, description , button;
     final GestureTapCallback onTabRemove;
  
 
@@ -50,10 +50,10 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             child: InkWell(
               highlightColor: Colors.grey[200],
               onTap: widget.onTabRemove,
-              child: const Center(
+              child:  Center(
                 child: Text(
-                  "Remove",
-                  style: TextStyle(
+                  widget.button,
+                  style: const TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,
                     fontWeight: FontWeight.bold,

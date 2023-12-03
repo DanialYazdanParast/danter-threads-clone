@@ -16,9 +16,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PostList extends StatelessWidget {
   final PostEntity postEntity;
       final GestureTapCallback onTabNameUser;
+         final GestureTapCallback onTabmore;
   const PostList({
     super.key,
-    required this.postEntity, required this.onTabNameUser,
+    required this.postEntity, required this.onTabNameUser, required this.onTabmore,
   });
 
   @override
@@ -48,7 +49,7 @@ class PostList extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        ImageAndNameAndText(postEntity: postEntity,onTabNameUser: onTabNameUser),
+                        ImageAndNameAndText(postEntity: postEntity,onTabNameUser: onTabNameUser ,onTabmore: onTabmore),
                         Padding(
                           padding: const EdgeInsets.only(left: 65),
                           child: Row(
@@ -240,7 +241,7 @@ class InitState extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          ImageAndNameAndText(postEntity: postEntity,onTabNameUser:(){} ),
+          ImageAndNameAndText(postEntity: postEntity,onTabNameUser:(){} ,onTabmore: (){}),
           Padding(
             padding: const EdgeInsets.only(left: 65),
             child: Row(

@@ -58,7 +58,9 @@ class HomeScreen extends StatelessWidget {
                     SliverList.builder(
                       itemCount: state.post.length,
                       itemBuilder: (context, index) {
-                        return PostList(postEntity: state.post[index],onTabNameUser: (){
+                        return PostList(
+                          onTabmore: (){},
+                          postEntity: state.post[index],onTabNameUser: (){
 
                            Navigator.of(context, rootNavigator: true)
                                 .push(

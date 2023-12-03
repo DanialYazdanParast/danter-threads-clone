@@ -392,6 +392,7 @@ class ProfileUser extends StatelessWidget {
                                     return PostList(
                                       postEntity: state.post[index],
                                       onTabNameUser: () {},
+                                      onTabmore: (){}
                                     );
                                   },
                                 )

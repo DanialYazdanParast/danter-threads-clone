@@ -24,6 +24,7 @@ abstract class IPostRepository {
   Future<List<LikeUser>> getAllLikePost(String postId);
   Future<List<Followers>> geAllfollowers(String userId);
   Future<List<Following>> geAllfollowing(String userId);
+  Future<void> deletePost(String postid);
 }
 
 class PostRepository implements IPostRepository {
@@ -117,5 +118,10 @@ class PostRepository implements IPostRepository {
   @override
   Future<List<Following>> geAllfollowing(String userId) {
     return dataSource.geAllfollowing(userId);
+  }
+
+  @override
+  Future<void> deletePost(String postid) {
+    return dataSource.deletePost(postid);
   }
 }

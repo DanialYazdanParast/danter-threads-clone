@@ -18,8 +18,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           final post = await postRepository.getPostProfile(event.user);
           final totalfollowers =
               await postRepository.getTotalfollowers(event.user);
-              final follwers = await postRepository.geAllfollowers(event.user);
-          emit(ProfileSuccesState(post ,totalfollowers,follwers));
+          final follwers = await postRepository.geAllfollowers(event.user);
+          emit(ProfileSuccesState(post, totalfollowers, follwers));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));
@@ -29,8 +29,20 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           final post = await postRepository.getPostProfile(event.user);
           final totalfollowers =
               await postRepository.getTotalfollowers(event.user);
-             final follwers = await postRepository.geAllfollowers(event.user);
-          emit(ProfileSuccesState(post ,totalfollowers,follwers));
+          final follwers = await postRepository.geAllfollowers(event.user);
+          emit(ProfileSuccesState(post, totalfollowers, follwers));
+        } catch (e) {
+          emit(ProfileErrorState(
+              exception: e is AppException ? e : AppException()));
+        }
+      } else if (event is ProfiledeletPostEvent) {
+        try {
+          await postRepository.deletePost(event.postid);
+          final post = await postRepository.getPostProfile(event.user);
+          final totalfollowers =
+              await postRepository.getTotalfollowers(event.user);
+          final follwers = await postRepository.geAllfollowers(event.user);
+          emit(ProfileSuccesState(post, totalfollowers, follwers));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));

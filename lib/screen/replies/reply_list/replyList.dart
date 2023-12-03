@@ -50,6 +50,9 @@ class ReplayList extends StatelessWidget {
                 child: Column(
                   children: [
                     ImageAndNameAndText(
+                      onTabmore: () {
+                        
+                      },
                         postEntity: postEntity,
                         onTabNameUser: () {
                           if (postEntity.user.id == AuthRepository.readid()) {

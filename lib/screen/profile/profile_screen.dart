@@ -4,11 +4,12 @@ import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/screen/followers/followers_screen.dart';
 
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+import 'package:danter/widgets/custom_alert_dialog.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
 
 import 'package:danter/theme.dart';
-import 'package:danter/widgets/photoUserFollowers.dart';
+
 import 'package:danter/widgets/postlist.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -36,11 +37,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: BlocBuilder<ProfileBloc, ProfileState>(
-          builder: (context, state) {
+          builder: (context2, state) {
             if (state is ProfileSuccesState) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  BlocProvider.of<ProfileBloc>(context)
+                  BlocProvider.of<ProfileBloc>(context2)
                       .add(ProfileRefreshEvent(user: AuthRepository.readid()));
                 },
                 child: DefaultTabController(
@@ -264,8 +265,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 const SizedBox(
                                                   width: 6,
                                                 ),
-                                                Text(
-                                                  'followers',
+                                               Text(
+                                                  state.totalfollowers < 2
+                                                      ? 'follower'
+                                                      : 'followers',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .subtitle1!
@@ -356,6 +359,124 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     return PostList(
                                       postEntity: state.post[index],
                                       onTabNameUser: () {},
+                                      onTabmore: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          useRootNavigator: true,
+                                          backgroundColor: Colors.white,
+                                          showDragHandle: true,
+                                          shape: const RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top:
+                                                          Radius.circular(16))),
+                                          builder: (context3) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10, bottom: 24),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  showDialog(
+                                                    useRootNavigator: true,
+                                                    barrierDismissible: false,
+                                                    barrierColor:
+                                                        Colors.black26,
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return CustomAlertDialog(
+                                                        button: 'Delete',
+                                                        title:
+                                                            "Delete this Post?",
+                                                        description: "",
+                                                        onTabRemove: () {
+                                                          BlocProvider.of<
+                                                                      ProfileBloc>(
+                                                                  context2)
+                                                              .add(ProfiledeletPostEvent(
+                                                                  user: AuthRepository
+                                                                      .readid(),
+                                                                  postid: state
+                                                                      .post[
+                                                                          index]
+                                                                      .id));
+
+                                                          Navigator.pop(
+                                                              context);
+
+                                                          Navigator.pop(
+                                                              context3);
+
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      bottom:
+                                                                          35,
+                                                                      left: 30,
+                                                                      right:
+                                                                          30),
+
+                                                              //  width: 280.0,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                horizontal: 10,
+                                                              ),
+                                                              behavior:
+                                                                  SnackBarBehavior
+                                                                      .floating,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15)),
+                                                              content:
+                                                                  const Center(
+                                                                      child:
+                                                                          Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            14),
+                                                                child: Text(
+                                                                    'با موفقیت حذف شد'),
+                                                              )),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 20, right: 20),
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                      color: LightThemeColors
+                                                          .secondaryTextColor
+                                                          .withOpacity(0.2),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  child: const Center(
+                                                      child: Text(
+                                                    'Delete',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.red,
+                                                        fontSize: 16),
+                                                  )),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
                                     );
                                   },
                                 )

@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 class ImageAndNameAndText extends StatelessWidget {
   const ImageAndNameAndText({
     super.key,
-    required this.postEntity, required this.onTabNameUser,
+    required this.postEntity, required this.onTabNameUser,required this.onTabmore
   });
  
   final PostEntity postEntity;
     final GestureTapCallback onTabNameUser;
+    final GestureTapCallback onTabmore;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ImageAndNameAndText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //----------------------ImageUserPost----------------------//
-          ImageUserPost(user: postEntity.user),
+          ImageUserPost(user: postEntity.user,onTabNameUser: onTabNameUser),
           //----------------------ImageUserPost----------------------//
 
           Expanded(
@@ -46,9 +47,12 @@ class ImageAndNameAndText extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      Icon(
-                        Icons.more_horiz,
-                        color: Colors.black87.withOpacity(0.8),
+                      GestureDetector(
+                        onTap: onTabmore,
+                        child: Icon(
+                          Icons.more_horiz,
+                          color: Colors.black87.withOpacity(0.8),
+                        ),
                       )
                     ],
                   ),
