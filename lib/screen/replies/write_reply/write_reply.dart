@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
@@ -16,6 +18,7 @@ class WriteReply extends StatelessWidget {
   final PostEntity postEntity;
   WriteReply({super.key, required this.postEntity});
   final TextEditingController _controller = TextEditingController();
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class WriteReply extends StatelessWidget {
                 child: Column(
                   children: [
                     PostWrite(postEntity: postEntity),
-                    FildWrite(controller: _controller),
+                    FildWrite(controller: _controller, ),
                   ],
                 ),
               ),

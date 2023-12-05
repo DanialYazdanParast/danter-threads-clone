@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/like.dart';
 import 'package:danter/data/model/post.dart';
@@ -12,20 +14,20 @@ abstract class IPostDataSource {
   Future<int> getPosttotalLike(String postId);
   Future<List<Replyphoto>> getPosttotalreplisePhoto(String postId);
   Future<int> getPosttotalreplise(String postId);
-  Future<void> sendPost(String userId, String text);
+  Future<void> sendPost(String userId, String text,  image);
   Future<int> getLikeuser(String postId, String userId);
   Future<void> addLike(String userId, String postid);
   Future<void> deleteLike(String likeid);
   Future<List<LikeId>> getLikeid(String postId, String userId);
   Future<int> getTotalfollowers(String userId);
-  Future<int> getTruefollowing(String myuserId,String userIdProfile);
-  Future<void> addfollow(String myuserId,String userIdProfile);
-  Future<List<FollowId>> getFollowid(String myuserId,String userIdProfile);
+  Future<int> getTruefollowing(String myuserId, String userIdProfile);
+  Future<void> addfollow(String myuserId, String userIdProfile);
+  Future<List<FollowId>> getFollowid(String myuserId, String userIdProfile);
   Future<void> deleteFollow(String followid);
   Future<List<LikeUser>> getAllLikePost(String postId);
   Future<List<Followers>> geAllfollowers(String userId);
   Future<List<Following>> geAllfollowing(String userId);
-    Future<void> deletePost(String postid);
+  Future<void> deletePost(String postid);
 }
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
@@ -115,9 +117,19 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   }
 
   @override
-  Future<void> sendPost(String userId, String text) async {
-    final response = await _dio
-        .post('collections/post/records', data: {"user": userId, "text": text});
+  Future<void> sendPost(String userId, String text,  image) async {
+
+    
+   // String filename = image.path.split('/').last;
+
+
+    FormData formData = FormData.fromMap(
+        {"user": userId,
+         "text": text,
+          "image":image==null?null: await MultipartFile.fromFile(image.path )
+          });
+
+    final response = await _dio.post('collections/post/records', data: formData);
     validatResponse(response);
   }
 
@@ -176,10 +188,10 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
 
     return response.data['totalItems'];
   }
-  
+
   @override
-  Future<int> getTruefollowing(String myuserId, String userIdProfile) async{
-     Map<String, dynamic> qParams = {
+  Future<int> getTruefollowing(String myuserId, String userIdProfile) async {
+    Map<String, dynamic> qParams = {
       'filter': 'userfollowing="$myuserId"&&fielduserfollower="$userIdProfile"',
     };
     var response = await _dio.get(
@@ -190,17 +202,18 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
 
     return response.data['totalItems'];
   }
-  
+
   @override
-  Future<void> addfollow(String myuserId, String userIdProfile)async {
+  Future<void> addfollow(String myuserId, String userIdProfile) async {
     final response = await _dio.post('collections/follow/records',
         data: {"userfollowing": myuserId, "fielduserfollower": userIdProfile});
     validatResponse(response);
   }
-  
+
   @override
-  Future<List<FollowId>> getFollowid(String myuserId, String userIdProfile) async{
-     Map<String, dynamic> qParams = {
+  Future<List<FollowId>> getFollowid(
+      String myuserId, String userIdProfile) async {
+    Map<String, dynamic> qParams = {
       'filter': 'userfollowing="$myuserId"&&fielduserfollower="$userIdProfile"',
     };
     var response = await _dio.get(
@@ -213,15 +226,15 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
         .map<FollowId>((jsonObject) => FollowId.fromJson(jsonObject))
         .toList();
   }
-  
+
   @override
-  Future<void> deleteFollow(String followid) async{
-     await pb.collection('follow').delete(followid);
+  Future<void> deleteFollow(String followid) async {
+    await pb.collection('follow').delete(followid);
   }
-  
+
   @override
-  Future<List<LikeUser>> getAllLikePost(String postId)async {
-      Map<String, dynamic> qParams = {
+  Future<List<LikeUser>> getAllLikePost(String postId) async {
+    Map<String, dynamic> qParams = {
       'filter': 'post="$postId"',
       'expand': 'user',
     };
@@ -235,10 +248,10 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
         .map<LikeUser>((jsonObject) => LikeUser.fromJson(jsonObject))
         .toList();
   }
-  
+
   @override
-  Future<List<Followers>> geAllfollowers(String userId) async{
-     Map<String, dynamic> qParams = {
+  Future<List<Followers>> geAllfollowers(String userId) async {
+    Map<String, dynamic> qParams = {
       'filter': 'fielduserfollower="$userId"',
       'expand': 'userfollowing',
       'sort': '-created'
@@ -253,10 +266,10 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
         .map<Followers>((jsonObject) => Followers.fromJson(jsonObject))
         .toList();
   }
-  
+
   @override
-  Future<List<Following>> geAllfollowing(String userId) async{
-         Map<String, dynamic> qParams = {
+  Future<List<Following>> geAllfollowing(String userId) async {
+    Map<String, dynamic> qParams = {
       'filter': 'userfollowing="$userId"',
       'expand': 'fielduserfollower',
       'sort': '-created'
@@ -270,12 +283,10 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     return response.data['items']
         .map<Following>((jsonObject) => Following.fromJson(jsonObject))
         .toList();
-   
-  }
-  
-  @override
-  Future<void> deletePost(String postid) async{
-    await pb.collection('post').delete(postid);
-  }
   }
 
+  @override
+  Future<void> deletePost(String postid) async {
+    await pb.collection('post').delete(postid);
+  }
+}

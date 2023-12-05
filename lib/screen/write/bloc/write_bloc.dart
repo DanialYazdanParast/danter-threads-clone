@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/util/exceptions.dart';
@@ -13,7 +15,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
       if (event is WriteSendPostEvent) {
         try {
           emit(WriteLodingState());
-          await postRepository.sendPost(event.user, event.text);
+          await postRepository.sendPost(event.user, event.text ,event.image);
           emit(WriteSuccesState());
         } catch (e) {
           emit(WriteErrorState(

@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
+File? selectedImage;
 
 class FildWrite extends StatefulWidget {
-  const FildWrite({
+  FildWrite({
     super.key,
     required TextEditingController controller,
   }) : _controller = controller;
@@ -18,6 +22,7 @@ class FildWrite extends StatefulWidget {
 }
 
 class _FildWriteState extends State<FildWrite> {
+  @override
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,29 +36,30 @@ class _FildWriteState extends State<FildWrite> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: SizedBox(
+                (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: SizedBox(
+                            height: 47,
+                            width: 47,
+                            child: ImageLodingService(
+                                imageUrl:
+                                    AuthRepository.loadAuthInfo()!.avatar)),
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Container(
                           height: 47,
                           width: 47,
-                          child: ImageLodingService(
-                              imageUrl: AuthRepository.loadAuthInfo()!.avatar)),
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
-                        height: 47,
-                        width: 47,
-                        color: LightThemeColors.secondaryTextColor
-                            .withOpacity(0.4),
-                        child: const Icon(
-                          CupertinoIcons.person_fill,
-                          color: Colors.white,
-                          size: 55,
+                          color: LightThemeColors.secondaryTextColor
+                              .withOpacity(0.4),
+                          child: const Icon(
+                            CupertinoIcons.person_fill,
+                            color: Colors.white,
+                            size: 55,
+                          ),
                         ),
                       ),
-                    ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
@@ -97,10 +103,50 @@ class _FildWriteState extends State<FildWrite> {
                         const SizedBox(
                           height: 14,
                         ),
-                        const Icon(Icons.add_a_photo_outlined),
+                        GestureDetector(
+                            onTap: () {
+                              _pickImage();
+                            },
+                            child: const Icon(Icons.add_a_photo_outlined)),
                         const SizedBox(
                           height: 60,
                         ),
+                        selectedImage != null
+                            ? Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.file(
+                                        selectedImage!,
+                                      )),
+                                  Positioned(
+                                    top: 10,
+                                    right: 10,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedImage = null;
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            color: LightThemeColors
+                                                .secondaryTextColor
+                                                .withOpacity(0.4),
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        child: const Icon(
+                                          CupertinoIcons.multiply,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : Container(),
                       ],
                     ),
                   ),
@@ -110,17 +156,26 @@ class _FildWriteState extends State<FildWrite> {
           ),
           (widget._controller.text.isNotEmpty)
               ? GestureDetector(
-                onTap: (){
-                  widget._controller.text ='';
-                },
-                child: const Icon(
+                  onTap: () {
+                    widget._controller.text = '';
+                  },
+                  child: const Icon(
                     CupertinoIcons.multiply,
                     color: LightThemeColors.secondaryTextColor,
                   ),
-              )
+                )
               : Container(),
         ],
       ),
     );
+  }
+
+  Future _pickImage() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnImage == null) return;
+    setState(() {
+      selectedImage = File(returnImage.path);
+    });
   }
 }

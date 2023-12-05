@@ -1,19 +1,20 @@
 
 import 'package:danter/data/model/post.dart';
+import 'package:danter/widgets/image.dart';
 import 'package:danter/widgets/image_user_post.dart';
 import 'package:danter/widgets/time.dart';
-
 import 'package:flutter/material.dart';
 
 class ImageAndNameAndText extends StatelessWidget {
-  const ImageAndNameAndText({
-    super.key,
-    required this.postEntity, required this.onTabNameUser,required this.onTabmore
-  });
- 
+  const ImageAndNameAndText(
+      {super.key,
+      required this.postEntity,
+      required this.onTabNameUser,
+      required this.onTabmore});
+
   final PostEntity postEntity;
-    final GestureTapCallback onTabNameUser;
-    final GestureTapCallback onTabmore;
+  final GestureTapCallback onTabNameUser;
+  final GestureTapCallback onTabmore;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class ImageAndNameAndText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //----------------------ImageUserPost----------------------//
-          ImageUserPost(user: postEntity.user,onTabNameUser: onTabNameUser),
+          ImageUserPost(user: postEntity.user, onTabNameUser: onTabNameUser),
           //----------------------ImageUserPost----------------------//
 
           Expanded(
@@ -35,7 +36,7 @@ class ImageAndNameAndText extends StatelessWidget {
                   Row(
                     children: [
                       GestureDetector(
-                        onTap:onTabNameUser ,
+                        onTap: onTabNameUser,
                         child: Text(
                           postEntity.user.username,
                           style: Theme.of(context).textTheme.headline6,
@@ -66,6 +67,19 @@ class ImageAndNameAndText extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  postEntity.imagechek.isNotEmpty
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: SizedBox(
+                            child: ImageLodingService(
+                              imageUrl: postEntity.image,
+                            ),
+                          ),
+                        )
+                      : Container(),
                   const SizedBox(
                     height: 10,
                   ),

@@ -55,160 +55,166 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
           ),
         ),
-        child: SafeArea(
-          child: BlocProvider(
-            create: (context) => AuthBloc(locator.get())..add(AuthStarted()),
-            child: Scaffold(
-              //  backgroundColor: Colors.red,
-              resizeToAvoidBottomInset: true,
-              body: BlocConsumer<AuthBloc, AuthState>(
-                listener: (context, state) {
-                  if (state is AuthSuccess) {
-                    Navigator.of(context)
-                        .pushReplacement(MaterialPageRoute(builder: (context) => RootScreen(),));
-                  } else if (state is AuthError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        
-                        content: Text(state.exception.message),
-                      ),
-                    );
-                  }
-                },
-                buildWhen: (previous, current) {
-                  return current is AuthLoading ||
-                      current is AuthInitial ||
-                      current is AuthError;
-                },
-                builder: (context, state) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                          Colors.redAccent,
-                          Colors.blueAccent,
-                        ])),
-                    child: SingleChildScrollView(
-                      child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 48, right: 48, top: 18),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/d.png',
-                                color: Colors.white,
-                                width: 130,
-                              ),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                              Text(
-                                state.isLoginMode ? 'خوش آمدید' : 'ثبت نام',
-                                style: const TextStyle(
-                                    color: onbackground, fontSize: 22),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              Text(
-                                state.isLoginMode
-                                    ? 'لطفا وارد حساب کاربری خود شوید'
-                                    : 'ایمیل و رمز عبور خود را تعیین کنید',
-                                style: const TextStyle(
-                                    color: onbackground, fontSize: 16),
-                              ),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                              TextField(
-                                controller: usernameController,
-                                keyboardType: TextInputType.emailAddress,
-                                style: const TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                                decoration: const InputDecoration(
-                                  label: Text(
-                                    'نام کاربری',
+        child: Container(
+          child: SafeArea(
+            child: BlocProvider(
+              create: (context) => AuthBloc(locator.get())..add(AuthStarted()),
+              child: Scaffold(
+                //  backgroundColor: Colors.red,
+                resizeToAvoidBottomInset: true,
+                body: BlocConsumer<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthSuccess) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const RootScreen(),
+                      ));
+                    } else if (state is AuthError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.exception.message),
+                        ),
+                      );
+                    }
+                  },
+                  buildWhen: (previous, current) {
+                    return current is AuthLoading ||
+                        current is AuthInitial ||
+                        current is AuthError;
+                  },
+                  builder: (context, state) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height,
+                      decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.redAccent,
+                                Colors.blueAccent,
+                              ])),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 48, right: 48, top: 18),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/d.png',
+                                  color: Colors.white,
+                                  width: 130,
+                                ),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                Text(
+                                  state.isLoginMode ? 'خوش آمدید' : 'ثبت نام',
+                                  style: const TextStyle(
+                                      color: onbackground, fontSize: 22),
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  state.isLoginMode
+                                      ? 'لطفا وارد حساب کاربری خود شوید'
+                                      : 'ایمیل و رمز عبور خود را تعیین کنید',
+                                  style: const TextStyle(
+                                      color: onbackground, fontSize: 16),
+                                ),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                TextField(
+                                  controller: usernameController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  style: const TextStyle(
+                                      fontSize: 18.0, color: Colors.black),
+                                  decoration: const InputDecoration(
+                                    label: Text(
+                                      'نام کاربری',
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              _PasswordTextField(
-                                  titelText: 'رمز عبور',
-                                  onbackground: onbackground,
-                                  passwordController: passwordController),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              (!state.isLoginMode)
-                                  ? _PasswordTextField(
-                                      titelText: ' تکرار رمز عبور',
-                                      onbackground: onbackground,
-                                      passwordController:
-                                          passwordConfirmController)
-                                  : Container(),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    BlocProvider.of<AuthBloc>(context).add(
-                                        AuthButtonIsClicked(
-                                            usernameController.text,
-                                            passwordController.text,
-                                            passwordConfirmController.text));
-                                  },
-                                  child: state is AuthLoading
-                                      ? CircularProgressIndicator(
-                                        color: Colors.black,
-                                      )
-                                      : Text(
-                                          state.isLoginMode
-                                              ? 'ورود'
-                                              : 'ثبت نام',
-                                          style: const TextStyle(fontSize: 18),
-                                        )),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  BlocProvider.of<AuthBloc>(context)
-                                      .add(AuthModeChangeIsClicked());
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        state.isLoginMode
-                                            ? 'حساب کاربری ندارید؟'
-                                            : 'حساب کار بری دارید',
-                                        style: TextStyle(
-                                          color: onbackground.withOpacity(0.7),
-                                        )),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      state.isLoginMode ? 'ثبت نام ' : 'ورود',
-                                      style: TextStyle(
-                                          color: themeData.colorScheme.primary,
-                                          decoration: TextDecoration.underline),
-                                    ),
-                                  ],
+                                const SizedBox(
+                                  height: 16,
                                 ),
-                              )
-                            ],
-                          )),
-                    ),
-                  );
-                },
+                                _PasswordTextField(
+                                    titelText: 'رمز عبور',
+                                    onbackground: onbackground,
+                                    passwordController: passwordController),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                (!state.isLoginMode)
+                                    ? _PasswordTextField(
+                                        titelText: ' تکرار رمز عبور',
+                                        onbackground: onbackground,
+                                        passwordController:
+                                            passwordConfirmController)
+                                    : Container(),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      BlocProvider.of<AuthBloc>(context).add(
+                                          AuthButtonIsClicked(
+                                              usernameController.text,
+                                              passwordController.text,
+                                              passwordConfirmController.text));
+                                    },
+                                    child: state is AuthLoading
+                                        ? const CircularProgressIndicator(
+                                            color: Colors.black,
+                                          )
+                                        : Text(
+                                            state.isLoginMode
+                                                ? 'ورود'
+                                                : 'ثبت نام',
+                                            style:
+                                                const TextStyle(fontSize: 18),
+                                          )),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    BlocProvider.of<AuthBloc>(context)
+                                        .add(AuthModeChangeIsClicked());
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                          state.isLoginMode
+                                              ? 'حساب کاربری ندارید؟'
+                                              : 'حساب کار بری دارید',
+                                          style: TextStyle(
+                                            color:
+                                                onbackground.withOpacity(0.7),
+                                          )),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        state.isLoginMode ? 'ثبت نام ' : 'ورود',
+                                        style: TextStyle(
+                                            color:
+                                                themeData.colorScheme.primary,
+                                            decoration:
+                                                TextDecoration.underline),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

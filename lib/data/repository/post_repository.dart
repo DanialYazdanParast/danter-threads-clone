@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:danter/data/datasource/post_data_source.dart';
 import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/like.dart';
@@ -10,7 +12,7 @@ abstract class IPostRepository {
   Future<int> getPosttotalLike(String postId);
   Future<int> getPosttotalreplise(String postId);
   Future<List<Replyphoto>> getPosttotalreplisePhoto(String postId);
-  Future<void> sendPost(String userId, String text);
+  Future<void> sendPost(String userId, String text, image);
   Future<int> getLikeuser(String postId, String userId);
   Future<void> addLike(String userId, String postid);
   Future<void> deleteLike(String likeid);
@@ -56,8 +58,8 @@ class PostRepository implements IPostRepository {
   }
 
   @override
-  Future<void> sendPost(String userId, String text) {
-    return dataSource.sendPost(userId, text);
+  Future<void> sendPost(String userId, String text , image) {
+    return dataSource.sendPost(userId, text ,image);
   }
 
   @override
