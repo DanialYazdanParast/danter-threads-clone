@@ -6,8 +6,8 @@ import 'package:dio/dio.dart';
 abstract class IReplyDataSource {
   Future<List<PostEntity>> getReply(String postId);
 
-   Future<void> sendPostReply(String userId ,String text ,String postid);
- }
+  Future<void> sendPostReply(String userId, String text, String postid, image);
+}
 
 class ReplyRemoteDataSource
     with HttpResponseValidat
@@ -15,7 +15,7 @@ class ReplyRemoteDataSource
   final Dio _dio;
   ReplyRemoteDataSource(this._dio);
   @override
-  Future<List<PostEntity>> getReply(String postId) async{
+  Future<List<PostEntity>> getReply(String postId) async {
     Map<String, dynamic> qParams = {
       'filter': 'postid ="$postId"',
       'expand': 'user',
@@ -31,16 +31,22 @@ class ReplyRemoteDataSource
         .map<PostEntity>((jsonObject) => PostEntity.fromJson(jsonObject))
         .toList();
   }
-  
-  
-  
+
   @override
-  Future<void> sendPostReply(String userId, String text, String postid) async{
-    
-    final response = await _dio.post('collections/post/records',
-        data: {"user": userId, "text": text , "postid": postid  });
+  Future<void> sendPostReply(
+      String userId, String text, String postid, image) async {
+    FormData formData = FormData.fromMap({
+      "postid": postid,
+      "user": userId,
+      "text": text,
+      "image": image
+          .map((item) => MultipartFile.fromFileSync(item.path,
+              filename: item.path.split('/').last))
+          .toList()
+    });
+
+    final response =
+        await _dio.post('collections/post/records', data: formData);
     validatResponse(response);
   }
-  
- 
 }

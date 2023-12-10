@@ -24,6 +24,11 @@ class FildWrite extends StatefulWidget {
 
 class _FildWriteState extends State<FildWrite> {
   @override
+  // void initState() {
+  //   selectedImage = [];
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -142,17 +147,44 @@ class _FildWriteState extends State<FildWrite> {
                   scrollDirection: Axis.horizontal,
                   itemCount: selectedImage!.length,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          left: (index == 0) ? 65 : 10,
-                          right: (index == selectedImage!.length - 1) ? 10 : 0),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.file(
-                            File(selectedImage![index].path),
-                            fit: BoxFit.cover,
-                            width: 200,
-                          )),
+                    return Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: (index == 0) ? 65 : 10,
+                              right: (index == selectedImage!.length - 1)
+                                  ? 10
+                                  : 0),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.file(
+                                File(selectedImage![index].path),
+                                fit: BoxFit.cover,
+                                width: 200,
+                                height: 250,
+                              )),
+                        ),
+                        Positioned(
+                          top: 10,
+                          right: index == selectedImage!.length - 1 ? 20 : 10,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() => selectedImage!.removeAt(index));
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                  color: LightThemeColors.secondaryTextColor
+                                      .withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(100)),
+                              child: const Icon(
+                                CupertinoIcons.multiply,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     );
                   },
                 ),

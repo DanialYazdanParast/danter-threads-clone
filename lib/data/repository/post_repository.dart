@@ -5,6 +5,7 @@ import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/like.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/replyphoto.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class IPostRepository {
   Future<List<PostEntity>> getPost(String userId);

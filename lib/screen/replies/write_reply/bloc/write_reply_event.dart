@@ -11,7 +11,11 @@ class WriteReplySendPostEvent extends WriteReplyEvent {
   final String user;
   final String text;
   final String postid;
-
- const WriteReplySendPostEvent({required this.user ,required this.text ,required this.postid});
- 
+  final image;
+  const WriteReplySendPostEvent({
+    required this.user,
+    required this.text,
+    required this.postid,
+    required this.image,
+  });
 }

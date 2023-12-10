@@ -1,4 +1,3 @@
-
 import 'package:danter/data/model/post.dart';
 import 'package:danter/widgets/image.dart';
 import 'package:danter/widgets/image_user_post.dart';
@@ -57,31 +56,21 @@ class ImageAndNameAndText extends StatelessWidget {
                       )
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5, right: 7),
-                    child: Text(
-                      postEntity.text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontWeight: FontWeight.w500, fontSize: 16),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  postEntity.imagechek.isNotEmpty
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: SizedBox(
-                            child: ImageLodingService(
-                              imageUrl: postEntity.image,
-                            ),
+                  postEntity.text != ''
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 5, right: 7),
+                          child: Text(
+                            postEntity.text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(
+                                    fontWeight: FontWeight.w500, fontSize: 16),
                           ),
                         )
-                      : Container(),
-                  const SizedBox(
-                    height: 10,
+                      : const SizedBox(),
+                  SizedBox(
+                    height: postEntity.text == '' ? 0 : 10,
                   ),
                 ],
               ),
@@ -92,3 +81,38 @@ class ImageAndNameAndText extends StatelessWidget {
     );
   }
 }
+
+
+// SizedBox(
+//                 height: 250,
+//                 child: ListView.builder(
+//                   scrollDirection: Axis.horizontal,
+//                   itemCount: selectedImage!.length,
+//                   itemBuilder: (context, index) {
+//                     return Padding(
+//                       padding: EdgeInsets.only(
+//                           left: (index == 0) ? 65 : 10,
+//                           right: (index == selectedImage!.length - 1) ? 10 : 0),
+//                       child: ClipRRect(
+//                           borderRadius: BorderRadius.circular(15),
+//                           child: Image.file(
+//                             File(selectedImage![index].path),
+//                             fit: BoxFit.cover,
+//                             width: 200,
+//                           )),
+//                     );
+//                   },
+//                 ),
+//               )
+
+
+
+// ClipRRect(
+//                           borderRadius: BorderRadius.circular(12),
+//                           child: SizedBox(
+//                             child: ImageLodingService(
+//                               imageUrl:
+//                                   'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+//                             ),
+//                           ),
+//                         )

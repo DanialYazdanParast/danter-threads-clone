@@ -6,6 +6,7 @@ import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/replyphoto.dart';
 import 'package:danter/util/response_validator.dart';
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 abstract class IPostDataSource {
@@ -14,7 +15,7 @@ abstract class IPostDataSource {
   Future<int> getPosttotalLike(String postId);
   Future<List<Replyphoto>> getPosttotalreplisePhoto(String postId);
   Future<int> getPosttotalreplise(String postId);
-  Future<void> sendPost(String userId, String text,  image);
+  Future<void> sendPost(String userId, String text, image);
   Future<int> getLikeuser(String postId, String userId);
   Future<void> addLike(String userId, String postid);
   Future<void> deleteLike(String likeid);
@@ -123,10 +124,26 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
    // String filename = image.path.split('/').last;
 
 
+   
+  //  List uploadList = [];
+  //   for (File file in image) {
+  //      await MultipartFile.fromFile(
+  //       uploadList.add(file.path)
+  //     );
+      
+  //   }
+
+  //    for (File item in image)
+  //  formData.files.addAll([
+  //    MapEntry("image", await MultipartFile.fromFile(item.path)),
+  //  ]);
+
+
     FormData formData = FormData.fromMap(
         {"user": userId,
          "text": text,
-          "image":image==null?null: await MultipartFile.fromFile(image.path )
+         "image":image.map((item)=> MultipartFile.fromFileSync(item.path,
+          filename: item.path.split('/').last)).toList()
           });
 
     final response = await _dio.post('collections/post/records', data: formData);

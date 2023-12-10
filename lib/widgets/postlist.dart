@@ -1,6 +1,7 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
+import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/likes/likes_Screen.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
@@ -15,16 +16,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostList extends StatelessWidget {
   final PostEntity postEntity;
-      final GestureTapCallback onTabNameUser;
-         final GestureTapCallback onTabmore;
+  final GestureTapCallback onTabNameUser;
+  final GestureTapCallback onTabmore;
   const PostList({
     super.key,
-    required this.postEntity, required this.onTabNameUser, required this.onTabmore,
+    required this.postEntity,
+    required this.onTabNameUser,
+    required this.onTabmore,
   });
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
       create: (context) => PostBloc(locator.get())
         ..add(PostStartedEvent(
@@ -34,7 +36,6 @@ class PostList extends StatelessWidget {
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (context) => RepliesScreen(
               postEntity: postEntity,
-       
             ),
           ));
         },
@@ -47,9 +48,94 @@ class PostList extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
+                    Positioned(
+                      left: 33,
+                      top: 65,
+                      bottom: 54,
+                      child: Container(
+                        width: state.totareplise > 0 ? 1 : 0,
+                        color: LightThemeColors.secondaryTextColor,
+                      ),
+                    ),
+
                     Column(
                       children: [
-                        ImageAndNameAndText(postEntity: postEntity,onTabNameUser: onTabNameUser ,onTabmore: onTabmore),
+                        ImageAndNameAndText(
+                            postEntity: postEntity,
+                            onTabNameUser: onTabNameUser,
+                            onTabmore: onTabmore),
+
+                        postEntity.image.isNotEmpty &&
+                                postEntity.image.length < 2
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 10, left: 65, bottom: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => ImageScreen(
+                                        image:
+                                            'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                                      ),
+                                    ));
+                                  },
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: SizedBox(
+                                        child: ImageLodingService(
+                                          imageUrl:
+                                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                                        ),
+                                      )),
+                                ),
+                              )
+                            : postEntity.image.length > 1
+                                ? SizedBox(
+                                    height: 260,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: postEntity.image.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: 10,
+                                                left: (index == 0) ? 65 : 10,
+                                                right: (index ==
+                                                        postEntity
+                                                                .image.length -
+                                                            1)
+                                                    ? 10
+                                                    : 0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: SizedBox(
+                                                width: 200,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context,
+                                                            rootNavigator: true)
+                                                        .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ImageScreen(
+                                                        image:
+                                                            'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
+                                                      ),
+                                                    ));
+                                                  },
+                                                  child: ImageLodingService(
+                                                    imageUrl:
+                                                        'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
+                                                  ),
+                                                ),
+                                              ),
+                                            ));
+                                      },
+                                    ),
+                                  )
+                                : Container(),
+
                         Padding(
                           padding: const EdgeInsets.only(left: 65),
                           child: Row(
@@ -91,8 +177,7 @@ class PostList extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context,
-                                          rootNavigator: true)
+                                  Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
                                     builder: (context) =>
                                         WriteReply(postEntity: postEntity),
@@ -176,17 +261,18 @@ class PostList extends StatelessWidget {
                                   style: Theme.of(context).textTheme.subtitle1),
                               const SizedBox(width: 6),
                               GestureDetector(
-                                onTap: (){
-                                   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (context) => LikesScreen(
-              idpostEntity: postEntity.id,
-       
-            ),
-          ));
-
+                                onTap: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) => LikesScreen(
+                                      idpostEntity: postEntity.id,
+                                    ),
+                                  ));
                                 },
-                                child: Text(state.totallike <= 1 ? 'Like' : 'Likes',
-                                    style: Theme.of(context).textTheme.subtitle1),
+                                child: Text(
+                                    state.totallike <= 1 ? 'Like' : 'Likes',
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1),
                               ),
                             ],
                           ),
@@ -196,15 +282,7 @@ class PostList extends StatelessWidget {
                       ],
                     ),
                     //----------LineReply-----------//
-                    Positioned(
-                      left: 33,
-                      top: 75,
-                      bottom: 54,
-                      child: Container(
-                        width: state.totareplise > 0 ? 1 : 0,
-                        color: LightThemeColors.secondaryTextColor,
-                      ),
-                    ),
+
 //----------LineReply-----------//
                   ],
                 ),
@@ -241,7 +319,49 @@ class InitState extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          ImageAndNameAndText(postEntity: postEntity,onTabNameUser:(){} ,onTabmore: (){}),
+          ImageAndNameAndText(
+              postEntity: postEntity, onTabNameUser: () {}, onTabmore: () {}),
+          postEntity.image.isNotEmpty && postEntity.image.length < 2
+              ? Padding(
+                  padding:
+                      const EdgeInsets.only(right: 10, left: 65, bottom: 10),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: SizedBox(
+                        child: ImageLodingService(
+                          imageUrl:
+                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                        ),
+                      )),
+                )
+              : postEntity.image.length > 1
+                  ? SizedBox(
+                      height: 260,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: postEntity.image.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: 10,
+                                  left: (index == 0) ? 65 : 10,
+                                  right: (index == postEntity.image.length - 1)
+                                      ? 10
+                                      : 0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: SizedBox(
+                                  width: 200,
+                                  child: ImageLodingService(
+                                    imageUrl:
+                                        'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
+                                  ),
+                                ),
+                              ));
+                        },
+                      ),
+                    )
+                  : Container(),
           Padding(
             padding: const EdgeInsets.only(left: 65),
             child: Row(

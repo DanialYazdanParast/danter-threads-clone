@@ -1,5 +1,6 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
@@ -10,6 +11,7 @@ import 'package:danter/screen/replies/write_reply/write_reply.dart';
 
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/Row_Image_Name_Text.dart';
+import 'package:danter/widgets/image.dart';
 
 import 'package:danter/widgets/postlist.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,9 +52,7 @@ class ReplayList extends StatelessWidget {
                 child: Column(
                   children: [
                     ImageAndNameAndText(
-                      onTabmore: () {
-                        
-                      },
+                        onTabmore: () {},
                         postEntity: postEntity,
                         onTabNameUser: () {
                           if (postEntity.user.id == AuthRepository.readid()) {
@@ -60,7 +60,8 @@ class ReplayList extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) {
                                   return BlocProvider(
-                                    create: (context) => ProfileBloc(locator.get()),
+                                    create: (context) =>
+                                        ProfileBloc(locator.get()),
                                     child: ProfileScreen(),
                                   );
                                 },
@@ -78,6 +79,75 @@ class ReplayList extends StatelessWidget {
                             );
                           }
                         }),
+
+                    postEntity.image.isNotEmpty && postEntity.image.length < 2
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                                right: 10, left: 65, bottom: 10),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .push(MaterialPageRoute(
+                                  builder: (context) => ImageScreen(
+                                    image:
+                                        'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                                  ),
+                                ));
+                              },
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: SizedBox(
+                                    child: ImageLodingService(
+                                      imageUrl:
+                                          'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                                    ),
+                                  )),
+                            ),
+                          )
+                        : postEntity.image.length > 1
+                            ? SizedBox(
+                                height: 260,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: postEntity.image.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: 10,
+                                            left: (index == 0) ? 65 : 10,
+                                            right: (index ==
+                                                    postEntity.image.length - 1)
+                                                ? 10
+                                                : 0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          child: SizedBox(
+                                            width: 200,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ImageScreen(
+                                                    image:
+                                                        'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
+                                                  ),
+                                                ));
+                                              },
+                                              child: ImageLodingService(
+                                                imageUrl:
+                                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
+                                              ),
+                                            ),
+                                          ),
+                                        ));
+                                  },
+                                ),
+                              )
+                            : Container(),
+
                     Padding(
                       padding: const EdgeInsets.only(left: 65),
                       child: Row(
@@ -118,14 +188,13 @@ class ReplayList extends StatelessWidget {
                             width: 18,
                           ),
                           GestureDetector(
- onTap: () {
-                                  Navigator.of(context,
-                                          rootNavigator: true)
-                                      .push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        WriteReply(postEntity: postEntity),
-                                  ));
-                                },
+                            onTap: () {
+                              Navigator.of(context, rootNavigator: true)
+                                  .push(MaterialPageRoute(
+                                builder: (context) =>
+                                    WriteReply(postEntity: postEntity),
+                              ));
+                            },
                             child: SizedBox(
                               height: 22,
                               width: 22,

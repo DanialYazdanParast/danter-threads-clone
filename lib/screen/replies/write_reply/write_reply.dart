@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
+import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/replies/bloc/reply_bloc.dart';
 import 'package:danter/screen/replies/write_reply/bloc/write_reply_bloc.dart';
 import 'package:danter/screen/write/bloc/write_bloc.dart';
+import 'package:danter/screen/write/write_screen.dart';
 import 'package:danter/widgets/image.dart';
 import 'package:danter/widgets/write.dart';
 import 'package:danter/theme.dart';
@@ -18,7 +20,6 @@ class WriteReply extends StatelessWidget {
   final PostEntity postEntity;
   WriteReply({super.key, required this.postEntity});
   final TextEditingController _controller = TextEditingController();
- 
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,9 @@ class WriteReply extends StatelessWidget {
                 child: Column(
                   children: [
                     PostWrite(postEntity: postEntity),
-                    FildWrite(controller: _controller, ),
+                    FildWrite(
+                      controller: _controller,
+                    ),
                   ],
                 ),
               ),
@@ -65,20 +68,22 @@ class WriteReply extends StatelessWidget {
                       listener: (context, state) {
                         if (state is WriteReplySuccesState) {
                           _controller.text = '';
+                          selectedImage = [];
                           Navigator.pop(context);
-                                                       ScaffoldMessenger.of(context).showSnackBar(
-                             SnackBar(
-                            margin: const EdgeInsets.only(bottom: 55,left: 30,right: 30),
-                              
-                            //  width: 280.0,
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              margin: const EdgeInsets.only(
+                                  bottom: 55, left: 30, right: 30),
+
+                              //  width: 280.0,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 10,
                               ),
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
-                               borderRadius: BorderRadius.circular(15)
-                              ),
-                              content: const Center(child: Padding(
+                                  borderRadius: BorderRadius.circular(15)),
+                              content: const Center(
+                                  child: Padding(
                                 padding: EdgeInsets.all(14),
                                 child: Text('با موفقیت ثبت شد'),
                               )),
@@ -89,19 +94,20 @@ class WriteReply extends StatelessWidget {
                                   postId: postEntity.id,
                                   user: AuthRepository.readid()));
                         } else if (state is WriteReplyErrorState) {
-                                                        ScaffoldMessenger.of(context).showSnackBar(
-                             SnackBar(
-                            margin: const EdgeInsets.only(bottom: 55,left: 30,right: 30),
-                              
-                            //  width: 280.0,
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              margin: const EdgeInsets.only(
+                                  bottom: 55, left: 30, right: 30),
+
+                              //  width: 280.0,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 10,
                               ),
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
-                               borderRadius: BorderRadius.circular(15)
-                              ),
-                              content:  Center(child: Padding(
+                                  borderRadius: BorderRadius.circular(15)),
+                              content: Center(
+                                  child: Padding(
                                 padding: EdgeInsets.all(14),
                                 child: Text(state.exception.message),
                               )),
@@ -112,15 +118,17 @@ class WriteReply extends StatelessWidget {
                       builder: (context, state) {
                         return GestureDetector(
                           onTap: () {
-                            if (_controller.text.isNotEmpty) {
+                            if (_controller.text.isNotEmpty ||
+                                selectedImage!.isNotEmpty) {
                               BlocProvider.of<WriteReplyBloc>(context).add(
                                   WriteReplySendPostEvent(
                                       user: AuthRepository.readid(),
                                       text: _controller.text,
-                                      postid: postEntity.id));
+                                      postid: postEntity.id,
+                                      image: selectedImage!));
                             }
                           },
-                          child: state is WriteLodingState
+                          child: state is WriteReplyLodingState
                               ? const CupertinoActivityIndicator()
                               : const Text(
                                   'Post',
@@ -157,6 +165,14 @@ class PostWrite extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [
+          Positioned(
+              left: 33,
+              top: 75,
+              bottom: 0,
+              child: Container(
+                width: 1,
+                color: LightThemeColors.secondaryTextColor,
+              )),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,16 +236,74 @@ class PostWrite extends StatelessWidget {
                   ],
                 ),
               ),
+              postEntity.image.isNotEmpty && postEntity.image.length < 2
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          right: 10, left: 65, bottom: 10, top: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: true)
+                              .push(MaterialPageRoute(
+                            builder: (context) => ImageScreen(
+                              image:
+                                  'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                            ),
+                          ));
+                        },
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: SizedBox(
+                              child: ImageLodingService(
+                                imageUrl:
+                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                              ),
+                            )),
+                      ),
+                    )
+                  : postEntity.image.length > 1
+                      ? SizedBox(
+                          height: 260,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: postEntity.image.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 10,
+                                      bottom: 10,
+                                      left: (index == 0) ? 65 : 10,
+                                      right:
+                                          (index == postEntity.image.length - 1)
+                                              ? 10
+                                              : 0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: SizedBox(
+                                      width: 200,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) => ImageScreen(
+                                              image:
+                                                  'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
+                                            ),
+                                          ));
+                                        },
+                                        child: ImageLodingService(
+                                          imageUrl:
+                                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
+                                        ),
+                                      ),
+                                    ),
+                                  ));
+                            },
+                          ),
+                        )
+                      : Container(),
             ],
           ),
-          Positioned(
-              left: 33,
-              top: 75,
-              bottom: 0,
-              child: Container(
-                width: 1,
-                color: LightThemeColors.secondaryTextColor,
-              )),
         ],
       ),
     );

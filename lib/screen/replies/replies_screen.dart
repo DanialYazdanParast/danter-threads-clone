@@ -1,6 +1,7 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
+import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
@@ -182,27 +183,115 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                   ],
                                 ),
                               ),
+                              widget.postEntity.text != ''
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, top: 5, right: 10),
+                                      child: Text(
+                                        widget.postEntity.text,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              widget.postEntity.image.isNotEmpty &&
+                                      widget.postEntity.image.length < 2
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10, left: 10, bottom: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) => ImageScreen(
+                                              image:
+                                                  'https://dan.chbk.run/api/files/6291brssbcd64k6/${widget.postEntity.id}/${widget.postEntity.image[0]}',
+                                            ),
+                                          ));
+                                        },
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: SizedBox(
+                                              child: ImageLodingService(
+                                                imageUrl:
+                                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${widget.postEntity.id}/${widget.postEntity.image[0]}',
+                                              ),
+                                            )),
+                                      ),
+                                    )
+                                  : widget.postEntity.image.length > 1
+                                      ? SizedBox(
+                                          height: 260,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount:
+                                                widget.postEntity.image.length,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 10,
+                                                      left: 10,
+                                                      right: (index ==
+                                                              widget
+                                                                      .postEntity
+                                                                      .image
+                                                                      .length -
+                                                                  1)
+                                                          ? 10
+                                                          : 0),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                    child: SizedBox(
+                                                      width: 200,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.of(context,
+                                                                  rootNavigator:
+                                                                      true)
+                                                              .push(
+                                                                  MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    ImageScreen(
+                                                              image:
+                                                                  'https://dan.chbk.run/api/files/6291brssbcd64k6/${widget.postEntity.id}/${widget.postEntity.image[index]}',
+                                                            ),
+                                                          ));
+                                                        },
+                                                        child:
+                                                            ImageLodingService(
+                                                          imageUrl:
+                                                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${widget.postEntity.id}/${widget.postEntity.image[index]}',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ));
+                                            },
+                                          ),
+                                        )
+                                      : Container(),
                               Column(
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 10, right: 10, left: 10),
+                                        right: 10, left: 10),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          widget.postEntity.text,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
                                         Row(
                                           children: [
                                             GestureDetector(
@@ -214,8 +303,10 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                                           context)
                                                       .add(
                                                     AddLikeReplyEvent(
-                                                      postId: widget.postEntity.id,
-                                                      user: AuthRepository.readid(),
+                                                      postId:
+                                                          widget.postEntity.id,
+                                                      user: AuthRepository
+                                                          .readid(),
                                                     ),
                                                   );
                                                 } else {
@@ -224,9 +315,12 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                                           context)
                                                       .add(
                                                     RemoveLikeReplyEvent(
-                                                      postId: widget.postEntity.id,
-                                                      user: AuthRepository.readid(),
-                                                      likeId: state.likeid[0].id,
+                                                      postId:
+                                                          widget.postEntity.id,
+                                                      user: AuthRepository
+                                                          .readid(),
+                                                      likeId:
+                                                          state.likeid[0].id,
                                                     ),
                                                   );
                                                 }
@@ -234,7 +328,8 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                               child: Container(
                                                 child: state.trueLikeUser > 0
                                                     ? const Icon(
-                                                        CupertinoIcons.heart_fill,
+                                                        CupertinoIcons
+                                                            .heart_fill,
                                                         color: Colors.red,
                                                         size: 24)
                                                     : const Icon(
@@ -256,8 +351,8 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                                         BlocProvider.value(
                                                       value: replyBloc,
                                                       child: WriteReply(
-                                                          postEntity:
-                                                              widget.postEntity),
+                                                          postEntity: widget
+                                                              .postEntity),
                                                     ),
                                                   ),
                                                 );
@@ -308,16 +403,15 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                                     .subtitle1),
                                           ],
                                         ),
-                                       
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
-                               const Divider(
-                                          color: Color(0xff999999),
-                                          height: 20,
-                                        ),
+                              const Divider(
+                                color: Color(0xff999999),
+                                height: 20,
+                              ),
                             ],
                           ),
                         ),
