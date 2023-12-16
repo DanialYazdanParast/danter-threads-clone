@@ -37,16 +37,7 @@ class HomeScreen extends StatelessWidget {
                         width: 40,
                         child: GestureDetector(
                           onTap: () {
-                            AuthRepository.logout();
-
-                            Navigator.of(context, rootNavigator: true)
-                                .pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return MyApp();
-                                },
-                              ),
-                            );
+                         
                           },
                           child: Image.asset(
                             'assets/images/d.png',

@@ -26,7 +26,8 @@ class ImageUserPost extends StatelessWidget {
                 child: SizedBox(
                     height: 47,
                     width: 47,
-                    child: ImageLodingService(imageUrl: user.avatar)),
+                    child: 
+                    ImageLodingService(imageUrl: user.avatar)),
               )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(100),

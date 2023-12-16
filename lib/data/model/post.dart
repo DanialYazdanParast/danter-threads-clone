@@ -6,13 +6,15 @@ class PostEntity {
   final String text;
   final User user;
   List<String> image;
+    final String postid;
 
   PostEntity.fromJson(Map<String, dynamic> json)
       : created = json['created'],
         id = json['id'],
         text = json['text'],
         user = User.fromJson(json['expand']['user']),
-        image = List<String>.from(json["image"].map((x) => x));
+        image = List<String>.from(json["image"].map((x) => x)),
+          postid = json['postid'];
 }
 
 

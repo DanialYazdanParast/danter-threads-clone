@@ -66,7 +66,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   listener: (context, state) {
                     if (state is AuthSuccess) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const RootScreen(),
+                        builder: (context) =>  RootScreen(),
                       ));
                     } else if (state is AuthError) {
                       ScaffoldMessenger.of(context).showSnackBar(

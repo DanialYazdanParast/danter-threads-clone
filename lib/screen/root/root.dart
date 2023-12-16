@@ -13,8 +13,8 @@ const int cartindex = 1;
 const int profileindex = 2;
 
 class RootScreen extends StatefulWidget {
-  const RootScreen({super.key});
-
+   RootScreen({super.key});
+  final profileBloc = ProfileBloc(locator.get());
   @override
   State<RootScreen> createState() => _RootScreenState();
 }
@@ -52,12 +52,12 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   void dispose() {
-   profileBloc.close();
+  widget.profileBloc.close();
     super.dispose();
   }
 
 
-final profileBloc = ProfileBloc(locator.get());
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -70,13 +70,13 @@ final profileBloc = ProfileBloc(locator.get());
 
  //----------------------------------           
             BlocProvider.value(
-              value: profileBloc,
+              value: widget.profileBloc,
               child: _navigator(_cartKey, cartindex, WriteScreen()),
             ),
             BlocProvider.value(
-              value: profileBloc,
+              value:  widget.profileBloc,
               child:
-                  _navigator(_profileKey, profileindex,  const ProfileScreen()),
+                  _navigator(_profileKey, profileindex,   ProfileScreen(profileBloc:  widget.profileBloc,)),
             ),
   //----------------------------------              
           ],

@@ -1,11 +1,12 @@
-import 'dart:io';
 
 import 'package:danter/data/datasource/post_data_source.dart';
 import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/like.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/replyphoto.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:danter/data/model/user.dart';
+import 'package:danter/data/repository/auth_repository.dart';
+
 
 abstract class IPostRepository {
   Future<List<PostEntity>> getPost(String userId);
@@ -23,11 +24,12 @@ abstract class IPostRepository {
   Future<void> addfollow(String myuserId, String userIdProfile);
   Future<List<FollowId>> getFollowid(String myuserId, String userIdProfile);
   Future<void> deleteFollow(String followid);
-
   Future<List<LikeUser>> getAllLikePost(String postId);
   Future<List<Followers>> geAllfollowers(String userId);
   Future<List<Following>> geAllfollowing(String userId);
   Future<void> deletePost(String postid);
+  Future<void> sendNameAndBio(String userid, String name, String bio);
+  Future<void> sendImagePorofile(String userid, image);
 }
 
 class PostRepository implements IPostRepository {
@@ -59,8 +61,8 @@ class PostRepository implements IPostRepository {
   }
 
   @override
-  Future<void> sendPost(String userId, String text , image) {
-    return dataSource.sendPost(userId, text ,image);
+  Future<void> sendPost(String userId, String text, image) {
+    return dataSource.sendPost(userId, text, image);
   }
 
   @override
@@ -126,5 +128,19 @@ class PostRepository implements IPostRepository {
   @override
   Future<void> deletePost(String postid) {
     return dataSource.deletePost(postid);
+  }
+
+  @override
+  Future<void> sendNameAndBio(String userid, String name, String bio) async{
+     final User user = await dataSource.sendNameAndBio(userid, name, bio);
+     AuthRepository.persistAuthTokens(user);
+
+     
+  }
+  
+  @override
+  Future<void> sendImagePorofile(String userid, image)async {
+    final User user = await dataSource.sendImagePorofile(userid, image);
+     AuthRepository.persistAuthTokens(user);
   }
 }

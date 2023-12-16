@@ -53,7 +53,7 @@ class _LikesScreenState extends State<LikesScreen> {
                                 return BlocProvider(
                                   create: (context) =>
                                       ProfileBloc(locator.get()),
-                                  child: ProfileScreen(),
+                                  child:ProfileScreen(profileBloc: ProfileBloc(locator.get())),
                                 );
                               },
                             ),

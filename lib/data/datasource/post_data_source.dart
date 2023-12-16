@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/like.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/replyphoto.dart';
+import 'package:danter/data/model/user.dart';
 import 'package:danter/util/response_validator.dart';
 import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 abstract class IPostDataSource {
@@ -29,6 +27,8 @@ abstract class IPostDataSource {
   Future<List<Followers>> geAllfollowers(String userId);
   Future<List<Following>> geAllfollowing(String userId);
   Future<void> deletePost(String postid);
+  Future<User> sendNameAndBio(String userid, String name, String bio);
+  Future<User> sendImagePorofile(String userid, image);
 }
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
@@ -118,35 +118,33 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   }
 
   @override
-  Future<void> sendPost(String userId, String text,  image) async {
+  Future<void> sendPost(String userId, String text, image) async {
+    // String filename = image.path.split('/').last;
 
-    
-   // String filename = image.path.split('/').last;
+    //  List uploadList = [];
+    //   for (File file in image) {
+    //      await MultipartFile.fromFile(
+    //       uploadList.add(file.path)
+    //     );
 
+    //   }
 
-   
-  //  List uploadList = [];
-  //   for (File file in image) {
-  //      await MultipartFile.fromFile(
-  //       uploadList.add(file.path)
-  //     );
-      
-  //   }
+    //    for (File item in image)
+    //  formData.files.addAll([
+    //    MapEntry("image", await MultipartFile.fromFile(item.path)),
+    //  ]);
 
-  //    for (File item in image)
-  //  formData.files.addAll([
-  //    MapEntry("image", await MultipartFile.fromFile(item.path)),
-  //  ]);
+    FormData formData = FormData.fromMap({
+      "user": userId,
+      "text": text,
+      "image": image
+          .map((item) => MultipartFile.fromFileSync(item.path,
+              filename: item.path.split('/').last))
+          .toList()
+    });
 
-
-    FormData formData = FormData.fromMap(
-        {"user": userId,
-         "text": text,
-         "image":image.map((item)=> MultipartFile.fromFileSync(item.path,
-          filename: item.path.split('/').last)).toList()
-          });
-
-    final response = await _dio.post('collections/post/records', data: formData);
+    final response =
+        await _dio.post('collections/post/records', data: formData);
     validatResponse(response);
   }
 
@@ -305,5 +303,32 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   @override
   Future<void> deletePost(String postid) async {
     await pb.collection('post').delete(postid);
+  }
+
+  @override
+  Future<User> sendNameAndBio(String userid, String name, String bio) async {
+    final body = <String, dynamic>{"name": name, "bio": bio,};
+    // final response =  await pb.collection('users').update(userid, body: body);
+
+    var response = await _dio.patch(
+      'collections/users/records/$userid',
+      data: body,
+    );
+
+    return User.fromJson(response.data);
+  }
+
+  @override
+  Future<User> sendImagePorofile(String userid, image) async {
+    FormData formData = FormData.fromMap({
+      "avatar": image == null ? null : await MultipartFile.fromFile(image.path),
+    });
+
+    var response = await _dio.patch(
+      'collections/users/records/$userid',
+      data: formData,
+    );
+
+    return User.fromJson(response.data);
   }
 }

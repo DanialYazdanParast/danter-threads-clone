@@ -17,6 +17,7 @@ class AuthRepository implements IAuthRepository {
       ValueNotifier(null);
 
   static final SharedPreferences sharedPreferences = locator.get();
+  static final SharedPreferences sharedPreferencestoken = locator.get();
 
   final IAuthDataSource dataSource;
 
@@ -26,9 +27,10 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<void> login(String username, String password) async {
     final AuthInfo authInfo = await dataSource.login(username, password);
-    _persistAuthTokens(authInfo);
+    persistAuthTokens(authInfo);
 
     debugPrint("access token is: " + authInfo.token);
+    sharedPreferencestoken.setString("token", authInfo.token);
   }
 
   @override
@@ -36,53 +38,45 @@ class AuthRepository implements IAuthRepository {
       String username, String password, String passwordConfirm) async {
     final AuthInfo authInfo =
         await dataSource.singUp(username, password, passwordConfirm);
-    _persistAuthTokens(authInfo);
+    persistAuthTokens(authInfo);
     debugPrint("access token is: " + authInfo.token);
+    sharedPreferencestoken.setString("token", authInfo.token);
   }
 
-  Future<void> _persistAuthTokens(AuthInfo authInfo) async {
-    sharedPreferences.setString("token", authInfo.token);
-    sharedPreferences.setString("email", authInfo.email ?? '');
+static  Future<void> persistAuthTokens( authInfo) async {
     sharedPreferences.setString("username", authInfo.username);
     sharedPreferences.setString("id", authInfo.id);
     sharedPreferences.setString("collectionId", authInfo.collectionId);
     sharedPreferences.setString("avatar", authInfo.avatar);
     sharedPreferences.setString("avatarchek", authInfo.avatarchek);
-    sharedPreferences.setString("bio", authInfo.bio ?? '');
-    sharedPreferences.setString("name", authInfo.name );
+    sharedPreferences.setString("bio", authInfo.bio  ?? '' );
+    sharedPreferences.setString("name", authInfo.name  ?? '');
 
     loadAuthInfo();
   }
 
-  static AuthInfo? loadAuthInfo() {
-    final String token = sharedPreferences.getString("token") ?? '';
-    final String email = sharedPreferences.getString("email") ?? '';
+  static  loadAuthInfo() {
     final String username = sharedPreferences.getString("username") ?? '';
     final String id = sharedPreferences.getString("id") ?? '';
-    final String collectionId =
-        sharedPreferences.getString("collectionId") ?? '';
+    final String collectionId = sharedPreferences.getString("collectionId") ?? '';
     final String avatar = sharedPreferences.getString("avatar") ?? '';
     final String avatarchek = sharedPreferences.getString("avatarchek") ?? '';
     final String bio = sharedPreferences.getString("bio") ?? '';
     final String name = sharedPreferences.getString("name") ?? '';
 
-    if (token.isNotEmpty) {
-      return AuthInfo(
-          avatarchek: avatarchek,
-          email: email,
-          username: username,
-          name: name,
-          id: id,
-          bio: bio,
-          collectionId: collectionId,
-          avatar: avatar,
-          token: token);
-    }
-    return null;
+    return AuthInfo(
+        avatarchek: avatarchek,
+        username: username,
+        name: name,
+        id: id,
+        bio: bio,
+        collectionId: collectionId,
+        avatar: avatar,
+       );
   }
 
   static String readAuth() {
-    return sharedPreferences.getString('token') ?? '';
+    return sharedPreferencestoken.getString('token') ?? '';
   }
 
   static String readid() {

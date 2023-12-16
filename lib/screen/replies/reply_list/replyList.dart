@@ -62,7 +62,7 @@ class ReplayList extends StatelessWidget {
                                   return BlocProvider(
                                     create: (context) =>
                                         ProfileBloc(locator.get()),
-                                    child: ProfileScreen(),
+                                    child: ProfileScreen(profileBloc: ProfileBloc(locator.get())),
                                   );
                                 },
                               ),

@@ -8,7 +8,6 @@ import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,7 +96,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                         return BlocProvider(
                                           create: (context) =>
                                               ProfileBloc(locator.get()),
-                                          child: ProfileScreen(),
+                                          child: ProfileScreen(profileBloc: ProfileBloc(locator.get())),
                                         );
                                       },
                                     ),
@@ -155,7 +154,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                         return BlocProvider(
                                           create: (context) =>
                                               ProfileBloc(locator.get()),
-                                          child: ProfileScreen(),
+                                          child:ProfileScreen(profileBloc: ProfileBloc(locator.get())),
                                         );
                                       },
                                     ),

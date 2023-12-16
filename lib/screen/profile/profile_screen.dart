@@ -1,9 +1,13 @@
-import 'package:danter/data/model/follow.dart';
-import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/di/di.dart';
+
 import 'package:danter/screen/followers/followers_screen.dart';
 
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+import 'package:danter/screen/edit_profile/edit_profile.dart';
+import 'package:danter/screen/root/root.dart';
+import 'package:danter/screen/settings/settings_Screen.dart';
+
 import 'package:danter/widgets/custom_alert_dialog.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
@@ -17,7 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.profileBloc});
+  final ProfileBloc profileBloc;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -49,10 +54,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: NestedScrollView(
                     headerSliverBuilder: (context, innerBoxIsScrolled) {
                       return [
-                        const SliverAppBar(
+                        SliverAppBar(
                           pinned: true,
                           actions: [
-                            Icon(Icons.menu),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              SettingScreen()));
+                                },
+                                child: Icon(Icons.menu)),
                             SizedBox(
                               width: 20,
                             ),
@@ -265,7 +277,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 const SizedBox(
                                                   width: 6,
                                                 ),
-                                               Text(
+                                                Text(
                                                   state.totalfollowers < 2
                                                       ? 'follower'
                                                       : 'followers',
@@ -317,13 +329,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                const Row(
+                                Row(
                                   children: [
-                                    ButtonPrpfile(name: 'Edit profile'),
-                                    SizedBox(
+                                    ButtonPrpfile(
+                                      name: 'Edit profile',
+                                      onTabButtonPrpfile: () {
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              BlocProvider.value(
+                                            value: widget.profileBloc,
+                                            child: EditProfile(),
+                                          ),
+                                        ));
+                                      },
+                                    ),
+                                    const SizedBox(
                                       width: 20,
                                     ),
-                                    ButtonPrpfile(name: 'Share profile'),
+                                    ButtonPrpfile(
+                                      name: 'Share profile',
+                                      onTabButtonPrpfile: () {},
+                                    ),
                                   ],
                                 ),
                               ],
@@ -526,9 +554,11 @@ class ButtonPrpfile extends StatelessWidget {
   const ButtonPrpfile({
     super.key,
     required this.name,
+    required this.onTabButtonPrpfile,
   });
 
   final String name;
+  final GestureTapCallback onTabButtonPrpfile;
 
   @override
   Widget build(BuildContext context) {
@@ -538,7 +568,7 @@ class ButtonPrpfile extends StatelessWidget {
               shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           )),
-          onPressed: () {},
+          onPressed: onTabButtonPrpfile,
           child: Text(name)),
     );
   }

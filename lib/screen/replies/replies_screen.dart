@@ -82,7 +82,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                                   create: (context) =>
                                                       ProfileBloc(
                                                           locator.get()),
-                                                  child: const ProfileScreen(),
+                                                  child:  ProfileScreen(profileBloc: ProfileBloc(locator.get())),
                                                 );
                                               },
                                             ),
@@ -132,7 +132,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                                                       locator
                                                                           .get()),
                                                               child:
-                                                                  const ProfileScreen(),
+                                                                 ProfileScreen(profileBloc: ProfileBloc(locator.get())),
                                                             );
                                                           },
                                                         ),
