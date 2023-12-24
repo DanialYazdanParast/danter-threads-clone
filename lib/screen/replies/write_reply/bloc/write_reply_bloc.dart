@@ -13,8 +13,11 @@ class WriteReplyBloc extends Bloc<WriteReplyEvent, WriteReplyState> {
       if (event is WriteReplySendPostEvent) {
         try {
           emit(WriteReplyLodingState());
-          await replypostRepository.sendPostReply(
+         final idPostReply =  await replypostRepository.sendPostReply(
               event.user, event.text, event.postid, event.image);
+              await replypostRepository.sendidReplyToPost(
+              idPostReply, event.postid,);
+
           emit(WriteReplySuccesState());
         } catch (e) {
           emit(WriteReplyErrorState(

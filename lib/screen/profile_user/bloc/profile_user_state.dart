@@ -16,7 +16,7 @@ class ProfileUserErrorState extends ProfileUserState {
 }
 
 class ProfileUserSuccesState extends ProfileUserState {
-  final List<PostEntity> post;
+    final List<PostEntityAll> post;
     final int totalfollowers;
     int truefollowing;
     final List<FollowId> followId;

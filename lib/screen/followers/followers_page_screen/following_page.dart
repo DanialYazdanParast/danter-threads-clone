@@ -1,33 +1,23 @@
-import 'package:danter/data/model/follow.dart';
+import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
-import 'package:danter/screen/followers/followers_page_screen/bloc/followers_page_bloc.dart';
 import 'package:danter/theme.dart';
-import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image_user_post.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FollowingPage extends StatelessWidget {
   final String userid;
-  final Following userFollowing;
+  final User userFollowing;
       final GestureTapCallback onTabProfileUser;
+      final GestureTapCallback onTabfolow;
   const FollowingPage({
     super.key,
     required this.userFollowing,
-    required this.userid, required this.onTabProfileUser,
+    required this.userid, required this.onTabProfileUser, required this.onTabfolow,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FollowersPageBloc(locator.get())
-        ..add(FollowersPageStartedEvent(
-            myuserId: AuthRepository.readid(), userIdProfile: userFollowing.user.id)),
-      child: BlocBuilder<FollowersPageBloc, FollowersPageState>(
-        builder: (context, state) {
-          if (state is FollowersPageSuccesState) {
-            return InkWell(
+    return  InkWell(
               onTap: onTabProfileUser,
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -35,7 +25,7 @@ class FollowingPage extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ImageUserPost(user: userFollowing.user ,onTabNameUser: onTabProfileUser,),
+                    ImageUserPost(user: userFollowing ,onTabNameUser: onTabProfileUser,),
                     const SizedBox(
                       width: 15,
                     ),
@@ -43,13 +33,13 @@ class FollowingPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          userFollowing.user.username,
+                          userFollowing.username,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         Text(
-                          userFollowing.user.name == ''
-                              ? '${userFollowing.user.username}'
-                              : '${userFollowing.user.name}',
+                          userFollowing.name == ''
+                              ? '${userFollowing.username}'
+                              : '${userFollowing.name}',
                           style: Theme.of(context)
                               .textTheme
                               .headline6!
@@ -60,42 +50,25 @@ class FollowingPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Visibility(
-                      visible: userFollowing.user.id !=AuthRepository.readid(),
+                      visible: userFollowing.id !=AuthRepository.readid(),
                       child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                               minimumSize: const Size(100, 35),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               )),
-                          onPressed: () async {
-                            if (state.truefollowing < 1) {
-                              await state.truefollowing++;
-                              BlocProvider.of<FollowersPageBloc>(context).add(
-                                FollowersPageAddfollowhEvent(
-                                  myuserId: AuthRepository.readid(),
-                                  userIdProfile: userFollowing.user.id,
-                                ),
-                              );
-                            } else {
-                               await state.truefollowing--;
-                              BlocProvider.of<FollowersPageBloc>(context).add(
-                                FollowersPageDelletfollowhEvent(
-                                    myuserId: AuthRepository.readid(),
-                                    userIdProfile: userFollowing.user.id,
-                                    followId: state.followId[0].id),
-                              );
-                            }
-                          },
+                          onPressed:onTabfolow,
                           child: Text(
-                            state.truefollowing == 0
-                                    ? 'Follow'
-                                    : 'Following',
+                            userFollowing.followers.contains(AuthRepository.readid())
+                                    ? 'Following'
+                                    : 'Follow',
                             style: TextStyle(
-                              color:userFollowing.user.id== AuthRepository.readid()
+                              color:userFollowing.id== AuthRepository.readid()
                                   ? LightThemeColors.secondaryTextColor
-                                  : state.truefollowing == 0
-                                      ? Colors.black
-                                      : LightThemeColors.secondaryTextColor,
+                                  :  userFollowing.followers.contains(AuthRepository.readid())
+                                      ? LightThemeColors.secondaryTextColor
+                                      :Colors.black,
+                                       
                             ),
                           )),
                     ),
@@ -103,18 +76,5 @@ class FollowingPage extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is FollowersPageInitial) {
-            return Container();
-          } else if (state is FollowersPageErrorState) {
-            return AppErrorWidget(
-              exception: state.exception,
-              onpressed: () {},
-            );
-          } else {
-            throw Exception('state is not supported ');
-          }
-        },
-      ),
-    );
   }
 }

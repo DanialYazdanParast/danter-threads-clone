@@ -9,23 +9,29 @@ class FollowId {
 }
 
 class Followers {
-  final String id;
-  final User user;
 
-  Followers({required this.id, required this.user});
+ final List<User> user;
+
+  Followers({ required this.user});
 
   Followers.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        user = User.fromJson(json['expand']['userfollowing']);
+      : 
+        user = List<String>.from(json["followers"]).isNotEmpty
+            ? json['expand']['followers']
+                .map<User>((jsonObject) => User.fromJson(jsonObject))
+                .toList()
+            : [];
 }
 
 class Following {
-  final String id;
-  final User user;
+  final List<User> user;
 
-  Following({required this.id, required this.user});
+  Following({ required this.user});
 
   Following.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        user = User.fromJson(json['expand']['fielduserfollower']);
+    : user = List<String>.from(json["following"]).isNotEmpty
+            ? json['expand']['following']
+                .map<User>((jsonObject) => User.fromJson(jsonObject))
+                .toList()
+            : [];
 }

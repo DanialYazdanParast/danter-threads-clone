@@ -15,7 +15,7 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
         if (event is ProfileUserStartedEvent ) {
         try {
           emit(ProfileUserLodingState());
-          final post = await postRepository.getPostProfile(event.userIdProfile);
+          final post = await postRepository.getAllPostProfile(event.userIdProfile);
                 final totalfollowers =
               await postRepository.getTotalfollowers(event.userIdProfile);
 
@@ -31,7 +31,7 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
         }
       }else if (event is ProfileUserRefreshEvent ) {
         try { 
-          final post = await postRepository.getPostProfile(event.userIdProfile);
+          final post = await postRepository.getAllPostProfile(event.userIdProfile);
             final totalfollowers =
               await postRepository.getTotalfollowers(event.userIdProfile);
           final truefollowing =
@@ -47,7 +47,7 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
       }else if (event is ProfileUserAddfollowhEvent ) {
         try { 
               await postRepository.addfollow(event.myuserId,event.userIdProfile);
-          final post = await postRepository.getPostProfile(event.userIdProfile);
+         final post = await postRepository.getAllPostProfile(event.userIdProfile);
             final totalfollowers =
               await postRepository.getTotalfollowers(event.userIdProfile);
           final truefollowing =
@@ -63,8 +63,8 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
       }else if (event is ProfileUserDelletfollowhEvent ) {
         try { 
           
-              await postRepository.deleteFollow(event.followId);
-         final post = await postRepository.getPostProfile(event.userIdProfile);
+       //       await postRepository.deleteFollow(event.followId);
+        final post = await postRepository.getAllPostProfile(event.userIdProfile);
             final totalfollowers =
               await postRepository.getTotalfollowers(event.userIdProfile);
           final truefollowing =

@@ -8,9 +8,11 @@ class User {
   final String collectionId;
   final String avatar;
   final String avatarchek;
+  final List<String> followers;
+   final List<String> following;
  
 
-  User({ required this.avatarchek,required this.username,required this.name,required this.id,required this.bio,
+  User(this.followers, this.following, { required this.avatarchek,required this.username,required this.name,required this.id,required this.bio,
      required this.collectionId,required this.avatar,});
 
   User.fromJson(Map<String, dynamic> json)
@@ -22,7 +24,9 @@ class User {
         collectionId = json['collectionId'],
         avatar =
             'https://dan.chbk.run/api/files/${json['collectionName']}/${json['id']}/${json['avatar']}',
-             avatarchek = json['avatar'];
+             avatarchek = json['avatar'],
+         followers =  List<String>.from(json["followers"]),
+         following =  List<String>.from(json["following"]);
       
 }
 

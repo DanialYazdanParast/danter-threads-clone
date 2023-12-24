@@ -1,12 +1,8 @@
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
-import 'package:danter/main.dart';
-
 import 'package:danter/screen/home/bloc/home_bloc.dart';
-import 'package:danter/screen/profile_user/profile_user.dart';
-
 import 'package:danter/widgets/error.dart';
-import 'package:danter/widgets/postlist.dart';
+import 'package:danter/widgets/post_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,9 +32,7 @@ class HomeScreen extends StatelessWidget {
                         height: 40,
                         width: 40,
                         child: GestureDetector(
-                          onTap: () {
-                         
-                          },
+                          onTap: () {},
                           child: Image.asset(
                             'assets/images/d.png',
                           ),
@@ -49,27 +43,36 @@ class HomeScreen extends StatelessWidget {
                     SliverList.builder(
                       itemCount: state.post.length,
                       itemBuilder: (context, index) {
-                        return PostList(
-                          onTabmore: (){},
-                          postEntity: state.post[index],onTabNameUser: (){
-
-                           Navigator.of(context, rootNavigator: true)
-                                .push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ProfileUser(user: state.post[index].user ,);
-                                },
-                              ),
-                            );
-
-                        },);
+                        return PostDetail(
+                          onTabLike: () async {
+                            if (!state.post[index].likes
+                                .contains(AuthRepository.readid())) {
+                              BlocProvider.of<HomeBloc>(context).add(
+                                AddLikePostEvent(
+                                  postId: state.post[index].id,
+                                  user: AuthRepository.readid(),
+                                ),
+                              );
+                            } else {
+                              BlocProvider.of<HomeBloc>(context).add(
+                                RemoveLikePostEvent(
+                                  postId: state.post[index].id,
+                                  user: AuthRepository.readid(),
+                                ),
+                              );
+                            }
+                          },
+                          onTabmore: () {},
+                          postEntity: state.post[index],
+                         
+                        );
                       },
                     ),
                   ],
                 ),
               );
             } else if (state is HomeLodingState) {
-              return Center(child: CupertinoActivityIndicator());
+              return const Center(child: CupertinoActivityIndicator());
             } else if (state is HomeErrorState) {
               return AppErrorWidget(
                 exception: state.exception,

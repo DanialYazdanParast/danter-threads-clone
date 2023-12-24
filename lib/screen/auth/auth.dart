@@ -2,6 +2,7 @@ import 'package:danter/di/di.dart';
 import 'package:danter/screen/auth/bloc/auth_bloc.dart';
 import 'package:danter/screen/root/root.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -60,6 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
             child: BlocProvider(
               create: (context) => AuthBloc(locator.get())..add(AuthStarted()),
               child: Scaffold(
+                
                 //  backgroundColor: Colors.red,
                 resizeToAvoidBottomInset: true,
                 body: BlocConsumer<AuthBloc, AuthState>(
@@ -89,8 +91,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Colors.redAccent,
-                                Colors.blueAccent,
+                                Colors.grey,
+                                Colors.indigoAccent,
                               ])),
                       child: SingleChildScrollView(
                         child: Padding(

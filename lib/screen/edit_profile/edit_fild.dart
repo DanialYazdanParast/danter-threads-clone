@@ -37,22 +37,21 @@ class _EditScreenFildState extends State<EditScreenFild> {
         actions: [
           GestureDetector(
             onTap: () {
-
-              if( widget.name == controllername.text && widget.bio == controllerbio.text ){
-                  Navigator.pop(context);
-              }else{
-                BlocProvider.of<EditProfileBloc>(context).add(
-                  ChengEditProfileEvent(
-                      bio: widget.nameFild == 'Bio'
-                          ? controllerbio.text
-                          : widget.bio,
-                      name: widget.nameFild != 'Bio'
-                          ? controllername.text
-                          : widget.name));
-              Navigator.pop(context);
-
+              if (widget.name == controllername.text &&
+                  widget.bio == controllerbio.text) {
+                Navigator.pop(context);
+              } else {
+                BlocProvider.of<EditProfileBloc>(context)
+                    .add(
+                        ChengEditProfileEvent(
+                            bio: widget.nameFild == 'Bio'
+                                ? controllerbio.text
+                                : widget.bio,
+                            name: widget.nameFild != 'Bio'
+                                ? controllername.text
+                                : widget.name));
+                Navigator.pop(context);
               }
-              
             },
             child: const Center(
               child: Padding(
@@ -96,19 +95,33 @@ class _EditScreenFildState extends State<EditScreenFild> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(widget.nameFild),
-                        Container(
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              color: LightThemeColors.secondaryTextColor
-                                  .withOpacity(0.8),
-                              borderRadius: BorderRadius.circular(100)),
-                          child: const Icon(
-                            CupertinoIcons.multiply,
-                            color: Colors.white,
-                            size: 10,
+                        GestureDetector(
+                          onTap: () {
+                       
+                              if (widget.nameFild == 'Bio') {
+                                controllerbio.text = '';
+                              } else {
+                                controllername.text = '';
+                              }
+                          
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                                color: LightThemeColors.secondaryTextColor
+                                    .withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(100)),
+                            child: const Icon(
+                              CupertinoIcons.multiply,
+                              color: Colors.white,
+                              size: 10,
+                            ),
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     TextField(
                       controller: widget.nameFild == 'Bio'

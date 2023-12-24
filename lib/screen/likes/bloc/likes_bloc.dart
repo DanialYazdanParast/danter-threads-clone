@@ -22,7 +22,27 @@ class LikesBloc extends Bloc<LikesEvent, LikesState> {
           emit(LikesErrorState(
               exception: e is AppException ? e : AppException()));
         }
-      } 
+      }  else if (event is LikedAddfollowhEvent || event is LikedDelletfollowhEvent) {
+        if (state is LikesSuccesState) {
+          final successState = (state as LikesSuccesState);
+          if (event is LikedAddfollowhEvent) {
+            await postRepository.addfollow(event.myuserId, event.userIdProfile);
+            successState.user[0].user
+                .firstWhere((element) => element.id == event.userIdProfile)
+                .followers
+                .add(event.myuserId);
+          } else if (event is LikedDelletfollowhEvent) {
+            await postRepository.deleteFollow(event.myuserId, event.userIdProfile);
+
+             successState.user[0].user
+                .firstWhere((element) => element.id == event.userIdProfile)
+                .followers
+                .remove(event.myuserId);
+          }
+
+          emit(LikesSuccesState(successState.user));
+        }
+      }
      
     });
   }

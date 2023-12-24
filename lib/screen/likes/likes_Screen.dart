@@ -1,7 +1,7 @@
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
-import 'package:danter/screen/likes/likes_detail_screen/likes_detail_screen.dart';
+import 'package:danter/screen/likes/likes_detail_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
@@ -40,12 +40,32 @@ class _LikesScreenState extends State<LikesScreen> {
             builder: (context, state) {
               if (state is LikesSuccesState) {
                 return ListView.builder(
-                  itemCount: state.user.length,
+                  itemCount: state.user[0].user.length,
                   itemBuilder: (context, index) {
                     return LikedDetailScreen(
-                      user: state.user[index].user,
+                      onTabFollow: (){
+
+                          if (!state.user[0].user[index].followers.contains(AuthRepository.readid())) {
+                              BlocProvider.of<LikesBloc>(context).add(
+                                LikedAddfollowhEvent(
+                                  userIdProfile: state.user[0].user[index].id,
+                                  myuserId: AuthRepository.readid(),
+                                ),
+                              );
+                            } else {
+                              BlocProvider.of<LikesBloc>(context).add(
+                                LikedDelletfollowhEvent(
+                                  userIdProfile: state.user[0].user[index].id,
+                                  myuserId: AuthRepository.readid(),
+                                ),
+                              );
+                            }
+
+
+                      },
+                      user: state.user[0].user[index],
                       onTabProfile: () {
-                        if (state.user[index].user.id ==
+                        if (state.user[0].user[index].id ==
                             AuthRepository.readid()) {
                           Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(
@@ -65,7 +85,7 @@ class _LikesScreenState extends State<LikesScreen> {
                                 return BlocProvider.value(
                                    value: likesBloc,
                                   child: ProfileUser(
-                                    user: state.user[index].user,
+                                    user: state.user[0].user[index],
                                     idpostEntity: widget.idpostEntity,
                                   ),
                                 );

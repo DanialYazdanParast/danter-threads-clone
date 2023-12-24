@@ -1,12 +1,10 @@
 part of 'likes_bloc.dart';
 
-sealed class LikesState extends Equatable {
+sealed class LikesState  {
   const LikesState();
   
-  @override
-  List<Object> get props => [];
+ 
 }
-
 
 class LikesLodingState extends LikesState {}
 
@@ -15,8 +13,6 @@ class LikesErrorState extends LikesState {
 
   const LikesErrorState({required this.exception});
 
-  @override
-  List<Object> get props => [exception];
 }
 
 class LikesSuccesState extends LikesState {
@@ -24,8 +20,6 @@ class LikesSuccesState extends LikesState {
 
    LikesSuccesState(this.user,);
 
-  @override
-  List<Object> get props => [user];
 }
 
 

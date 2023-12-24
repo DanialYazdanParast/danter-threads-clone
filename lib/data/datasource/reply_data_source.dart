@@ -6,7 +6,10 @@ import 'package:dio/dio.dart';
 abstract class IReplyDataSource {
   Future<List<PostEntity>> getReply(String postId);
 
-  Future<void> sendPostReply(String userId, String text, String postid, image);
+  Future<String> sendPostReply(
+      String userId, String text, String postid, image);
+
+  Future<void> sendidReplyToPost(String idReply, String postId);
 }
 
 class ReplyRemoteDataSource
@@ -33,7 +36,7 @@ class ReplyRemoteDataSource
   }
 
   @override
-  Future<void> sendPostReply(
+  Future<String> sendPostReply(
       String userId, String text, String postid, image) async {
     FormData formData = FormData.fromMap({
       "postid": postid,
@@ -47,6 +50,14 @@ class ReplyRemoteDataSource
 
     final response =
         await _dio.post('collections/post/records', data: formData);
+    validatResponse(response);
+    return response.data["id"];
+  }
+
+  @override
+  Future<void> sendidReplyToPost(String idReply, String postId) async {
+    final response = await _dio
+        .patch('collections/post/records/$postId', data: {"replies+": idReply});
     validatResponse(response);
   }
 }

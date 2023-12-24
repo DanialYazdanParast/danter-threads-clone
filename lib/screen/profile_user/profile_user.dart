@@ -8,8 +8,9 @@ import 'package:danter/screen/profile_user/bloc/profile_user_bloc.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/photoUserFollowers.dart';
 
-import 'package:danter/widgets/postlist.dart';
+import 'package:danter/widgets/post_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -171,68 +172,68 @@ class ProfileUser extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                state.totalfollowers > 1
-                                                    ? Stack(
-                                                        clipBehavior: Clip.none,
-                                                        children: [
-                                                          (state
-                                                                  .userFollowers[
-                                                                      0]
-                                                                  .user
-                                                                  .avatarchek
-                                                                  .isNotEmpty)
-                                                              ? ImageReplyUser(
-                                                                  photo: state
-                                                                      .userFollowers[
-                                                                          0]
-                                                                      .user
-                                                                      .avatar,
-                                                                )
-                                                              : const PhotoReplyUserNoPhoto(),
-                                                          Positioned(
-                                                            left: 13,
-                                                            bottom: 0,
-                                                            child: (state
-                                                                    .userFollowers[
-                                                                        1]
-                                                                    .user
-                                                                    .avatarchek
-                                                                    .isNotEmpty)
-                                                                ? ImageReplyUser(
-                                                                    photo: state
-                                                                        .userFollowers[
-                                                                            1]
-                                                                        .user
-                                                                        .avatar,
-                                                                  )
-                                                                : const PhotoReplyUserNoPhoto(),
-                                                          )
-                                                        ],
-                                                      )
-                                                    : state.totalfollowers == 1
-                                                        ? Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 0),
-                                                            child: (state
-                                                                    .userFollowers[
-                                                                        0]
-                                                                    .user
-                                                                    .avatarchek
-                                                                    .isNotEmpty)
-                                                                ? ImageReplyUser(
-                                                                    photo: state
-                                                                        .userFollowers[
-                                                                            0]
-                                                                        .user
-                                                                        .avatar,
-                                                                  )
-                                                                : const PhotoReplyUserNoPhoto(),
-                                                          )
-                                                        : Container(
+                                                // state.totalfollowers > 1
+                                                //     ? Stack(
+                                                //         clipBehavior: Clip.none,
+                                                //         children: [
+                                                //           (state
+                                                //                   .userFollowers[
+                                                //                       0]
+                                                //                   .user
+                                                //                   .avatarchek
+                                                //                   .isNotEmpty)
+                                                //               ? ImageReplyUser(
+                                                //                   photo: state
+                                                //                       .userFollowers[
+                                                //                           0]
+                                                //                       .user
+                                                //                       .avatar,
+                                                //                 )
+                                                //               : const PhotoReplyUserNoPhoto(),
+                                                //           Positioned(
+                                                //             left: 13,
+                                                //             bottom: 0,
+                                                //             child: (state
+                                                //                     .userFollowers[
+                                                //                         1]
+                                                //                     .user
+                                                //                     .avatarchek
+                                                //                     .isNotEmpty)
+                                                //                 ? ImageReplyUser(
+                                                //                     photo: state
+                                                //                         .userFollowers[
+                                                //                             1]
+                                                //                         .user
+                                                //                         .avatar,
+                                                //                   )
+                                                //                 : const PhotoReplyUserNoPhoto(),
+                                                //           )
+                                                //         ],
+                                                //       )
+                                                //     : state.totalfollowers == 1
+                                                //         ? Container(
+                                                //             margin:
+                                                //                 const EdgeInsets
+                                                //                     .only(
+                                                //                     left: 0),
+                                                //             child: (state
+                                                //                     .userFollowers[
+                                                //                         0]
+                                                //                     .user
+                                                //                     .avatarchek
+                                                //                     .isNotEmpty)
+                                                //                 ? ImageReplyUser(
+                                                //                     photo: state
+                                                //                         .userFollowers[
+                                                //                             0]
+                                                //                         .user
+                                                //                         .avatar,
+                                                //                   )
+                                                //                 : const PhotoReplyUserNoPhoto(),
+                                                //           )
+                                                //         : Container(
                                                             
-                                                          ),
+                                                //           ),
                                                 SizedBox(
                                                   width:
                                                       state.totalfollowers == 0? 0: state.totalfollowers == 1? 10:20
@@ -385,18 +386,21 @@ class ProfileUser extends StatelessWidget {
                     body: TabBarView(children: [
                       CustomScrollView(
                         slivers: [
-                          (state.post.isNotEmpty)
-                              ? SliverList.builder(
-                                  itemCount: state.post.length,
-                                  itemBuilder: (context, index) {
-                                    return PostList(
-                                      postEntity: state.post[index],
-                                      onTabNameUser: () {},
-                                      onTabmore: (){}
-                                    );
-                                  },
-                                )
-                              : SliverToBoxAdapter(
+
+                          // (state.post.isNotEmpty)
+                          //     ? SliverList.builder(
+                          //         itemCount: state.post.length,
+                          //         itemBuilder: (context, index) {
+                          //           return PostList(
+                          //             onTabLike: (){},
+                          //             postEntity: state.post[index],
+                          //             onTabNameUser: () {},
+                          //             onTabmore: (){}
+                          //           );
+                          //         },
+                          //       )
+                          //     :
+                               SliverToBoxAdapter(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 40),
                                     child: Center(

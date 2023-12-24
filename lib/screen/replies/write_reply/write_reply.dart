@@ -89,10 +89,11 @@ class WriteReply extends StatelessWidget {
                               )),
                             ),
                           );
+                          
                           BlocProvider.of<ReplyBloc>(context).add(
                               ReplyRefreshEvent(
                                   postId: postEntity.id,
-                                  user: AuthRepository.readid()));
+                                  ));
                         } else if (state is WriteReplyErrorState) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

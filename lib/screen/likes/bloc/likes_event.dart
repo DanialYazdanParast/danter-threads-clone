@@ -13,3 +13,24 @@ class LikesStartedEvent extends LikesEvent {
   const LikesStartedEvent({required this.postId});
 }
 
+//---------------------------------------------------
+class LikedAddfollowhEvent extends LikesEvent {
+  final String myuserId;
+  final String userIdProfile;
+  
+  const LikedAddfollowhEvent({
+    required this.myuserId,
+    required this.userIdProfile,
+   
+  });
+}
+
+class LikedDelletfollowhEvent extends LikesEvent {
+  final String myuserId;
+  final String userIdProfile;
+
+  const LikedDelletfollowhEvent(
+      {required this.myuserId,
+      required this.userIdProfile,
+     });
+}

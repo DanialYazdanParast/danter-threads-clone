@@ -11,7 +11,7 @@ class ImageAndNameAndText extends StatelessWidget {
       required this.onTabNameUser,
       required this.onTabmore});
 
-  final PostEntity postEntity;
+   final PostEntity postEntity;
   final GestureTapCallback onTabNameUser;
   final GestureTapCallback onTabmore;
 

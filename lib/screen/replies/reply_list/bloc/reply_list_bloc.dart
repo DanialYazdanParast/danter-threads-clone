@@ -51,7 +51,7 @@ class ReplyListBloc extends Bloc<ReplyListEvent, ReplyListState> {
         }
       }else if (event is RemoveLikeReplyListEvent) {
         try {
-           await postRepository.deleteLike(event.likeId);    
+         //  await postRepository.deleteLike( event.likeId);    
 
           final totallike = await postRepository.getPosttotalLike(event.postId);
           final totareplise =

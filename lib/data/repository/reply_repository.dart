@@ -4,7 +4,9 @@ import 'package:danter/data/model/post.dart';
 abstract class IReplyRepository {
   Future<List<PostEntity>> getReply(String postId);
 
-  Future<void> sendPostReply(String userId, String text, String postid, image);
+  Future<String> sendPostReply(String userId, String text, String postid, image);
+  
+  Future<void> sendidReplyToPost(String idReply, String postId);
 }
 
 class ReplyRepository implements IReplyRepository {
@@ -18,7 +20,12 @@ class ReplyRepository implements IReplyRepository {
   }
 
   @override
-  Future<void> sendPostReply(String userId, String text, String postid, image) {
+  Future<String> sendPostReply(String userId, String text, String postid, image) {
     return dataSource.sendPostReply(userId, text, postid, image);
+  }
+  
+  @override
+  Future<void> sendidReplyToPost(String idReply, String postId) {
+    return dataSource.sendidReplyToPost(idReply, postId);
   }
 }

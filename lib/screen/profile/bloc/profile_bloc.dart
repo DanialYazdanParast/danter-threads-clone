@@ -16,10 +16,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         try {
           emit(ProfileLodingState());
           final post = await postRepository.getPostProfile(event.user);
-          final totalfollowers =
-              await postRepository.getTotalfollowers(event.user);
           final follwers = await postRepository.geAllfollowers(event.user);
-          emit(ProfileSuccesState(post, totalfollowers, follwers));
+          final reply = await postRepository.getAllReply(event.user);
+          emit(ProfileSuccesState(post, follwers, reply));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));
@@ -27,10 +26,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } else if (event is ProfileRefreshEvent) {
         try {
           final post = await postRepository.getPostProfile(event.user);
-          final totalfollowers =
-              await postRepository.getTotalfollowers(event.user);
           final follwers = await postRepository.geAllfollowers(event.user);
-          emit(ProfileSuccesState(post, totalfollowers, follwers));
+          final reply = await postRepository.getAllReply(event.user);
+          emit(ProfileSuccesState(post, follwers, reply));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));
@@ -39,13 +37,68 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         try {
           await postRepository.deletePost(event.postid);
           final post = await postRepository.getPostProfile(event.user);
-          final totalfollowers =
-              await postRepository.getTotalfollowers(event.user);
           final follwers = await postRepository.geAllfollowers(event.user);
-          emit(ProfileSuccesState(post, totalfollowers, follwers));
+          final reply = await postRepository.getAllReply(event.user);
+          emit(ProfileSuccesState(post, follwers, reply));
         } catch (e) {
           emit(ProfileErrorState(
               exception: e is AppException ? e : AppException()));
+        }
+      } else if (event is AddLikeProfileEvent ||
+          event is RemoveLikeProfileEvent ||
+          event is AddLikeReplyToProfileEvent ||
+          event is RemoveLikeReplyToProfileEvent ||
+          event is AddLikeMyReplyProfileEvent ||
+          event is RemoveLikeMyReplyProfileEvent) {
+        if (state is ProfileSuccesState) {
+          final successState = (state as ProfileSuccesState);
+          if (event is AddLikeProfileEvent) {
+            await postRepository.addLike(event.user, event.postId);
+            successState.post
+                .firstWhere((element) => element.id == event.postId)
+                .likes
+                .add(event.user);
+          } else if (event is RemoveLikeProfileEvent) {
+            await postRepository.deleteLike(event.user, event.postId);
+
+            successState.post
+                .firstWhere((element) => element.id == event.postId)
+                .likes
+                .remove(event.user);
+          } else if (event is AddLikeReplyToProfileEvent) {
+            await postRepository.addLike(event.user, event.postId);
+            successState.reply
+                .where((element) => element.replyTo.id == event.postId)
+                .forEach((element) {
+              element.replyTo.likes.add(event.user);
+            });
+          } else if (event is RemoveLikeReplyToProfileEvent) {
+            await postRepository.deleteLike(event.user, event.postId);
+
+            successState.reply
+                .where((element) => element.replyTo.id == event.postId)
+                .forEach((element) {
+              element.replyTo.likes.remove(event.user);
+            });
+          } else if (event is AddLikeMyReplyProfileEvent) {
+            await postRepository.addLike(event.user, event.postId);
+            successState.reply
+                .where((element) => element.myReply.id == event.postId)
+                .forEach((element) {
+              element.myReply.likes.add(event.user);
+            });
+          } else if (event is RemoveLikeMyReplyProfileEvent) {
+            await postRepository.deleteLike(event.user, event.postId);
+
+            successState.reply
+                .where((element) => element.myReply.id == event.postId)
+                .forEach((element) {
+              element.myReply.likes.remove(event.user);
+            });
+          }
+
+          emit(ProfileSuccesState(successState.post, successState.userFollowers,
+              successState.reply));
         }
       }
     });

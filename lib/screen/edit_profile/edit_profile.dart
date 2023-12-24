@@ -145,12 +145,17 @@ class _EditProfileState extends State<EditProfile> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text('Name'),
-                                    Text(name),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text('Name'),
+                                      Padding(
+                                        padding: const  EdgeInsets.only(right: 10),
+                                        child: Text(name),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 (AuthRepository.loadAuthInfo()!
                                         .avatarchek
@@ -218,8 +223,7 @@ class _EditProfileState extends State<EditProfile> {
                               builder: (context) => BlocProvider.value(
                                 value: editProfileBloc,
                                 child: EditScreenFild(
-                                   bio: bio
-                                          ,
+                                   bio: bio == '+ Writr bio'?'':bio,
                                   name: name,
                                   nameFild: 'Bio',
                                 ),

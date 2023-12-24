@@ -1,44 +1,48 @@
 part of 'reply_bloc.dart';
 
-sealed class ReplyEvent extends Equatable {
+sealed class ReplyEvent {
   const ReplyEvent();
 
-  @override
-  List<Object> get props => [];
 }
 
 class ReplyStartedEvent extends ReplyEvent {
   final String postId;
-  final String user;
-  const ReplyStartedEvent({required this.postId,required this.user});
+ 
+  const ReplyStartedEvent({required this.postId,});
 }
 
 class ReplyRefreshEvent extends ReplyEvent {
   final String postId;
-  final String user;
-  const ReplyRefreshEvent({required this.postId,required this.user});
+
+  const ReplyRefreshEvent({required this.postId,});
 }
 
-class AddLikeReplyEvent extends ReplyEvent {
-  final String postId;
-  final String user;
-  AddLikeReplyEvent({required this.postId, required this.user});
+//-------------------------------------------------
 
-  @override
-  List<Object> get props => [postId, user];
+class AddLikePostEvent extends ReplyEvent {
+   final String postId;
+  final String user;
+   AddLikePostEvent( {required this.postId, required this.user,});
 }
 
-class RemoveLikeReplyEvent extends ReplyEvent {
+class RemoveLikePostEvent extends ReplyEvent {
+   final String postId;
+  final String user;
+   RemoveLikePostEvent( {required this.postId, required this.user,});
+
+}
+
+//-------------------------------------------------
+class AddLikeRplyEvent extends ReplyEvent {
+   final String postId;
+  final String user;
+   AddLikeRplyEvent( {required this.postId, required this.user,});
+
+}
+
+class RemoveLikeRplyEvent extends ReplyEvent {
   final String postId;
   final String user;
-  final String likeId;
+   RemoveLikeRplyEvent({required this.postId, required this.user,});
 
-  RemoveLikeReplyEvent({
-    required this.postId,
-    required this.user,
-    required this.likeId,
-  });
-
-  @override
-  List<Object> get props => [postId, user];
 }
