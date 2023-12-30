@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     IPostRepository postRepository = locator.get();
-    postRepository.geAllfollowers('5gwbvyf4alm3lxs',).then((value) {
+    postRepository.getUser('5gwbvyf4alm3lxs',).then((value) {
       debugPrint(value.toString());
     }).catchError((e) {
       debugPrint(e.toString());
@@ -54,7 +54,8 @@ class MyApp extends StatelessWidget {
               ),
               iconColor: LightThemeColors.secondaryTextColor,
               border: InputBorder.none,
-              floatingLabelBehavior: FloatingLabelBehavior.never),
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              ),
           //-----------------------------------
 
           appBarTheme: const AppBarTheme(

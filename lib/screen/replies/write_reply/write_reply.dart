@@ -9,6 +9,7 @@ import 'package:danter/screen/replies/write_reply/bloc/write_reply_bloc.dart';
 import 'package:danter/screen/write/bloc/write_bloc.dart';
 import 'package:danter/screen/write/write_screen.dart';
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/image_post.dart';
 import 'package:danter/widgets/write.dart';
 import 'package:danter/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WriteReply extends StatelessWidget {
   final PostEntity postEntity;
-  WriteReply({super.key, required this.postEntity});
+  final String namePage;
+
+  WriteReply({super.key, required this.postEntity, required this.namePage});
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -89,11 +92,14 @@ class WriteReply extends StatelessWidget {
                               )),
                             ),
                           );
-                          
-                          BlocProvider.of<ReplyBloc>(context).add(
+                          if(namePage == 'reply'){
+                            BlocProvider.of<ReplyBloc>(context).add(
                               ReplyRefreshEvent(
                                   postId: postEntity.id,
                                   ));
+                          }
+                          
+
                         } else if (state is WriteReplyErrorState) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -237,72 +243,7 @@ class PostWrite extends StatelessWidget {
                   ],
                 ),
               ),
-              postEntity.image.isNotEmpty && postEntity.image.length < 2
-                  ? Padding(
-                      padding: const EdgeInsets.only(
-                          right: 10, left: 65, bottom: 10, top: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context, rootNavigator: true)
-                              .push(MaterialPageRoute(
-                            builder: (context) => ImageScreen(
-                              image:
-                                  'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                            ),
-                          ));
-                        },
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: SizedBox(
-                              child: ImageLodingService(
-                                imageUrl:
-                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                              ),
-                            )),
-                      ),
-                    )
-                  : postEntity.image.length > 1
-                      ? SizedBox(
-                          height: 260,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: postEntity.image.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 10,
-                                      bottom: 10,
-                                      left: (index == 0) ? 65 : 10,
-                                      right:
-                                          (index == postEntity.image.length - 1)
-                                              ? 10
-                                              : 0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: SizedBox(
-                                      width: 200,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context,
-                                                  rootNavigator: true)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) => ImageScreen(
-                                              image:
-                                                  'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                            ),
-                                          ));
-                                        },
-                                        child: ImageLodingService(
-                                          imageUrl:
-                                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                        ),
-                                      ),
-                                    ),
-                                  ));
-                            },
-                          ),
-                        )
-                      : Container(),
+             ImagePost(postEntity: postEntity),
             ],
           ),
         ],

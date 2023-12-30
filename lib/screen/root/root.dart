@@ -88,40 +88,44 @@ class _RootScreenState extends State<RootScreen> {
                     height: 26,
                     width: 26,
                     child: Image.asset('assets/images/home.png',
-                        color: const Color(0xffB8B8B8)),
+                        color: const Color(0xffB8B8B8)
+                        ),
                   ),
                   activeIcon: SizedBox(
                     height: 26,
                     width: 26,
                     child: Image.asset(
-                      'assets/images/home_activ.png',
+                      'assets/images/home_activ (2).png',
+                        color:  Colors.black
                     ),
                   ),
                   label: ''),
               BottomNavigationBarItem(
                   icon: SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Image.asset('assets/images/write.png',
-                        color: const Color(0xffB8B8B8)),
+                    height: 25,
+                    width: 25,
+                    child: Image.asset('assets/images/write (2).png',
+                        color: const Color(0xffB8B8B8)
+                ),
                   ),
                   activeIcon: SizedBox(
-                    height: 24,
-                    width: 24,
+                    height: 25,
+                    width: 25,
                     child: Image.asset(
-                      'assets/images/write_activ.png',
+                      'assets/images/write (2).png',
+                             color:  Colors.black
                     ),
                   ),
                   label: ''),
               const BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.person, color: Color(0xffB8B8B8)),
-                  activeIcon: Icon(CupertinoIcons.person_fill),
+                  icon: Icon(CupertinoIcons.person, color: Color(0xffB8B8B8) ,size: 28),
+                  activeIcon: Icon(CupertinoIcons.person_fill ,size: 28,),
                   label: ''),
             ],
             elevation: 0,
             showSelectedLabels: false,
             showUnselectedLabels: false,
-            iconSize: 26,
+       //     iconSize: 28,
             backgroundColor: Colors.white,
             currentIndex: selectedScreenIndex,
             onTap: (selectedIndex) {

@@ -40,8 +40,8 @@ class LikedDetailScreen extends StatelessWidget {
                 Text(user.name == '' ? user.username : user.name!,
                     style: Theme.of(context)
                         .textTheme
-                        .headline6!
-                        .copyWith(fontWeight: FontWeight.w500, fontSize: 16)),
+                        .caption!
+                        .copyWith(fontWeight: FontWeight.w200, fontSize: 16,)),
               ],
             ),
             const Spacer(),

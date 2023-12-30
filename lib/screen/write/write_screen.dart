@@ -2,6 +2,7 @@ import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/write/bloc/write_bloc.dart';
+import 'package:danter/theme.dart';
 import 'package:danter/widgets/write.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -106,7 +107,17 @@ class WriteScreen extends StatelessWidget {
                             }
                           },
                           child: state is WriteLodingState
-                              ? const CupertinoActivityIndicator()
+                              ? const SizedBox(
+                                  height: 25,
+                                  width: 25,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color:
+                                          LightThemeColors.secondaryTextColor,
+                                    ),
+                                  ),
+                                )
                               : const Text(
                                   'Post',
                                   style: TextStyle(

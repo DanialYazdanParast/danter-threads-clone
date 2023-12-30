@@ -9,17 +9,17 @@ sealed class ProfileUserEvent extends Equatable {
 
 class ProfileUserStartedEvent extends ProfileUserEvent {
   final String myuserId;
-  final String userIdProfile;
+  final String user;
   const ProfileUserStartedEvent(
    {required this.myuserId,
-   required this.userIdProfile,}
+   required this.user,}
   );
 }
 
 class ProfileUserRefreshEvent extends ProfileUserEvent {
    final String myuserId;
-  final String userIdProfile;
-  const ProfileUserRefreshEvent({required this.myuserId,required this.userIdProfile,});
+  final String user;
+  const ProfileUserRefreshEvent({required this.myuserId,required this.user,});
 }
 
 
@@ -35,6 +35,68 @@ class ProfileUserAddfollowhEvent extends ProfileUserEvent {
 class ProfileUserDelletfollowhEvent extends ProfileUserEvent {
    final String myuserId;
   final String userIdProfile;
-  final String followId;
-  const ProfileUserDelletfollowhEvent({required this.myuserId,required this.userIdProfile,required this.followId});
+
+  const ProfileUserDelletfollowhEvent({required this.myuserId,required this.userIdProfile,});
 }
+
+
+
+///----------------------------
+class AddLikeProfileUserEvent extends ProfileUserEvent {
+   final String postId;
+  final String user;
+  AddLikeProfileUserEvent(
+      {required this.postId, required this.user,});
+}
+
+class RemoveLikeProfileUserEvent extends ProfileUserEvent {
+   final String postId;
+  final String user;
+
+  RemoveLikeProfileUserEvent(
+      {required this.postId,
+      required this.user,
+      });
+}
+//-------------------------
+
+
+class AddLikeReplyToProfileUserEvent extends ProfileUserEvent {
+   final String postId;
+  final String user;
+  AddLikeReplyToProfileUserEvent(
+      {required this.postId, required this.user, });
+}
+
+class RemoveLikeReplyToProfileUserEvent extends ProfileUserEvent {
+   final String postId;
+  final String user;
+
+  RemoveLikeReplyToProfileUserEvent(
+      {required this.postId,
+      required this.user,
+     });
+}
+
+//-------------------------
+
+
+class AddLikeMyReplyProfileUserEvent extends ProfileUserEvent {
+  final String postId;
+  final String user;
+
+  AddLikeMyReplyProfileUserEvent(
+      {required this.postId, required this.user, });
+}
+
+class RemoveLikeMyReplyProfileUserEvent extends ProfileUserEvent {
+   final String postId;
+  final String user;
+
+
+  RemoveLikeMyReplyProfileUserEvent(
+      {required this.postId,
+      required this.user,
+       });
+}
+

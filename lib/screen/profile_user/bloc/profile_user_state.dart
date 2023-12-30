@@ -16,12 +16,11 @@ class ProfileUserErrorState extends ProfileUserState {
 }
 
 class ProfileUserSuccesState extends ProfileUserState {
-    final List<PostEntityAll> post;
-    final int totalfollowers;
-    int truefollowing;
-    final List<FollowId> followId;
-       final List<Followers> userFollowers;
+      final List<PostEntity> post;
+    List<Followers> userFollowers;
+    final List<PostReply> reply;
+    final User user;
 
-   ProfileUserSuccesState(this.post, this.totalfollowers ,this.truefollowing, this.followId, this.userFollowers);
+   ProfileUserSuccesState(this.post, this.userFollowers ,this.reply, this.user);
 
 }

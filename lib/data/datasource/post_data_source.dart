@@ -42,6 +42,7 @@ abstract class IPostDataSource {
   Future<List<PostEntityAll>> getAllReplyProfile(String userId);
   Future<List<PostReply>> getAllReply(String userId);
   Future<void> removeFollow(String myuserId, String userIdProfile);
+  Future<User> getUser(String userId);
 }
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
@@ -178,16 +179,14 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
 
   @override
   Future<void> addLike(String userId, String postid) async {
-   await _dio
+    await _dio
         .patch('collections/post/records/$postid', data: {"likes+": userId});
-   
   }
 
   @override
   Future<void> deleteLike(String userId, String postid) async {
-     await _dio
+    await _dio
         .patch('collections/post/records/$postid', data: {"likes-": userId});
- 
   }
 
   @override
@@ -548,16 +547,22 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
 
   @override
   Future<void> removeFollow(String myuserId, String userIdProfile) async {
-   
-    final response = await _dio.patch(
-        'collections/users/records/$myuserId',
+    final response = await _dio.patch('collections/users/records/$myuserId',
         data: {"followers-": userIdProfile});
     validatResponse(response);
-   
+
     final response2 = await _dio.patch(
         'collections/users/records/$userIdProfile',
         data: {"following-": myuserId});
 
     validatResponse(response2);
+  }
+
+  @override
+  Future<User> getUser(String userId) async {
+   
+    final response =
+        await _dio.get('collections/users/records/$userId' );
+    return User.fromJson(response.data);
   }
 }

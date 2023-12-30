@@ -109,13 +109,20 @@ class _FildWriteState extends State<FildWrite> {
                               ),
                             ),
                             const SizedBox(
-                              height: 14,
+                              height: 5,
                             ),
                             GestureDetector(
                                 onTap: () {
                                   _pickImage();
                                 },
-                                child: const Icon(Icons.add_a_photo_outlined)),
+                                child:   SizedBox(
+                                  height: 35,
+                                  width: 35,
+                                  child: Image.asset(
+                                                      'assets/images/paperclip.png',
+                                                      
+                                                    ),
+                                ),),
                             const SizedBox(
                               height: 10,
                             ),

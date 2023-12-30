@@ -5,6 +5,7 @@ import 'package:danter/screen/likes/likes_detail_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
+import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,17 @@ class _LikesScreenState extends State<LikesScreen> {
                   },
                 );
               } else if (state is LikesLodingState) {
-                return Center(child: CupertinoActivityIndicator());
+                return const Center(
+                  child: SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 1.5,
+                                      color:
+                                          LightThemeColors.secondaryTextColor,
+                                    ),
+                                  ),
+                );
               } else if (state is LikesErrorState) {
                 return AppErrorWidget(
                   exception: state.exception,

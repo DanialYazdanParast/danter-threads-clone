@@ -36,7 +36,8 @@ abstract class IPostRepository {
 
  Future<List<PostEntity>> getPostReply(String postId);
  Future<List<PostEntity>> getReplyPost(String postId);
-   Future<void> removeFollow(String myuserId, String userIdProfile);
+ Future<void> removeFollow(String myuserId, String userIdProfile);
+ Future<User> getUser(String userId);
 }
 
 class PostRepository implements IPostRepository {
@@ -187,5 +188,10 @@ class PostRepository implements IPostRepository {
   @override
   Future<void> removeFollow(String myuserId, String userIdProfile) {
     return dataSource.removeFollow(myuserId,userIdProfile);
+  }
+  
+  @override
+  Future<User> getUser(String userId) {
+     return dataSource.getUser(userId);
   }
 }

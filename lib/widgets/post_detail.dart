@@ -7,12 +7,15 @@ import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
+import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/Row_Image_Name_Text.dart';
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/image_post.dart';
 import 'package:danter/widgets/photoUserFollowers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostDetail extends StatelessWidget {
@@ -24,7 +27,6 @@ class PostDetail extends StatelessWidget {
   const PostDetail({
     super.key,
     required this.postEntity,
-   
     required this.onTabmore,
     required this.onTabLike,
   });
@@ -58,126 +60,62 @@ class PostDetail extends StatelessWidget {
               children: [
                 ImageAndNameAndText(
                     postEntity: postEntity,
-                   
-                                onTabNameUser: () {
-                    if (postEntity.user.id == AuthRepository.readid()) {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return BlocProvider(
-                              create: (context) => ProfileBloc(locator.get()),
-                              child: ProfileScreen(
-                                  profileBloc: ProfileBloc(locator.get())),
-                            );
-                          },
-                        ),
-                      );
-                    } else {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ProfileUser(
-                              user: postEntity.user,
-                            );
-                          },
-                        ),
-                      );
-                    }
-             
+                    onTabNameUser: () {
+                      if (postEntity.user.id == AuthRepository.readid()) {
+                        Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return BlocProvider(
+                                create: (context) => ProfileBloc(locator.get()),
+                                child: ProfileScreen(
+                                    profileBloc: ProfileBloc(locator.get())),
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ProfileUser(
+                                user: postEntity.user,
+                              );
+                            },
+                          ),
+                        );
+                      }
                     },
                     onTabmore: onTabmore),
-                postEntity.image.isNotEmpty && postEntity.image.length < 2
-                    ? Padding(
-                        padding: const EdgeInsets.only(
-                            right: 10, left: 65, bottom: 10),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context, rootNavigator: true)
-                                .push(MaterialPageRoute(
-                              builder: (context) => ImageScreen(
-                                image:
-                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                              ),
-                            ));
-                          },
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: SizedBox(
-                                child: ImageLodingService(
-                                  imageUrl:
-                                      'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                                ),
-                              )),
-                        ),
-                      )
-                    : postEntity.image.length > 1
-                        ? SizedBox(
-                            height: 260,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: postEntity.image.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 10,
-                                        left: (index == 0) ? 65 : 10,
-                                        right: (index ==
-                                                postEntity.image.length - 1)
-                                            ? 10
-                                            : 0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: SizedBox(
-                                        width: 200,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context,
-                                                    rootNavigator: true)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) => ImageScreen(
-                                                image:
-                                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                              ),
-                                            ));
-                                          },
-                                          child: ImageLodingService(
-                                            imageUrl:
-                                                'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                          ),
-                                        ),
-                                      ),
-                                    ));
-                              },
-                            ),
-                          )
-                        : Container(),
+                ImagePost(postEntity: postEntity),
                 Padding(
                   padding: const EdgeInsets.only(left: 65),
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: onTabLike,
-                        child: Container(
-                          child:
-                              postEntity.likes.contains(AuthRepository.readid())
-                                  ? const Icon(CupertinoIcons.heart_fill,
-                                      color: Colors.red, size: 24)
-                                  : const Icon(
-                                      CupertinoIcons.heart,
-                                      size: 24,
-                                    ),
-                        ),
-                      ),
+                      LikeButton(postEntity: postEntity, onTabLike: onTabLike),
+
+                      // GestureDetector(
+                      //   onTap: onTabLike,
+                      //   child: Container(
+                      //     child:
+                      //         postEntity.likes.contains(AuthRepository.readid())
+                      //             ? const Icon(CupertinoIcons.heart_fill,
+                      //                 color: Colors.red, size: 24)
+                      //             : const Icon(
+                      //                 CupertinoIcons.heart,
+                      //                 size: 24,
+                      //               ),
+                      //   ),
+                      // ),
                       const SizedBox(
                         width: 18,
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigator.of(context, rootNavigator: true)
-                          //     .push(MaterialPageRoute(
-                          //   builder: (context) =>
-                          //       WriteReply(postEntity: postEntity),
-                          // ));
+                          Navigator.of(context, rootNavigator: true)
+                              .push(MaterialPageRoute(
+                            builder: (context) => WriteReply(
+                                postEntity: postEntity, namePage: ''),
+                          ));
                         },
                         child: SizedBox(
                           height: 22,
@@ -199,21 +137,18 @@ class PostDetail extends StatelessWidget {
                           ? Stack(
                               clipBehavior: Clip.none,
                               children: [
-                                (postEntity
-                                        .replies[0].avatarchek.isNotEmpty)
+                                (postEntity.replies[0].avatarchek.isNotEmpty)
                                     ? ImageReplyUser(
-                                        photo:
-                                            postEntity.replies[0].avatar,
+                                        photo: postEntity.replies[0].avatar,
                                       )
                                     : const PhotoReplyUserNoPhoto(),
                                 Positioned(
                                   left: 13,
                                   bottom: 0,
-                                  child: (postEntity.replies[1].avatarchek
-                                          .isNotEmpty)
+                                  child: (postEntity
+                                          .replies[1].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
-                                          photo:
-                                              postEntity.replies[1].avatar,
+                                          photo: postEntity.replies[1].avatar,
                                         )
                                       : const PhotoReplyUserNoPhoto(),
                                 )
@@ -222,11 +157,10 @@ class PostDetail extends StatelessWidget {
                           : postEntity.replies.length == 1
                               ? Container(
                                   margin: const EdgeInsets.only(left: 8),
-                                  child: (postEntity.replies[0].avatarchek
-                                          .isNotEmpty)
+                                  child: (postEntity
+                                          .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
-                                          photo:
-                                              postEntity.replies[0].avatar,
+                                          photo: postEntity.replies[0].avatar,
                                         )
                                       : const PhotoReplyUserNoPhoto(),
                                 )
@@ -285,5 +219,44 @@ class PostDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class LikeButton extends StatefulWidget {
+  const LikeButton(
+      {super.key, required this.postEntity, required this.onTabLike});
+  final PostEntity postEntity;
+  final GestureTapCallback onTabLike;
+
+  @override
+  State<LikeButton> createState() => _LikeButtonState();
+}
+
+class _LikeButtonState extends State<LikeButton> {
+  // void togglrButton() {
+  //   setState(() {
+  //     liked = !liked;
+  //   });
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    bool liked = widget.postEntity.likes.contains(AuthRepository.readid());
+    return GestureDetector(
+        onTap: widget.onTabLike,
+        child: liked
+            ? const Icon(CupertinoIcons.heart_fill, color: Colors.red, size: 20)
+                .animate(target: liked ? 1 : 0)
+                .scaleXY(duration: 400.ms, begin: 1.0, end: 1.2)
+                .then()
+                .scaleXY(duration: 400.ms, begin: 1.2, end: 1.0)
+            : const Icon(
+                CupertinoIcons.heart,
+                size: 20,
+              )
+                .animate(target: liked ? 1 : 0)
+                .scaleXY(duration: 400.ms, begin: 1.0, end: 1.2)
+                .then()
+                .scaleXY(duration: 400.ms, begin: 1.2, end: 1.0));
   }
 }

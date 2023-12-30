@@ -1,18 +1,26 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/di/di.dart';
 
 import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/likes/likes_Screen.dart';
+import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+import 'package:danter/screen/profile/profile_screen.dart';
+import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
+import 'package:danter/screen/replies/write_reply/write_reply.dart';
 
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/Row_Image_Name_Text.dart';
 
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/image_post.dart';
 import 'package:danter/widgets/photoUserFollowers.dart';
+import 'package:danter/widgets/post_detail.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RepliseDtaile extends StatelessWidget {
   final PostReply postEntity;
@@ -24,43 +32,90 @@ class RepliseDtaile extends StatelessWidget {
     super.key,
     required this.postEntity,
     required this.onTabNameUser,
-    required this.onTabmore, required this.onTabLikeReplyTo, required this.onTabLikeMyReply,
-   
+    required this.onTabmore,
+    required this.onTabLikeReplyTo,
+    required this.onTabLikeMyReply,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        
-      },
+      onTap: () {},
       child: Column(
         children: [
           ReplyTo(
             onTabLike: onTabLikeReplyTo,
-            onTabNameUser: () {},
+            onTabNameUser: () {
+              if (postEntity.replyTo.user.id == AuthRepository.readid()) {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return BlocProvider(
+                        create: (context) => ProfileBloc(locator.get()),
+                        child: ProfileScreen(
+                            profileBloc: ProfileBloc(locator.get())),
+                      );
+                    },
+                  ),
+                );
+              } else {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ProfileUser(
+                        user: postEntity.replyTo.user,
+                      );
+                    },
+                  ),
+                );
+              }
+            },
             onTabmore: () {},
             postEntity: postEntity.replyTo,
             onTaNavigator: () {
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-          builder: (context) => RepliesScreen(
-            postEntity: postEntity.replyTo,
-          ),
-        ));
-      },
+              Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                builder: (context) => RepliesScreen(
+                  postEntity: postEntity.replyTo,
+                ),
+              ));
+            },
           ),
           MyReply(
-            onTabLike:onTabLikeMyReply,
-            onTabNameUser: () {},
+            onTabLike: onTabLikeMyReply,
+            onTabNameUser: () {
+              if (postEntity.myReply.user.id == AuthRepository.readid()) {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return BlocProvider(
+                        create: (context) => ProfileBloc(locator.get()),
+                        child: ProfileScreen(
+                            profileBloc: ProfileBloc(locator.get())),
+                      );
+                    },
+                  ),
+                );
+              } else {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ProfileUser(
+                        user: postEntity.myReply.user,
+                      );
+                    },
+                  ),
+                );
+              }
+            },
             onTabmore: () {},
             postEntity: postEntity.myReply,
-            onTaNavigator:  () {
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-          builder: (context) => RepliesScreen(
-            postEntity: postEntity.replyTo,
-          ),
-        ));
-      },
+            onTaNavigator: () {
+              Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                builder: (context) => RepliesScreen(
+                  postEntity: postEntity.replyTo,
+                ),
+              ));
+            },
           ),
         ],
       ),
@@ -74,17 +129,18 @@ class MyReply extends StatelessWidget {
       required this.onTabLike,
       required this.onTabNameUser,
       required this.onTabmore,
-      required this.postEntity, required this.onTaNavigator});
+      required this.postEntity,
+      required this.onTaNavigator});
   final GestureTapCallback onTabLike;
   final GestureTapCallback onTabNameUser;
   final GestureTapCallback onTabmore;
   final PostEntity postEntity;
-    final GestureTapCallback onTaNavigator;
+  final GestureTapCallback onTaNavigator;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTaNavigator ,
+      onTap: onTaNavigator,
       child: Container(
         width: MediaQuery.of(context).size.width,
         color: Colors.white,
@@ -106,98 +162,22 @@ class MyReply extends StatelessWidget {
                     postEntity: postEntity,
                     onTabNameUser: onTabNameUser,
                     onTabmore: onTabmore),
-                postEntity.image.isNotEmpty && postEntity.image.length < 2
-                    ? Padding(
-                        padding: const EdgeInsets.only(
-                            right: 10, left: 65, bottom: 10),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context, rootNavigator: true)
-                                .push(MaterialPageRoute(
-                              builder: (context) => ImageScreen(
-                                image:
-                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                              ),
-                            ));
-                          },
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: SizedBox(
-                                child: ImageLodingService(
-                                  imageUrl:
-                                      'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                                ),
-                              )),
-                        ),
-                      )
-                    : postEntity.image.length > 1
-                        ? SizedBox(
-                            height: 260,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: postEntity.image.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 10,
-                                        left: (index == 0) ? 65 : 10,
-                                        right: (index ==
-                                                postEntity.image.length - 1)
-                                            ? 10
-                                            : 0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: SizedBox(
-                                        width: 200,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context,
-                                                    rootNavigator: true)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) => ImageScreen(
-                                                image:
-                                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                              ),
-                                            ));
-                                          },
-                                          child: ImageLodingService(
-                                            imageUrl:
-                                                'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                          ),
-                                        ),
-                                      ),
-                                    ));
-                              },
-                            ),
-                          )
-                        : Container(),
+               ImagePost(postEntity: postEntity),
                 Padding(
                   padding: const EdgeInsets.only(left: 65),
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: onTabLike,
-                        child: Container(
-                          child:
-                              postEntity.likes.contains(AuthRepository.readid())
-                                  ? const Icon(CupertinoIcons.heart_fill,
-                                      color: Colors.red, size: 24)
-                                  : const Icon(
-                                      CupertinoIcons.heart,
-                                      size: 24,
-                                    ),
-                        ),
-                      ),
+                        LikeButton(postEntity: postEntity,onTabLike: onTabLike),
                       const SizedBox(
                         width: 18,
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigator.of(context, rootNavigator: true)
-                          //     .push(MaterialPageRoute(
-                          //   builder: (context) =>
-                          //       WriteReply(postEntity: postEntity),
-                          // ));
+                          Navigator.of(context, rootNavigator: true)
+                              .push(MaterialPageRoute(
+                            builder: (context) => WriteReply(
+                                postEntity: postEntity, namePage: ''),
+                          ));
                         },
                         child: SizedBox(
                           height: 22,
@@ -219,21 +199,18 @@ class MyReply extends StatelessWidget {
                           ? Stack(
                               clipBehavior: Clip.none,
                               children: [
-                                (postEntity
-                                        .replies[0].avatarchek.isNotEmpty)
+                                (postEntity.replies[0].avatarchek.isNotEmpty)
                                     ? ImageReplyUser(
-                                        photo:
-                                            postEntity.replies[0].avatar,
+                                        photo: postEntity.replies[0].avatar,
                                       )
                                     : const PhotoReplyUserNoPhoto(),
                                 Positioned(
                                   left: 13,
                                   bottom: 0,
-                                  child: (postEntity.replies[1].avatarchek
-                                          .isNotEmpty)
+                                  child: (postEntity
+                                          .replies[1].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
-                                          photo:
-                                              postEntity.replies[1].avatar,
+                                          photo: postEntity.replies[1].avatar,
                                         )
                                       : const PhotoReplyUserNoPhoto(),
                                 )
@@ -242,11 +219,10 @@ class MyReply extends StatelessWidget {
                           : postEntity.replies.length == 1
                               ? Container(
                                   margin: const EdgeInsets.only(left: 8),
-                                  child: (postEntity.replies[0].avatarchek
-                                          .isNotEmpty)
+                                  child: (postEntity
+                                          .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
-                                          photo:
-                                              postEntity.replies[0].avatar,
+                                          photo: postEntity.replies[0].avatar,
                                         )
                                       : const PhotoReplyUserNoPhoto(),
                                 )
@@ -308,23 +284,19 @@ class MyReply extends StatelessWidget {
   }
 }
 
-
-
-
-
-
 class ReplyTo extends StatelessWidget {
   const ReplyTo(
       {super.key,
       required this.onTabLike,
       required this.onTabNameUser,
       required this.onTabmore,
-      required this.postEntity, required this.onTaNavigator});
+      required this.postEntity,
+      required this.onTaNavigator});
   final GestureTapCallback onTabLike;
   final GestureTapCallback onTabNameUser;
   final GestureTapCallback onTabmore;
   final PostEntity postEntity;
-    final GestureTapCallback onTaNavigator;
+  final GestureTapCallback onTaNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -351,98 +323,22 @@ class ReplyTo extends StatelessWidget {
                     postEntity: postEntity,
                     onTabNameUser: onTabNameUser,
                     onTabmore: onTabmore),
-                postEntity.image.isNotEmpty && postEntity.image.length < 2
-                    ? Padding(
-                        padding: const EdgeInsets.only(
-                            right: 10, left: 65, bottom: 10),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context, rootNavigator: true)
-                                .push(MaterialPageRoute(
-                              builder: (context) => ImageScreen(
-                                image:
-                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                              ),
-                            ));
-                          },
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: SizedBox(
-                                child: ImageLodingService(
-                                  imageUrl:
-                                      'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                                ),
-                              )),
-                        ),
-                      )
-                    : postEntity.image.length > 1
-                        ? SizedBox(
-                            height: 260,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: postEntity.image.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 10,
-                                        left: (index == 0) ? 65 : 10,
-                                        right: (index ==
-                                                postEntity.image.length - 1)
-                                            ? 10
-                                            : 0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: SizedBox(
-                                        width: 200,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context,
-                                                    rootNavigator: true)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) => ImageScreen(
-                                                image:
-                                                    'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                              ),
-                                            ));
-                                          },
-                                          child: ImageLodingService(
-                                            imageUrl:
-                                                'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                          ),
-                                        ),
-                                      ),
-                                    ));
-                              },
-                            ),
-                          )
-                        : Container(),
+              ImagePost(postEntity: postEntity),
                 Padding(
                   padding: const EdgeInsets.only(left: 65),
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: onTabLike,
-                        child: Container(
-                          child:
-                              postEntity.likes.contains(AuthRepository.readid())
-                                  ? const Icon(CupertinoIcons.heart_fill,
-                                      color: Colors.red, size: 24)
-                                  : const Icon(
-                                      CupertinoIcons.heart,
-                                      size: 24,
-                                    ),
-                        ),
-                      ),
+                         LikeButton(postEntity: postEntity,onTabLike: onTabLike),
                       const SizedBox(
                         width: 18,
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigator.of(context, rootNavigator: true)
-                          //     .push(MaterialPageRoute(
-                          //   builder: (context) =>
-                          //       WriteReply(postEntity: postEntity),
-                          // ));
+                          Navigator.of(context, rootNavigator: true)
+                              .push(MaterialPageRoute(
+                            builder: (context) => WriteReply(
+                                postEntity: postEntity, namePage: ''),
+                          ));
                         },
                         child: SizedBox(
                           height: 22,
@@ -464,21 +360,18 @@ class ReplyTo extends StatelessWidget {
                           ? Stack(
                               clipBehavior: Clip.none,
                               children: [
-                                (postEntity
-                                        .replies[0].avatarchek.isNotEmpty)
+                                (postEntity.replies[0].avatarchek.isNotEmpty)
                                     ? ImageReplyUser(
-                                        photo:
-                                            postEntity.replies[0].avatar,
+                                        photo: postEntity.replies[0].avatar,
                                       )
                                     : const PhotoReplyUserNoPhoto(),
                                 Positioned(
                                   left: 13,
                                   bottom: 0,
-                                  child: (postEntity.replies[1].avatarchek
-                                          .isNotEmpty)
+                                  child: (postEntity
+                                          .replies[1].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
-                                          photo:
-                                              postEntity.replies[1].avatar,
+                                          photo: postEntity.replies[1].avatar,
                                         )
                                       : const PhotoReplyUserNoPhoto(),
                                 )
@@ -487,11 +380,10 @@ class ReplyTo extends StatelessWidget {
                           : postEntity.replies.length == 1
                               ? Container(
                                   margin: const EdgeInsets.only(left: 8),
-                                  child: (postEntity.replies[0].avatarchek
-                                          .isNotEmpty)
+                                  child: (postEntity
+                                          .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
-                                          photo:
-                                              postEntity.replies[0].avatar,
+                                          photo: postEntity.replies[0].avatar,
                                         )
                                       : const PhotoReplyUserNoPhoto(),
                                 )
@@ -543,7 +435,6 @@ class ReplyTo extends StatelessWidget {
                     ],
                   ),
                 ),
-          
               ],
             ),
           ],

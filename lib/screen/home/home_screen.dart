@@ -1,9 +1,9 @@
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/di/di.dart';
 import 'package:danter/screen/home/bloc/home_bloc.dart';
+import 'package:danter/theme.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/post_detail.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,10 +19,15 @@ class HomeScreen extends StatelessWidget {
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state is HomeSuccesState) {
-              return RefreshIndicator(
+              return
+              RefreshIndicator(
+
                 onRefresh: () async {
+                
                   BlocProvider.of<HomeBloc>(context)
                       .add(HomeRefreshEvent(user: AuthRepository.readid()));
+
+                  await  Future.delayed(const Duration(seconds: 2));    
                 },
                 child: CustomScrollView(
                   slivers: [
@@ -64,7 +69,6 @@ class HomeScreen extends StatelessWidget {
                           },
                           onTabmore: () {},
                           postEntity: state.post[index],
-                         
                         );
                       },
                     ),
@@ -72,7 +76,35 @@ class HomeScreen extends StatelessWidget {
                 ),
               );
             } else if (state is HomeLodingState) {
-              return const Center(child: CupertinoActivityIndicator());
+              return CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    pinned: false,
+                    title: SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Image.asset(
+                          'assets/images/d.png',
+                        ),
+                      ),
+                    ),
+                    centerTitle: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Container(
+                          height: 40,
+                          width: 40,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                            color: LightThemeColors.secondaryTextColor,
+                          )),
+                    ),
+                  )
+                ],
+              );
             } else if (state is HomeErrorState) {
               return AppErrorWidget(
                 exception: state.exception,

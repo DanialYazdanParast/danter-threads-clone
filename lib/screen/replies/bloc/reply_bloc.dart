@@ -18,10 +18,7 @@ class ReplyBloc extends Bloc<ReplyEvent, ReplyState> {
         try {
           final reply = await postRepository.getReplyPost(event.postId);
           final post = await postRepository.getPostReply(event.postId);
-          emit(ReplySuccesState(
-            post,
-            reply,
-          ));
+          emit(ReplySuccesState(post, reply));
         } catch (e) {
           emit(ReplyErrorState(
               exception: e is AppException ? e : AppException()));
@@ -31,10 +28,7 @@ class ReplyBloc extends Bloc<ReplyEvent, ReplyState> {
           //    emit(ReplyLodingState());
           final reply = await postRepository.getReplyPost(event.postId);
           final post = await postRepository.getPostReply(event.postId);
-          emit(ReplySuccesState(
-            post,
-            reply,
-          ));
+          emit(ReplySuccesState(post, reply));
         } catch (e) {
           emit(ReplyErrorState(
               exception: e is AppException ? e : AppException()));

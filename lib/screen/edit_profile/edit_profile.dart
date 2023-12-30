@@ -76,9 +76,17 @@ class _EditProfileState extends State<EditProfile> {
                         }
                       },
                       child: state is LodingEditProfileState
-                          ? CircularProgressIndicator(
-                              color: Colors.black,
-                            )
+                          ? const SizedBox(
+                                  height: 22,
+                                  width: 22,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color:
+                                          LightThemeColors.secondaryTextColor,
+                                    ),
+                                  ),
+                                )
                           : Text(
                               'Done',
                               style: TextStyle(

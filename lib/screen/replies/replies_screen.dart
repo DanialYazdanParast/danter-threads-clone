@@ -12,6 +12,7 @@ import 'package:danter/theme.dart';
 
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/image_post.dart';
 import 'package:danter/widgets/image_user_post.dart';
 import 'package:danter/widgets/post_detail.dart';
 import 'package:danter/widgets/time.dart';
@@ -59,6 +60,17 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     slivers: [
                       SliverToBoxAdapter(
                         child: ThePostReply(
+                          onTabReply: () {
+                            Navigator.of(context, rootNavigator: true)
+                                .push(MaterialPageRoute(
+                              builder: (context) => BlocProvider.value(
+                                value: replyBloc,
+                                child: WriteReply(
+                                    postEntity: widget.postEntity,
+                                    namePage: 'reply'),
+                              ),
+                            ));
+                          },
                           postEntity: state.post[0],
                           onTabLike: () {
                             if (!state.post[0].likes
@@ -84,6 +96,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                         itemCount: state.reply.length,
                         itemBuilder: (context, index) {
                           return PostDetail(
+                        
                             onTabLike: () {
                               if (!state.reply[index].likes
                                   .contains(AuthRepository.readid())) {
@@ -104,7 +117,6 @@ class _RepliesScreenState extends State<RepliesScreen> {
                             },
                             onTabmore: () {},
                             postEntity: state.reply[index],
-                           
                           );
                         },
                       ),
@@ -115,8 +127,20 @@ class _RepliesScreenState extends State<RepliesScreen> {
                   return Column(
                     children: [
                       ThePostReply(
-                          postEntity: widget.postEntity, onTabLike: () {}),
-                      Center(child: CupertinoActivityIndicator()),
+                          onTabReply: () {},
+                          postEntity: widget.postEntity,
+                          onTabLike: () {}),
+                      const Center(
+                  child: SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 1.5,
+                                      color:
+                                          LightThemeColors.secondaryTextColor,
+                                    ),
+                                  ),
+                ),
                     ],
                   );
                 } else if (state is ReplyErrorState) {
@@ -136,16 +160,18 @@ class _RepliesScreenState extends State<RepliesScreen> {
               bottom: 0,
               right: 0,
               left: 0,
-              child:
-                  ReplyTo(onTabNavigator:  () {
-                Navigator.of(context, rootNavigator: true)
-                    .push(MaterialPageRoute(
-                  builder: (context) => BlocProvider.value(
-                    value: replyBloc,
-                    child: WriteReply(postEntity: widget.postEntity),
-                  ),
-                ));
-              }, postEntity: widget.postEntity),
+              child: ReplyTo(
+                  onTabNavigator: () {
+                    Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(
+                      builder: (context) => BlocProvider.value(
+                        value: replyBloc,
+                        child: WriteReply(
+                            postEntity: widget.postEntity, namePage: 'reply'),
+                      ),
+                    ));
+                  },
+                  postEntity: widget.postEntity),
             )
           ],
         ),
@@ -157,31 +183,31 @@ class _RepliesScreenState extends State<RepliesScreen> {
 class ReplyTo extends StatelessWidget {
   const ReplyTo({
     super.key,
-    
-    required this.postEntity, required this.onTabNavigator,
+    required this.postEntity,
+    required this.onTabNavigator,
   });
 
- 
   final PostEntity postEntity;
-   final GestureTapCallback onTabNavigator;
+  final GestureTapCallback onTabNavigator;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 55,
+        height: 60,
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: InkWell(
-              onTap:onTabNavigator,
+              onTap: onTabNavigator,
               child: Container(
                 color: const Color(0xffF5F5F5),
                 child: Padding(
-                  padding: const EdgeInsets.all(6.0),
+                  padding: const EdgeInsets.all(0.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    
                     children: [
                       const SizedBox(
                         width: 8,
@@ -213,12 +239,15 @@ class ReplyTo extends StatelessWidget {
                       const SizedBox(
                         width: 8,
                       ),
-                      Text(
-                        'Reply to ${postEntity.user.username}',
-                        style: const TextStyle(
-                            color: Color(0xffA1A1A1),
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400),
+                      Center(
+                        child: Text(
+                          'Reply to ${postEntity.user.username}',
+                          style: const TextStyle(
+                              color: Color(0xffA1A1A1),
+                              fontSize: 15,
+                            //  fontWeight: FontWeight.w100
+                              ),
+                        ),
                       ),
                     ],
                   ),
@@ -235,10 +264,12 @@ class ThePostReply extends StatelessWidget {
     super.key,
     required this.postEntity,
     required this.onTabLike,
+    required this.onTabReply,
   });
 
   final PostEntity postEntity;
   final GestureTapCallback onTabLike;
+  final GestureTapCallback onTabReply;
 
   @override
   Widget build(BuildContext context) {
@@ -360,69 +391,7 @@ class ThePostReply extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          postEntity.image.isNotEmpty && postEntity.image.length < 2
-              ? Padding(
-                  padding:
-                      const EdgeInsets.only(right: 10, left: 10, bottom: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context, rootNavigator: true)
-                          .push(MaterialPageRoute(
-                        builder: (context) => ImageScreen(
-                          image:
-                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                        ),
-                      ));
-                    },
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: SizedBox(
-                          child: ImageLodingService(
-                            imageUrl:
-                                'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                          ),
-                        )),
-                  ),
-                )
-              : postEntity.image.length > 1
-                  ? SizedBox(
-                      height: 260,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: postEntity.image.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: 10,
-                                  left: 10,
-                                  right: (index == postEntity.image.length - 1)
-                                      ? 10
-                                      : 0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: SizedBox(
-                                  width: 200,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => ImageScreen(
-                                          image:
-                                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                        ),
-                                      ));
-                                    },
-                                    child: ImageLodingService(
-                                      imageUrl:
-                                          'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
-                                    ),
-                                  ),
-                                ),
-                              ));
-                        },
-                      ),
-                    )
-                  : Container(),
+        ImagePost(postEntity: postEntity , leftpading: 10),
           Column(
             children: [
               Padding(
@@ -433,30 +402,14 @@ class ThePostReply extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        GestureDetector(
-                          onTap: onTabLike,
-                          child: Container(
-                            child: postEntity.likes
-                                    .contains(AuthRepository.readid())
-                                ? const Icon(CupertinoIcons.heart_fill,
-                                    color: Colors.red, size: 24)
-                                : const Icon(
-                                    CupertinoIcons.heart,
-                                    size: 24,
-                                  ),
-                          ),
-                        ),
+
+                        LikeButton(postEntity: postEntity,onTabLike: onTabLike,),
+
                         const SizedBox(
                           width: 18,
                         ),
                         GestureDetector(
-                          onTap: () {
-                            // Navigator.of(context, rootNavigator: true)
-                            //     .push(MaterialPageRoute(
-                            //   builder: (context) =>
-                            //       WriteReply(postEntity: postEntity),
-                            // ));
-                          },
+                          onTap: onTabReply,
                           child: SizedBox(
                             height: 22,
                             width: 22,

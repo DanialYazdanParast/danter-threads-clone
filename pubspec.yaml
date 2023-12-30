@@ -46,6 +46,9 @@ dependencies:
   intl: ^0.18.1
   pocketbase: ^0.16.0
   image_picker: ^1.0.4
+  loading_indicator: ^3.1.1
+  lottie: ^2.7.0
+  flutter_animate: ^4.3.0
 
 dev_dependencies:
   flutter_test:
