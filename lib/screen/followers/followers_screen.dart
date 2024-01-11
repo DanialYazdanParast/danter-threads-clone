@@ -33,6 +33,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
   final followersBloc = FollowersBloc(locator.get());
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return RefreshIndicator(
       onRefresh: () async {
         BlocProvider.of<FollowersBloc>(context).add(
@@ -44,7 +45,6 @@ class _FollowersScreenState extends State<FollowersScreen> {
         child: DefaultTabController(
           length: 2,
           child: Scaffold(
-            backgroundColor: Colors.white,
             appBar: AppBar(
               title: Text(widget.username),
               leading: GestureDetector(
@@ -58,34 +58,51 @@ class _FollowersScreenState extends State<FollowersScreen> {
             ),
             body: Column(
               children: [
-                const TabBar(
-                    indicatorWeight: 0.5,
-                    indicatorColor: Colors.black,
-                    labelColor: Colors.black,
-                    labelStyle: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'Shabnam',
-                      fontWeight: FontWeight.bold,
+                Stack(
+                  children: [
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          border: Border(
+                            bottom: BorderSide(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                width: 0.7),
+                          ),
+                        ),
+                      ),
                     ),
-                    unselectedLabelColor: LightThemeColors.secondaryTextColor,
-                    tabs: [
-                      Tab(
-                        child: Text(
-                          'Followers',
+                    TabBar(
+                      indicatorPadding:
+                          const EdgeInsets.only(left: 20, right: 20),
+                      indicatorWeight: 1,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorColor: themeData.colorScheme.onPrimary,
+                      labelColor: themeData.colorScheme.onPrimary,
+                      unselectedLabelColor: themeData.colorScheme.secondary,
+                      labelStyle: themeData.textTheme.titleLarge!
+                          .copyWith(fontWeight: FontWeight.w700),
+                      tabs: const [
+                        Tab(
+                          child: Text('Followers'),
                         ),
-                      ),
-                      Tab(
-                        child: Text(
-                          'Following',
+                        Tab(
+                          child: Text('Following'),
                         ),
-                      ),
-                    ]),
+                      ],
+                    ),
+                  ],
+                ),
                 Expanded(
                     child: TabBarView(children: [
                   BlocBuilder<FollowersBloc, FollowersState>(
                     builder: (context2, state) {
                       if (state is FollowersSuccesState) {
                         return ListView.builder(
+                          padding: const EdgeInsets.only(top: 8),
                           itemCount: state.userFollowers[0].user.length,
                           itemBuilder: (context, index) {
                             return BlocProvider.value(
@@ -101,13 +118,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                         .push(
                                       MaterialPageRoute(
                                         builder: (context) {
-                                          return BlocProvider(
-                                            create: (context) =>
-                                                ProfileBloc(locator.get()),
-                                            child: ProfileScreen(
-                                                profileBloc:
-                                                    ProfileBloc(locator.get())),
-                                          );
+                                          return const ProfileScreen();
                                         },
                                       ),
                                     );
@@ -133,7 +144,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                   if (widget.userid ==
                                       AuthRepository.readid()) {
                                     showDialog(
-                                      barrierColor: Colors.black26,
+                                      barrierColor: themeData
+                                          .colorScheme.onPrimary
+                                          .withOpacity(0.3),
                                       context: context,
                                       builder: (context) {
                                         return CustomAlertDialog(
@@ -188,16 +201,15 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         );
                       } else if (state is FollowersLodingState) {
                         return const Center(
-                  child: SizedBox(
-                                    height: 40,
-                                    width: 40,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 1.5,
-                                      color:
-                                          LightThemeColors.secondaryTextColor,
-                                    ),
-                                  ),
-                );
+                          child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.5,
+                              color: LightThemeColors.secondaryTextColor,
+                            ),
+                          ),
+                        );
                       } else if (state is FollowersErrorState) {
                         return AppErrorWidget(
                           exception: state.exception,
@@ -212,6 +224,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                     builder: (context, state) {
                       if (state is FollowersSuccesState) {
                         return ListView.builder(
+                          padding: const EdgeInsets.only(top: 8),
                           itemCount: state.userFollowing[0].user.length,
                           itemBuilder: (context, index) {
                             return FollowingPage(
@@ -224,13 +237,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                       .push(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return BlocProvider(
-                                          create: (context) =>
-                                              ProfileBloc(locator.get()),
-                                          child: ProfileScreen(
-                                              profileBloc:
-                                                  ProfileBloc(locator.get())),
-                                        );
+                                        return const ProfileScreen();
                                       },
                                     ),
                                   );

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/image.dart';
+import 'package:danter/widgets/image_user_post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,10 +14,10 @@ List<XFile>? selectedImage = [];
 class FildWrite extends StatefulWidget {
   FildWrite({
     super.key,
-    required TextEditingController controller,
-  }) : _controller = controller;
+    required this.controller,
+  });
 
-  final TextEditingController _controller;
+  final TextEditingController controller;
 
   @override
   State<FildWrite> createState() => _FildWriteState();
@@ -31,10 +32,11 @@ class _FildWriteState extends State<FildWrite> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,8 +50,8 @@ class _FildWriteState extends State<FildWrite> {
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: SizedBox(
-                                height: 47,
-                                width: 47,
+                                height: 40,
+                                width: 40,
                                 child: ImageLodingService(
                                     imageUrl:
                                         AuthRepository.loadAuthInfo()!.avatar)),
@@ -57,16 +59,10 @@ class _FildWriteState extends State<FildWrite> {
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: Container(
-                              height: 47,
-                              width: 47,
-                              color: LightThemeColors.secondaryTextColor
-                                  .withOpacity(0.4),
-                              child: const Icon(
-                                CupertinoIcons.person_fill,
-                                color: Colors.white,
-                                size: 55,
-                              ),
-                            ),
+                                height: 40,
+                                width: 40,
+                                child:
+                                    Image.asset('assets/images/profile.png')),
                           ),
                     Expanded(
                       child: Padding(
@@ -75,36 +71,30 @@ class _FildWriteState extends State<FildWrite> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              AuthRepository.loadAuthInfo()!.username,
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
+                            Text(AuthRepository.loadAuthInfo()!.username,
+                                style: Theme.of(context).textTheme.titleLarge),
                             const SizedBox(
-                              height: 4,
+                              height: 2,
                             ),
                             TextField(
-                              controller: widget._controller,
+                              controller: widget.controller,
                               onChanged: (value) {
                                 setState(() {
-                                  widget._controller;
+                                  widget.controller;
                                 });
                               },
                               minLines: 1,
                               maxLines: 50,
                               textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                  fontSize: 16.0, color: Colors.black),
+                              style: Theme.of(context).textTheme.titleMedium,
                               decoration: InputDecoration(
                                 isCollapsed: true,
                                 // floatingLabelBehavior:
                                 //     FloatingLabelBehavior.always,
                                 alignLabelWithHint: false,
                                 label: Text(
-                                  'Start a danter',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1!
-                                      .copyWith(fontSize: 16),
+                                  'Start a danter...',
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
                               ),
                             ),
@@ -112,17 +102,17 @@ class _FildWriteState extends State<FildWrite> {
                               height: 5,
                             ),
                             GestureDetector(
-                                onTap: () {
-                                  _pickImage();
-                                },
-                                child:   SizedBox(
-                                  height: 35,
-                                  width: 35,
-                                  child: Image.asset(
-                                                      'assets/images/paperclip.png',
-                                                      
-                                                    ),
-                                ),),
+                              onTap: () {
+                                _pickImage();
+                              },
+                              child: SizedBox(
+                                height: 35,
+                                width: 35,
+                                child: Image.asset(
+                                  'assets/images/paperclip.png',
+                                ),
+                              ),
+                            ),
                             const SizedBox(
                               height: 10,
                             ),
@@ -133,14 +123,15 @@ class _FildWriteState extends State<FildWrite> {
                   ],
                 ),
               ),
-              (widget._controller.text.isNotEmpty)
+              (widget.controller.text.isNotEmpty)
                   ? GestureDetector(
                       onTap: () {
-                        widget._controller.text = '';
+                        widget.controller.text = '';
                       },
-                      child: const Icon(
+                      child: Icon(
                         CupertinoIcons.multiply,
-                        color: LightThemeColors.secondaryTextColor,
+                        color: themeData.colorScheme.onSecondary,
+                        size: 20,
                       ),
                     )
                   : Container(),
@@ -181,12 +172,13 @@ class _FildWriteState extends State<FildWrite> {
                             child: Container(
                               padding: EdgeInsets.all(3),
                               decoration: BoxDecoration(
-                                  color: LightThemeColors.secondaryTextColor
-                                      .withOpacity(0.3),
+                                  color: themeData.colorScheme.onSecondary
+                                      .withOpacity(0.4),
                                   borderRadius: BorderRadius.circular(100)),
                               child: const Icon(
                                 CupertinoIcons.multiply,
                                 color: Colors.white,
+                                size: 20,
                               ),
                             ),
                           ),
@@ -212,44 +204,3 @@ class _FildWriteState extends State<FildWrite> {
     setState(() {});
   }
 }
-
-
-    // final ImagePicker imagePicker = ImagePicker();
-    //   List<XFile>? imageFileList = [];
-
-    //   void selectImages() async {
-    //      final List<XFile>? selectedImages = await 
-    //             imagePicker.pickMultiImage();
-    //        if (selectedImages!.isNotEmpty) {
-    //           imageFileList!.addAll(selectedImages);
-    //        }
-    //       print("Image List Length:" + imageFileList!.length.toString());
-    //       setState((){});
-    //   }
-
-
-
-                                  //     Positioned(
-                                  //   top: 10,
-                                  //   right: 10,
-                                  //   child: GestureDetector(
-                                  //     onTap: () {
-                                  //       setState(() {
-                                  //         selectedImage = null;
-                                  //       });
-                                  //     },
-                                  //     child: Container(
-                                  //       padding: EdgeInsets.all(3),
-                                  //       decoration: BoxDecoration(
-                                  //           color: LightThemeColors
-                                  //               .secondaryTextColor
-                                  //               .withOpacity(0.4),
-                                  //           borderRadius:
-                                  //               BorderRadius.circular(100)),
-                                  //       child: const Icon(
-                                  //         CupertinoIcons.multiply,
-                                  //         color: Colors.white,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // )

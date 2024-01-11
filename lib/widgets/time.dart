@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -28,7 +27,7 @@ class TimePost extends StatelessWidget {
                       : time.inDays >= 8
                           ? '${updatedtime}'
                           : '',
-      style: Theme.of(context).textTheme.subtitle1,
+      style: Theme.of(context).textTheme.labelSmall,
     );
   }
 }

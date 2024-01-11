@@ -19,6 +19,7 @@ import 'package:danter/widgets/time.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RepliesScreen extends StatefulWidget {
@@ -43,14 +44,23 @@ class _RepliesScreenState extends State<RepliesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return BlocProvider.value(
       value: replyBloc
         ..add(ReplyStartedEvent(
           postId: widget.postEntity.id,
         )),
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(title: const Text('Danter'), elevation: 0.5),
+        appBar: AppBar(
+          title: const Text('Danter'),
+          bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0.0),
+              child: Divider(
+                  height: 1,
+                  color:
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                  thickness: 0.7)),
+        ),
         body: Stack(
           children: [
             BlocBuilder<ReplyBloc, ReplyState>(
@@ -96,7 +106,6 @@ class _RepliesScreenState extends State<RepliesScreen> {
                         itemCount: state.reply.length,
                         itemBuilder: (context, index) {
                           return PostDetail(
-                        
                             onTabLike: () {
                               if (!state.reply[index].likes
                                   .contains(AuthRepository.readid())) {
@@ -120,7 +129,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           );
                         },
                       ),
-                      SliverPadding(padding: EdgeInsets.only(bottom: 60))
+                      const SliverPadding(padding: EdgeInsets.only(bottom: 45))
                     ],
                   );
                 } else if (state is ReplyLodingState) {
@@ -131,16 +140,15 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           postEntity: widget.postEntity,
                           onTabLike: () {}),
                       const Center(
-                  child: SizedBox(
-                                    height: 40,
-                                    width: 40,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 1.5,
-                                      color:
-                                          LightThemeColors.secondaryTextColor,
-                                    ),
-                                  ),
-                ),
+                        child: SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                            color: LightThemeColors.secondaryTextColor,
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 } else if (state is ReplyErrorState) {
@@ -192,70 +200,54 @@ class ReplyTo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Container(
-        height: 60,
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: InkWell(
+      height: 55,
+      color: themeData.scaffoldBackgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: InkWell(
               onTap: onTabNavigator,
               child: Container(
-                color: const Color(0xffF5F5F5),
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    
-                    children: [
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: SizedBox(
-                                  height: 25,
-                                  width: 25,
-                                  child: ImageLodingService(
-                                      imageUrl: AuthRepository.loadAuthInfo()!
-                                          .avatar)),
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Container(
-                                height: 25,
-                                width: 25,
-                                color: LightThemeColors.secondaryTextColor
-                                    .withOpacity(0.4),
-                                child: const Icon(
-                                  CupertinoIcons.person_fill,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Center(
-                        child: Text(
-                          'Reply to ${postEntity.user.username}',
-                          style: const TextStyle(
-                              color: Color(0xffA1A1A1),
-                              fontSize: 15,
-                            //  fontWeight: FontWeight.w100
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
+                color: themeData.colorScheme.onBackground, //Color(0xffF1A1A1A),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: ImageLodingService(
+                                    imageUrl:
+                                        AuthRepository.loadAuthInfo()!.avatar)),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Container(
+                                height: 24,
+                                width: 24,
+                                color: themeData.colorScheme.secondary,
+                                child:
+                                    Image.asset('assets/images/profile.png')),
+                          ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text('Reply to ${postEntity.user.username}',
+                        style: Theme.of(context).textTheme.titleSmall),
+                  ],
                 ),
-              ),
-            ),
-          ),
-        ));
+              )),
+        ),
+      ),
+    );
   }
 }
 
@@ -273,6 +265,7 @@ class ThePostReply extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -280,7 +273,7 @@ class ThePostReply extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,11 +285,7 @@ class ThePostReply extends StatelessWidget {
                       Navigator.of(context, rootNavigator: true).push(
                         MaterialPageRoute(
                           builder: (context) {
-                            return BlocProvider(
-                              create: (context) => ProfileBloc(locator.get()),
-                              child: ProfileScreen(
-                                  profileBloc: ProfileBloc(locator.get())),
-                            );
+                            return const ProfileScreen();
                           },
                         ),
                       );
@@ -315,7 +304,7 @@ class ThePostReply extends StatelessWidget {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 12),
+                    padding: const EdgeInsets.only(left: 8),
                     child: Column(
                       children: [
                         Row(
@@ -330,13 +319,7 @@ class ThePostReply extends StatelessWidget {
                                       .push(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return BlocProvider(
-                                          create: (context) =>
-                                              ProfileBloc(locator.get()),
-                                          child: ProfileScreen(
-                                              profileBloc:
-                                                  ProfileBloc(locator.get())),
-                                        );
+                                        return const ProfileScreen();
                                       },
                                     ),
                                   );
@@ -355,7 +338,7 @@ class ThePostReply extends StatelessWidget {
                               },
                               child: Text(
                                 postEntity.user.username,
-                                style: Theme.of(context).textTheme.headline6,
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
                             ),
                             const Spacer(),
@@ -365,7 +348,7 @@ class ThePostReply extends StatelessWidget {
                             ),
                             Icon(
                               Icons.more_horiz,
-                              color: Colors.black87.withOpacity(0.8),
+                              color: Theme.of(context).colorScheme.onPrimary,
                             )
                           ],
                         ),
@@ -379,19 +362,14 @@ class ThePostReply extends StatelessWidget {
           postEntity.text != ''
               ? Padding(
                   padding: const EdgeInsets.only(left: 10, top: 5, right: 10),
-                  child: Text(
-                    postEntity.text,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontWeight: FontWeight.w500, fontSize: 16),
-                  ),
+                  child: Text(postEntity.text,
+                      style: Theme.of(context).textTheme.titleMedium),
                 )
               : const SizedBox(),
           const SizedBox(
             height: 10,
           ),
-        ImagePost(postEntity: postEntity , leftpading: 10),
+          ImagePost(postEntity: postEntity, leftpading: 10),
           Column(
             children: [
               Padding(
@@ -402,11 +380,12 @@ class ThePostReply extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-
-                        LikeButton(postEntity: postEntity,onTabLike: onTabLike,),
-
+                        LikeButton(
+                          postEntity: postEntity,
+                          onTabLike: onTabLike,
+                        ),
                         const SizedBox(
-                          width: 18,
+                          width: 12,
                         ),
                         GestureDetector(
                           onTap: onTabReply,
@@ -415,13 +394,17 @@ class ThePostReply extends StatelessWidget {
                             width: 22,
                             child: Image.asset(
                               'assets/images/comments.png',
+                              color: themeData.colorScheme.onPrimary,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: (postEntity.replies.isNotEmpty ||
+                              postEntity.likes.isNotEmpty)
+                          ? 8
+                          : 0,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -431,13 +414,15 @@ class ThePostReply extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(postEntity.replies.length.toString(),
-                                  style: Theme.of(context).textTheme.subtitle1),
+                                  style:
+                                      Theme.of(context).textTheme.titleSmall),
                               const SizedBox(width: 6),
                               Text(
                                   postEntity.replies.length <= 1
                                       ? 'reply'
                                       : 'replies',
-                                  style: Theme.of(context).textTheme.subtitle1),
+                                  style:
+                                      Theme.of(context).textTheme.titleSmall),
                               const SizedBox(width: 18),
                             ],
                           ),
@@ -447,7 +432,8 @@ class ThePostReply extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(postEntity.likes.length.toString(),
-                                  style: Theme.of(context).textTheme.subtitle1),
+                                  style:
+                                      Theme.of(context).textTheme.titleSmall),
                               const SizedBox(width: 6),
                               GestureDetector(
                                 onTap: () {
@@ -463,7 +449,7 @@ class ThePostReply extends StatelessWidget {
                                         ? 'Like'
                                         : 'Likes',
                                     style:
-                                        Theme.of(context).textTheme.subtitle1),
+                                        Theme.of(context).textTheme.titleSmall),
                               ),
                             ],
                           ),
@@ -475,10 +461,10 @@ class ThePostReply extends StatelessWidget {
               ),
             ],
           ),
-          const Divider(
-            color: Color(0xff999999),
-            height: 20,
-          ),
+          Divider(
+              height: 20,
+              color: themeData.colorScheme.secondary.withOpacity(0.5),
+              thickness: 0.7),
         ],
       ),
     );

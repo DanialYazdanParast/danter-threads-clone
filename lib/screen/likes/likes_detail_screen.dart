@@ -7,7 +7,6 @@ import 'package:danter/widgets/image_user_post.dart';
 
 import 'package:flutter/material.dart';
 
-
 class LikedDetailScreen extends StatelessWidget {
   final User user;
   final GestureTapCallback onTabProfile;
@@ -22,50 +21,66 @@ class LikedDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTabProfile,
-      child: Padding(
-        padding:
-            const EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ImageUserPost(user: user, onTabNameUser: onTabProfile),
-            const SizedBox(width: 15),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  user.username,
-                  style: Theme.of(context).textTheme.headline6,
+                ImageUserPost(user: user, onTabNameUser: onTabProfile),
+                const SizedBox(width: 15),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.username,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text(
+                      user.name == '' ? user.username : user.name!,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    )
+                  ],
                 ),
-                Text(user.name == '' ? user.username : user.name!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption!
-                        .copyWith(fontWeight: FontWeight.w200, fontSize: 16,)),
+                const Spacer(),
+                Visibility(
+                  visible: user.id != AuthRepository.readid(),
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(120, 35),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                      onPressed: onTabFollow,
+                      child: Text(
+                          user.followers.contains(AuthRepository.readid())
+                              ? 'Following'
+                              : 'Follow',
+                          style:
+                              user.followers.contains(AuthRepository.readid())
+                                  ? Theme.of(context).textTheme.titleSmall
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                        fontWeight: FontWeight.w400,
+                                      ))),
+                ),
               ],
             ),
-            const Spacer(),
-            Visibility(
-              visible: user.id != AuthRepository.readid(),
-              child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(100, 35),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                  onPressed: onTabFollow,
-                  child: Text(
-                    user.followers.contains(AuthRepository.readid())
-                        ? 'Following'
-                        : 'Follow',
-                    style: TextStyle(
-                        color: user.followers.contains(AuthRepository.readid())
-                            ? LightThemeColors.secondaryTextColor
-                            : Colors.black),
-                  )),
-            ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 67),
+            child: Divider(
+                height: 14,
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                thickness: 0.7),
+          ),
+        ],
       ),
     );
   }

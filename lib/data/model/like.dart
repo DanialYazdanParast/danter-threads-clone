@@ -1,13 +1,5 @@
 import 'package:danter/data/model/user.dart';
 
-class LikeId {
-  String id;
-
-  LikeId({required this.id});
-
-  LikeId.fromJson(Map<String, dynamic> json) : id = json['id'];
-}
-
 class LikeUser {
   final List<User> user;
 

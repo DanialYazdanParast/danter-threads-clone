@@ -1,31 +1,25 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-
 import 'package:danter/screen/followers/followers_screen.dart';
-
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/edit_profile/edit_profile.dart';
-
 import 'package:danter/screen/settings/settings_Screen.dart';
-
 import 'package:danter/widgets/custom_alert_dialog.dart';
 import 'package:danter/widgets/error.dart';
 import 'package:danter/widgets/image.dart';
-
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/photoUserFollowers.dart';
-
 import 'package:danter/widgets/post_detail.dart';
 import 'package:danter/widgets/replies_detail.dart';
-import 'package:flutter/cupertino.dart';
-
+import 'package:danter/widgets/snackbart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key, required this.profileBloc});
-  final ProfileBloc profileBloc;
+  const ProfileScreen({
+    super.key,
+  });
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -34,27 +28,28 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
-    super.initState();
     BlocProvider.of<ProfileBloc>(context)
         .add(ProfileStartedEvent(user: AuthRepository.readid()));
+
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context2, state) {
             if (state is ProfileSuccesState) {
-              return 
-              DefaultTabController(
+              return DefaultTabController(
                 length: 2,
                 child: NestedScrollView(
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
                     return [
                       SliverAppBar(
                         pinned: true,
+
                         actions: [
                           GestureDetector(
                             onTap: () {
@@ -68,6 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 35,
                               child: Image.asset(
                                 'assets/images/Frame 29.png',
+                                color: themeData.colorScheme.onPrimary,
                               ),
                             ),
                           ),
@@ -87,15 +83,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
+                                  const Expanded(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const SizedBox(height: 20),
+                                        SizedBox(height: 10),
                                         NameProfile(),
-                                     //   const SizedBox(height: 10),
-                                        const UserNameProfile(),
+                                        //   const SizedBox(height: 10),
+                                        UserNameProfile(),
                                       ],
                                     ),
                                   ),
@@ -105,8 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  BioProfile(),
-                                  const SizedBox(height: 10),
+                                  const BioProfile(),
                                   ImageAndTotalFollowers(
                                       userFollowers:
                                           state.userFollowers[0].user),
@@ -115,46 +110,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              RowButtonProfile(profileBloc: widget.profileBloc),
+                              const RowButtonProfile(),
                             ],
                           ),
                         ),
                       ),
                       SliverPersistentHeader(
                         delegate: TabBarViewDelegate(
-                          const TabBar(
-                            indicatorWeight: 0.5,
-                            indicatorColor: Colors.black,
-                            labelColor: Colors.black,
+                          TabBar(
+                            indicatorPadding:
+                                const EdgeInsets.only(left: 20, right: 20),
+                            indicatorWeight: 1,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            indicatorColor: themeData.colorScheme.onPrimary,
+                            labelColor: themeData.colorScheme.onPrimary,
                             unselectedLabelColor:
-                                LightThemeColors.secondaryTextColor,
-                            tabs: [
+                                themeData.colorScheme.secondary,
+                            labelStyle: themeData.textTheme.titleLarge!
+                                .copyWith(fontWeight: FontWeight.w700),
+                            tabs: const [
                               Tab(icon: Text('Danter')),
                               Tab(icon: Text('Replies')),
                             ],
                           ),
                         ),
-                        pinned: false,
-                        floating: true,
+                        pinned: true,
+                        floating: false,
                       ),
+                      const SliverPadding(padding: EdgeInsets.only(top: 10))
                     ];
                   },
                   body: TabBarView(children: [
                     RefreshIndicator(
                       onRefresh: () async {
-                        await Future.delayed(const Duration(seconds: 2));
                         BlocProvider.of<ProfileBloc>(context).add(
                             ProfileRefreshEvent(user: AuthRepository.readid()));
+                        await Future.delayed(const Duration(seconds: 2));
                       },
-                      child:
-
-                       DanterPage(post: state.post, context2: context2),
+                      child: DanterPage(post: state.post, context2: context2),
                     ),
                     RefreshIndicator(
                       onRefresh: () async {
-                        await Future.delayed(const Duration(seconds: 2));
                         BlocProvider.of<ProfileBloc>(context).add(
                             ProfileRefreshEvent(user: AuthRepository.readid()));
+                        await Future.delayed(const Duration(seconds: 2));
                       },
                       child: RepliesPage(reply: state.reply),
                     )
@@ -162,9 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               );
             } else if (state is ProfileLodingState) {
-              return LodingProfile(
-                profileBloc: widget.profileBloc,
-              );
+              return const LodingProfile();
             } else if (state is ProfileErrorState) {
               return AppErrorWidget(
                 exception: state.exception,
@@ -189,23 +186,17 @@ class ImageProfile extends StatelessWidget {
         ? ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: SizedBox(
-                height: 84,
-                width: 84,
+                height: 74,
+                width: 74,
                 child: ImageLodingService(
                     imageUrl: AuthRepository.loadAuthInfo()!.avatar)),
           )
         : ClipRRect(
             borderRadius: BorderRadius.circular(100),
-            child: Container(
-              height: 84,
-              width: 84,
-              color: LightThemeColors.secondaryTextColor.withOpacity(0.4),
-              child: const Icon(
-                CupertinoIcons.person_fill,
-                color: Colors.white,
-                size: 97,
-              ),
-            ),
+            child: SizedBox(
+                height: 74,
+                width: 74,
+                child: Image.asset('assets/images/profile.png')),
           );
   }
 }
@@ -213,10 +204,7 @@ class ImageProfile extends StatelessWidget {
 class RowButtonProfile extends StatelessWidget {
   const RowButtonProfile({
     super.key,
-    required this.profileBloc,
   });
-
-  final ProfileBloc profileBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -226,10 +214,7 @@ class RowButtonProfile extends StatelessWidget {
           name: 'Edit profile',
           onTabButtonPrpfile: () {
             Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-              builder: (context) => BlocProvider.value(
-                value: profileBloc,
-                child: EditProfile(),
-              ),
+              builder: (context) => EditProfile(),
             ));
           },
         ),
@@ -420,6 +405,7 @@ class DanterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return CustomScrollView(
       slivers: [
         (post.isNotEmpty)
@@ -449,84 +435,89 @@ class DanterPage extends StatelessWidget {
                     postEntity: post[index],
                     onTabmore: () {
                       showModalBottomSheet(
+                        barrierColor:
+                            themeData.colorScheme.onSecondary.withOpacity(0.1),
                         context: context,
                         useRootNavigator: true,
-                        backgroundColor: Colors.white,
-                        showDragHandle: true,
+                        backgroundColor: themeData.scaffoldBackgroundColor,
+                        //  showDragHandle: true,
+                        elevation: 0,
                         shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(16))),
                         builder: (context3) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 24),
-                            child: InkWell(
-                              onTap: () {
-                                showDialog(
-                                  useRootNavigator: true,
-                                  barrierDismissible: false,
-                                  barrierColor: Colors.black26,
-                                  context: context,
-                                  builder: (context) {
-                                    return CustomAlertDialog(
-                                      button: 'Delete',
-                                      title: "Delete this Post?",
-                                      description: "",
-                                      onTabRemove: () {
-                                        BlocProvider.of<ProfileBloc>(context2)
-                                            .add(ProfiledeletPostEvent(
-                                                user: AuthRepository.readid(),
-                                                postid: post[index].id));
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                height: 4,
+                                width: 32,
+                                decoration: BoxDecoration(
+                                    color: themeData.colorScheme.secondary,
+                                    borderRadius: BorderRadius.circular(30)),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 50, bottom: 24),
+                                child: InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      useRootNavigator: true,
+                                      barrierDismissible: false,
+                                      barrierColor: themeData
+                                          .colorScheme.onSecondary
+                                          .withOpacity(0.1),
+                                      context: context,
+                                      builder: (context) {
+                                        return CustomAlertDialog(
+                                          button: 'Delete',
+                                          title: "Delete this Post?",
+                                          description: "",
+                                          onTabRemove: () {
+                                            BlocProvider.of<ProfileBloc>(
+                                                    context2)
+                                                .add(ProfiledeletPostEvent(
+                                                    user:
+                                                        AuthRepository.readid(),
+                                                    postid: post[index].id));
 
-                                        Navigator.pop(context);
+                                            Navigator.pop(context);
 
-                                        Navigator.pop(context3);
+                                            Navigator.pop(context3);
 
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 35,
-                                                left: 30,
-                                                right: 30),
-
-                                            //  width: 280.0,
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                            ),
-                                            behavior: SnackBarBehavior.floating,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            content: const Center(
-                                                child: Padding(
-                                              padding: EdgeInsets.all(14),
-                                              child: Text('با موفقیت حذف شد'),
-                                            )),
-                                          ),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              snackBarApp(themeData,
+                                                  'با موفقیت حذف شد', 5),
+                                            );
+                                          },
                                         );
                                       },
                                     );
                                   },
-                                );
-                              },
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    color: LightThemeColors.secondaryTextColor
-                                        .withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: const Center(
-                                    child: Text(
-                                  'Delete',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.red,
-                                      fontSize: 16),
-                                )),
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        color:
+                                            themeData.colorScheme.onBackground,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: const Center(
+                                        child: Text(
+                                      'Delete',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red,
+                                          fontSize: 18),
+                                    )),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           );
                         },
                       );
@@ -538,13 +529,8 @@ class DanterPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 40),
                   child: Center(
-                    child: Text(
-                      'You haven\'t postted any danter yet',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .copyWith(fontSize: 18, fontWeight: FontWeight.w100),
-                    ),
+                    child: Text('You haven\'t postted any danter yet',
+                        style: Theme.of(context).textTheme.titleSmall),
                   ),
                 ),
               ),
@@ -554,7 +540,7 @@ class DanterPage extends StatelessWidget {
 }
 
 class NameProfile extends StatelessWidget {
-  NameProfile({
+  const NameProfile({
     super.key,
   });
 
@@ -568,8 +554,8 @@ class NameProfile extends StatelessWidget {
             : AuthRepository.loadAuthInfo()!.name,
         style: Theme.of(context)
             .textTheme
-            .headline6!
-            .copyWith(fontSize: 25, overflow: TextOverflow.clip),
+            .labelLarge!
+            .copyWith(overflow: TextOverflow.clip),
       ),
     );
   }
@@ -582,14 +568,14 @@ class UserNameProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Row(
       children: [
         Text(
           AuthRepository.loadAuthInfo()!.username,
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(fontSize: 20, fontWeight: FontWeight.w400),
+          style: themeData.textTheme.labelLarge!.copyWith(
+            fontSize: 16,
+          ),
         ),
         const SizedBox(
           width: 10,
@@ -597,15 +583,15 @@ class UserNameProfile extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: Container(
-            color: const Color(0xffF5F5F5),
-            child: const Padding(
-              padding: EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
+            color: themeData.colorScheme.onBackground,
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
               child: Text(
                 'danter.net',
-                style: TextStyle(
-                    color: Color(0xffA1A1A1),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400),
+                style: themeData.textTheme.titleSmall!.copyWith(
+                  fontSize: 10,
+                ),
               ),
             ),
           ),
@@ -616,7 +602,7 @@ class UserNameProfile extends StatelessWidget {
 }
 
 class BioProfile extends StatelessWidget {
-  BioProfile({
+  const BioProfile({
     super.key,
   });
 
@@ -624,19 +610,12 @@ class BioProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: AuthRepository.loadAuthInfo()!.bio!.isNotEmpty,
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            AuthRepository.loadAuthInfo()!.bio!,
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(fontSize: 16, fontWeight: FontWeight.normal),
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Text(
+          AuthRepository.loadAuthInfo()!.bio!,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(height: 1.2),
+        ),
       ),
     );
   }
@@ -703,21 +682,13 @@ class ImageAndTotalFollowers extends StatelessWidget {
                     ? 10
                     : 20,
           ),
-          Text(
-            userFollowers.length.toString(),
-            style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                  fontSize: 18,
-                ),
-          ),
+          Text(userFollowers.length.toString(),
+              style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(
             width: 6,
           ),
-          Text(
-            userFollowers.length < 2 ? 'follower' : 'followers',
-            style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                  fontSize: 18,
-                ),
-          ),
+          Text(userFollowers.length < 2 ? 'follower' : 'followers',
+              style: Theme.of(context).textTheme.titleSmall),
         ],
       ),
     );
@@ -737,7 +708,7 @@ class ButtonPrpfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
+      child: SizedBox(
         height: 34,
         child: OutlinedButton(
             style: OutlinedButton.styleFrom(
@@ -745,7 +716,13 @@ class ButtonPrpfile extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             )),
             onPressed: onTabButtonPrpfile,
-            child: Text(name)),
+            child: Text(
+              name,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(fontWeight: FontWeight.w400),
+            )),
       ),
     );
   }
@@ -758,9 +735,24 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: Colors.white,
-      child: _tabBar,
+    return Stack(
+      //   fit: StackFit.passthrough,
+      alignment: Alignment.bottomCenter,
+
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            border: Border(
+              bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.onPrimary, width: 0.7),
+            ),
+          ),
+
+          // child: _tabBar,
+        ),
+        Positioned(bottom: 0.5, left: 0, right: 0, child: _tabBar),
+      ],
     );
   }
 
@@ -772,7 +764,7 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+    return true;
   }
 }
 
@@ -780,11 +772,13 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
 ///
 ///
 class LodingProfile extends StatelessWidget {
-  const LodingProfile({super.key, required this.profileBloc});
-  final ProfileBloc profileBloc;
+  const LodingProfile({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -795,14 +789,23 @@ class LodingProfile extends StatelessWidget {
               return [
                 SliverAppBar(
                   pinned: true,
+
                   actions: [
                     GestureDetector(
-                        onTap: () {
-                          Navigator.of(context, rootNavigator: true).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const SettingScreen()));
-                        },
-                        child: const Icon(Icons.menu)),
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                                builder: (context) => const SettingScreen()));
+                      },
+                      child: SizedBox(
+                        width: 35,
+                        height: 35,
+                        child: Image.asset(
+                          'assets/images/Frame 29.png',
+                          color: themeData.colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
@@ -813,7 +816,6 @@ class LodingProfile extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20, left: 20),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -823,16 +825,17 @@ class LodingProfile extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const SizedBox(height: 20),
+                                  SizedBox(height: 10),
                                   NameProfile(),
-                                  const UserNameProfile(),
+                                  // const SizedBox(height: 5),
+                                  UserNameProfile(),
                                 ],
                               ),
                             ),
                             ImageProfile()
                           ],
                         ),
-                        Column(
+                        const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             BioProfile(),
@@ -841,55 +844,58 @@ class LodingProfile extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        RowButtonProfile(profileBloc: profileBloc),
+                        const RowButtonProfile(),
                       ],
                     ),
                   ),
                 ),
                 SliverPersistentHeader(
                   delegate: TabBarViewDelegate(
-                    const TabBar(
-                      indicatorWeight: 0.5,
-                      indicatorColor: Colors.black,
-                      labelColor: Colors.black,
-                      unselectedLabelColor: LightThemeColors.secondaryTextColor,
-                      tabs: [
+                    TabBar(
+                      indicatorPadding:
+                          const EdgeInsets.only(left: 20, right: 20),
+                      indicatorWeight: 1,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorColor: themeData.colorScheme.onPrimary,
+                      labelColor: themeData.colorScheme.onPrimary,
+                      unselectedLabelColor: themeData.colorScheme.secondary,
+                      labelStyle: themeData.textTheme.titleLarge!
+                          .copyWith(fontWeight: FontWeight.w700),
+                      tabs: const [
                         Tab(icon: Text('Danter')),
                         Tab(icon: Text('Replies')),
                       ],
                     ),
                   ),
-                  pinned: false,
-                  floating: true,
+                  pinned: true,
+                  floating: false,
                 ),
               ];
             },
             body: TabBarView(children: [
               Container(),
               Container(),
-             
-            
             ]),
           ),
         ),
         Positioned(
-          top: 105,
+          top: 95,
           child: Container(
             height: 35,
             width: 35,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: themeData.scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(100),
                 border: Border.all(
-                    width: 1, color: LightThemeColors.secondaryTextColor)),
-            child: const Center(
+                    width: 1, color: themeData.colorScheme.secondary)),
+            child: Center(
               child: SizedBox(
                 height: 18,
                 width: 18,
                 child: Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.black,
+                    color: themeData.colorScheme.onPrimary,
                   ),
                 ),
               ),
@@ -900,29 +906,3 @@ class LodingProfile extends StatelessWidget {
     );
   }
 }
-
-
-//  LoadingIndicator(
-//                         indicatorType: Indicator.ballRotateChase, /// Required, The loading type of the widget
-//                         colors: [Color.fromARGB(255, 111, 104, 104) ],       /// Optional, The color collections
-//                         strokeWidth: 1,                     /// Optional, The stroke of the line, only applicable to widget which contains line
-//                         backgroundColor: Colors.white,      /// Optional, Background of the widget
-//                         pathBackgroundColor: Colors.black  
-//                          /// Optional, the stroke backgroundColor
-//                       ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

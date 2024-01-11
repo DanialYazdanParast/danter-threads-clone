@@ -5,7 +5,7 @@ import 'package:danter/widgets/image.dart';
 import 'package:flutter/material.dart';
 
 class ImagePost extends StatelessWidget {
-  const ImagePost({super.key, required this.postEntity , this.leftpading =65});
+  const ImagePost({super.key, required this.postEntity , this.leftpading =55});
   final PostEntity postEntity;
   final double leftpading;
 

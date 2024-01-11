@@ -33,6 +33,7 @@ class _EditProfileState extends State<EditProfile> {
   final editProfileBloc = EditProfileBloc(locator.get());
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return BlocProvider.value(
       value: editProfileBloc,
       child: BlocConsumer<EditProfileBloc, EditProfileState>(
@@ -56,7 +57,6 @@ class _EditProfileState extends State<EditProfile> {
                   ? AuthRepository.loadAuthInfo()!.username
                   : AuthRepository.loadAuthInfo()!.name;
           return Scaffold(
-            backgroundColor: Colors.white,
             appBar: AppBar(
               title: const Text('Edit Profile'),
               actions: [
@@ -65,39 +65,44 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(bottom: 5),
                     child: GestureDetector(
                       onTap: () {
-                        if (state is ChengSuccessEditProfileState || selectedImageedit !=null) {
+                        if (state is ChengSuccessEditProfileState ||
+                            selectedImageedit != null) {
                           BlocProvider.of<EditProfileBloc>(context)
                               .add(SendBioAndNameEditProfileEvent(
                             userid: AuthRepository.readid(),
-                            bio: bio,
+                            bio: bio == '+ Writr bio' ? '' : bio,
                             name: name,
                             image: selectedImageedit,
                           ));
                         }
                       },
                       child: state is LodingEditProfileState
-                          ? const SizedBox(
-                                  height: 22,
-                                  width: 22,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color:
-                                          LightThemeColors.secondaryTextColor,
-                                    ),
-                                  ),
-                                )
+                          ? SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: themeData.colorScheme.secondary,
+                                ),
+                              ),
+                            )
                           : Text(
                               'Done',
-                              style: TextStyle(
-                                  fontFamily: 'Shabnam',
-                                  fontSize: 18,
-                                  color:
-                                      state is ChengSuccessEditProfileState ||
-                                              selectedImageedit != null
-                                          ? Colors.black
-                                          : LightThemeColors.secondaryTextColor,
-                                  fontWeight: FontWeight.w600),
+                              style: state is ChengSuccessEditProfileState ||
+                                      selectedImageedit != null
+                                  ? Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400)
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400),
                             ),
                     ),
                   ),
@@ -120,11 +125,11 @@ class _EditProfileState extends State<EditProfile> {
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: themeData.scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         width: 0.5,
-                        color: LightThemeColors.secondaryTextColor,
+                        color: themeData.colorScheme.secondary,
                       )),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
@@ -139,8 +144,7 @@ class _EditProfileState extends State<EditProfile> {
                               builder: (context) => BlocProvider.value(
                                 value: editProfileBloc,
                                 child: EditScreenFild(
-                                  bio: bio
-                                          ,
+                                  bio: bio,
                                   name: name,
                                   nameFild: 'Name',
                                 ),
@@ -148,19 +152,37 @@ class _EditProfileState extends State<EditProfile> {
                             ));
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: themeData.scaffoldBackgroundColor,
                             width: double.infinity,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const Text('Name'),
+                                      Text(
+                                        'Name',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
                                       Padding(
-                                        padding: const  EdgeInsets.only(right: 10),
-                                        child: Text(name),
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        child: Text(name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.w300)),
                                       ),
                                     ],
                                   ),
@@ -199,9 +221,7 @@ class _EditProfileState extends State<EditProfile> {
                                           child: Container(
                                             height: 47,
                                             width: 47,
-                                            color: LightThemeColors
-                                                .secondaryTextColor
-                                                .withOpacity(0.4),
+                                            color: Color(0xffDBDBDB),
                                             child: selectedImageedit != null
                                                 ? Image.file(
                                                     selectedImageedit!,
@@ -220,9 +240,11 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           ),
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(right: 70),
-                          child: Divider(),
+                          child: Divider(
+                              color: themeData.colorScheme.secondary,
+                              thickness: 0.8),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -231,7 +253,7 @@ class _EditProfileState extends State<EditProfile> {
                               builder: (context) => BlocProvider.value(
                                 value: editProfileBloc,
                                 child: EditScreenFild(
-                                   bio: bio == '+ Writr bio'?'':bio,
+                                  bio: bio == '+ Writr bio' ? '' : bio,
                                   name: name,
                                   nameFild: 'Bio',
                                 ),
@@ -239,23 +261,33 @@ class _EditProfileState extends State<EditProfile> {
                             ));
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: themeData.scaffoldBackgroundColor,
                             width: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Bio'),
-                                Text(
-                                  bio,
-                                  // style: TextStyle(
-                                  //   fontFamily: 'Shabnam',
-                                  //   color: (AuthRepository.loadAuthInfo()!
-                                  //           .bio
-                                  //           .isNotEmpty)
-                                  //       ? Colors.black
-                                  //       : LightThemeColors.secondaryTextColor,
-                                  // ),
+                                Text('Bio',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(fontWeight: FontWeight.w500)),
+                                SizedBox(
+                                  height: 8,
                                 ),
+                                Text(bio,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(fontWeight: FontWeight.w300)
+                                    // style: TextStyle(
+                                    //   fontFamily: 'Shabnam',
+                                    //   color: (AuthRepository.loadAuthInfo()!
+                                    //           .bio
+                                    //           .isNotEmpty)
+                                    //       ? Colors.black
+                                    //       : LightThemeColors.secondaryTextColor,
+                                    // ),
+                                    ),
                               ],
                             ),
                           ),

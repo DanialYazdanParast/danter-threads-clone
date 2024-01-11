@@ -10,6 +10,7 @@ import 'package:danter/screen/write/bloc/write_bloc.dart';
 import 'package:danter/screen/write/write_screen.dart';
 import 'package:danter/widgets/image.dart';
 import 'package:danter/widgets/image_post.dart';
+import 'package:danter/widgets/snackbart.dart';
 import 'package:danter/widgets/write.dart';
 import 'package:danter/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,11 +27,20 @@ class WriteReply extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return BlocProvider(
       create: (context) => WriteReplyBloc(locator.get()),
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(title: const Text('Reply'), elevation: 0.5),
+        appBar: AppBar(
+          title: const Text('Reply'),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(0.0),
+            child: Divider(
+                height: 1,
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                thickness: 0.7),
+          ),
+        ),
         body: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -55,18 +65,13 @@ class WriteReply extends StatelessWidget {
               right: 0,
               child: Container(
                 padding: const EdgeInsets.only(left: 20, right: 20),
-                color: Colors.white,
+                color: themeData.scaffoldBackgroundColor,
                 height: 35,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Anyone can reply',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .apply(fontSizeFactor: 0.9),
-                    ),
+                    Text('Anyone can reply',
+                        style: Theme.of(context).textTheme.labelSmall),
                     BlocConsumer<WriteReplyBloc, WriteReplyState>(
                       listener: (context, state) {
                         if (state is WriteReplySuccesState) {
@@ -74,52 +79,19 @@ class WriteReply extends StatelessWidget {
                           selectedImage = [];
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              margin: const EdgeInsets.only(
-                                  bottom: 55, left: 30, right: 30),
-
-                              //  width: 280.0,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              content: const Center(
-                                  child: Padding(
-                                padding: EdgeInsets.all(14),
-                                child: Text('با موفقیت ثبت شد'),
-                              )),
-                            ),
+                            snackBarApp(themeData, 'با موفقیت ثبت شد',
+                                (namePage == 'reply') ? 55 : 10),
                           );
-                          if(namePage == 'reply'){
-                            BlocProvider.of<ReplyBloc>(context).add(
-                              ReplyRefreshEvent(
-                                  postId: postEntity.id,
-                                  ));
+                          if (namePage == 'reply') {
+                            BlocProvider.of<ReplyBloc>(context)
+                                .add(ReplyRefreshEvent(
+                              postId: postEntity.id,
+                            ));
                           }
-                          
-
                         } else if (state is WriteReplyErrorState) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              margin: const EdgeInsets.only(
-                                  bottom: 55, left: 30, right: 30),
-
-                              //  width: 280.0,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              content: Center(
-                                  child: Padding(
-                                padding: EdgeInsets.all(14),
-                                child: Text(state.exception.message),
-                              )),
-                            ),
-                          );
+                              snackBarApp(themeData, state.exception.message,
+                                  (namePage == 'reply') ? 55 : 10));
                         }
                       },
                       builder: (context, state) {
@@ -135,16 +107,37 @@ class WriteReply extends StatelessWidget {
                                       image: selectedImage!));
                             }
                           },
-                          child: state is WriteReplyLodingState
-                              ? const CupertinoActivityIndicator()
-                              : const Text(
-                                  'Post',
-                                  style: TextStyle(
-                                      fontFamily: 'Shabnam',
-                                      fontSize: 18,
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.w600),
-                                ),
+                          child: Container(
+                            height: 30,
+                            width: 55,
+                            decoration: BoxDecoration(
+                                color: themeData.colorScheme.primary,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: state is WriteReplyLodingState
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 23,
+                                      width: 23,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color:
+                                              themeData.colorScheme.secondary,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Center(
+                                    child: Text(
+                                      'Post',
+                                      style: themeData.textTheme.titleMedium!
+                                          .copyWith(
+                                              fontSize: 14,
+                                              color: themeData
+                                                  .scaffoldBackgroundColor),
+                                    ),
+                                  ),
+                          ),
                         );
                       },
                     ),
@@ -173,8 +166,8 @@ class PostWrite extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-              left: 33,
-              top: 75,
+              left: 28,
+              top: 53,
               bottom: 0,
               child: Container(
                 width: 1,
@@ -185,7 +178,7 @@ class PostWrite extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,46 +187,35 @@ class PostWrite extends StatelessWidget {
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: SizedBox(
-                                height: 47,
-                                width: 47,
+                                height: 40,
+                                width: 40,
                                 child: ImageLodingService(
                                     imageUrl: postEntity.user.avatar)),
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: Container(
-                              height: 47,
-                              width: 47,
-                              color: LightThemeColors.secondaryTextColor
-                                  .withOpacity(0.4),
-                              child: const Icon(
-                                CupertinoIcons.person_fill,
-                                color: Colors.white,
-                                size: 55,
-                              ),
-                            ),
+                                height: 40,
+                                width: 40,
+                                child:
+                                    Image.asset('assets/images/profile.png')),
                           ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 12),
+                        padding: const EdgeInsets.only(left: 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               postEntity.user.username,
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.titleLarge,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 7, right: 7),
                               child: Text(
                                 postEntity.text,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
                           ],
@@ -243,7 +225,7 @@ class PostWrite extends StatelessWidget {
                   ],
                 ),
               ),
-             ImagePost(postEntity: postEntity),
+              ImagePost(postEntity: postEntity),
             ],
           ),
         ],

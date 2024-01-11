@@ -29,40 +29,48 @@ class _LikesScreenState extends State<LikesScreen> {
   final likesBloc = LikesBloc(locator.get());
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return BlocProvider.value(
       value: likesBloc..add(LikesStartedEvent(postId: widget.idpostEntity)),
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Likes'),
+          title: const Text(
+            'Likes',
+          ),
+          bottom: PreferredSize(
+              preferredSize: Size.fromHeight(0.0),
+              child: Divider(
+                  height: 1,
+                  color:
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                  thickness: 0.7)),
         ),
         body: SafeArea(
           child: BlocBuilder<LikesBloc, LikesState>(
             builder: (context, state) {
               if (state is LikesSuccesState) {
                 return ListView.builder(
+                  padding: EdgeInsets.only(top: 8),
                   itemCount: state.user[0].user.length,
                   itemBuilder: (context, index) {
                     return LikedDetailScreen(
-                      onTabFollow: (){
-
-                          if (!state.user[0].user[index].followers.contains(AuthRepository.readid())) {
-                              BlocProvider.of<LikesBloc>(context).add(
-                                LikedAddfollowhEvent(
-                                  userIdProfile: state.user[0].user[index].id,
-                                  myuserId: AuthRepository.readid(),
-                                ),
-                              );
-                            } else {
-                              BlocProvider.of<LikesBloc>(context).add(
-                                LikedDelletfollowhEvent(
-                                  userIdProfile: state.user[0].user[index].id,
-                                  myuserId: AuthRepository.readid(),
-                                ),
-                              );
-                            }
-
-
+                      onTabFollow: () {
+                        if (!state.user[0].user[index].followers
+                            .contains(AuthRepository.readid())) {
+                          BlocProvider.of<LikesBloc>(context).add(
+                            LikedAddfollowhEvent(
+                              userIdProfile: state.user[0].user[index].id,
+                              myuserId: AuthRepository.readid(),
+                            ),
+                          );
+                        } else {
+                          BlocProvider.of<LikesBloc>(context).add(
+                            LikedDelletfollowhEvent(
+                              userIdProfile: state.user[0].user[index].id,
+                              myuserId: AuthRepository.readid(),
+                            ),
+                          );
+                        }
                       },
                       user: state.user[0].user[index],
                       onTabProfile: () {
@@ -71,11 +79,7 @@ class _LikesScreenState extends State<LikesScreen> {
                           Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return BlocProvider(
-                                  create: (context) =>
-                                      ProfileBloc(locator.get()),
-                                  child:ProfileScreen(profileBloc: ProfileBloc(locator.get())),
-                                );
+                                return ProfileScreen();
                               },
                             ),
                           );
@@ -84,7 +88,7 @@ class _LikesScreenState extends State<LikesScreen> {
                             MaterialPageRoute(
                               builder: (context) {
                                 return BlocProvider.value(
-                                   value: likesBloc,
+                                  value: likesBloc,
                                   child: ProfileUser(
                                     user: state.user[0].user[index],
                                     idpostEntity: widget.idpostEntity,
@@ -99,16 +103,14 @@ class _LikesScreenState extends State<LikesScreen> {
                   },
                 );
               } else if (state is LikesLodingState) {
-                return const Center(
-                  child: SizedBox(
-                                    height: 40,
-                                    width: 40,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 1.5,
-                                      color:
-                                          LightThemeColors.secondaryTextColor,
-                                    ),
-                                  ),
+                return Center(
+                  child: Container(
+                      height: 40,
+                      width: 40,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1.5,
+                        color: themeData.colorScheme.secondary,
+                      )),
                 );
               } else if (state is LikesErrorState) {
                 return AppErrorWidget(

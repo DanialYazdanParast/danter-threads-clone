@@ -18,10 +18,7 @@ class ImageLodingService extends StatelessWidget {
     return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.circular(0),
       child: CachedNetworkImage(
-
-       
         placeholder: (context, url) => Container(color: LightThemeColors.secondaryTextColor.withOpacity(0.5)),
-         
         imageUrl: imageUrl,
         fit: boxFit?? BoxFit.cover,
       ),

@@ -30,8 +30,8 @@ class ProfileUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: BlocProvider(
         create: (context) => ProfileUserBloc(locator.get())
           ..add(ProfileUserStartedEvent(
@@ -53,6 +53,7 @@ class ProfileUser extends StatelessWidget {
                               width: 24,
                               child: Image.asset(
                                 'assets/images/more.png',
+                                color: themeData.colorScheme.onPrimary,
                               ),
                             ),
                             const SizedBox(
@@ -72,14 +73,10 @@ class ProfileUser extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
+                                          const SizedBox(height: 10),
                                           NameProfileUser(user: user),
                                           UserNameProfileUser(user: user),
                                         ],
@@ -94,7 +91,6 @@ class ProfileUser extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     BioProfileUser(user: user),
-                                    const SizedBox(height: 10),
                                     ImageAndTotalFollowers(
                                         user: state.user,
                                         userFollowers:
@@ -168,31 +164,37 @@ class ProfileUser extends StatelessWidget {
                         ),
                         SliverPersistentHeader(
                           delegate: TabBarViewDelegate(
-                            const TabBar(
-                              indicatorWeight: 0.5,
-                              indicatorColor: Colors.black,
-                              labelColor: Colors.black,
+                            TabBar(
+                              indicatorPadding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              indicatorWeight: 1,
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              indicatorColor: themeData.colorScheme.onPrimary,
+                              labelColor: themeData.colorScheme.onPrimary,
                               unselectedLabelColor:
-                                  LightThemeColors.secondaryTextColor,
-                              tabs: [
+                                  themeData.colorScheme.secondary,
+                              labelStyle: themeData.textTheme.titleLarge!
+                                  .copyWith(fontWeight: FontWeight.w700),
+                              tabs: const [
                                 Tab(icon: Text('Danter')),
                                 Tab(icon: Text('Replies')),
                               ],
                             ),
                           ),
-                          pinned: false,
-                          floating: true,
+                          pinned: true,
+                          floating: false,
                         ),
+                        const SliverPadding(padding: EdgeInsets.only(top: 10))
                       ];
                     },
                     body: TabBarView(children: [
                       RefreshIndicator(
                         onRefresh: () async {
-                          await Future.delayed(const Duration(seconds: 2));
                           BlocProvider.of<ProfileUserBloc>(context).add(
                               ProfileUserRefreshEvent(
                                   myuserId: AuthRepository.readid(),
                                   user: user.id));
+                          await Future.delayed(const Duration(seconds: 2));
                         },
                         child: CustomScrollView(
                           slivers: [
@@ -232,15 +234,10 @@ class ProfileUser extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 40),
                                       child: Center(
-                                        child: Text(
-                                          'No danter yet',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1!
-                                              .copyWith(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w100),
-                                        ),
+                                        child: Text('No danter yet',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall),
                                       ),
                                     ),
                                   ),
@@ -249,11 +246,11 @@ class ProfileUser extends StatelessWidget {
                       ),
                       RefreshIndicator(
                           onRefresh: () async {
-                            await Future.delayed(const Duration(seconds: 2));
                             BlocProvider.of<ProfileUserBloc>(context).add(
                                 ProfileUserRefreshEvent(
                                     myuserId: AuthRepository.readid(),
                                     user: user.id));
+                            await Future.delayed(const Duration(seconds: 2));
                           },
                           child: RepliesPage(reply: state.reply)),
                     ]),
@@ -457,8 +454,8 @@ class NameProfileUser extends StatelessWidget {
       user.name == '' ? user.username : '${user.name}',
       style: Theme.of(context)
           .textTheme
-          .headline6!
-          .copyWith(fontSize: 25, overflow: TextOverflow.clip),
+          .labelLarge!
+          .copyWith(overflow: TextOverflow.clip),
     );
   }
 }
@@ -473,14 +470,14 @@ class UserNameProfileUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Row(
       children: [
         Text(
           user.username,
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(fontSize: 20, fontWeight: FontWeight.w400),
+          style: themeData.textTheme.labelLarge!.copyWith(
+            fontSize: 16,
+          ),
         ),
         const SizedBox(
           width: 10,
@@ -488,15 +485,15 @@ class UserNameProfileUser extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: Container(
-            color: const Color(0xffF5F5F5),
-            child: const Padding(
-              padding: EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
+            color: themeData.colorScheme.onBackground,
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
               child: Text(
                 'danter.net',
-                style: TextStyle(
-                    color: Color(0xffA1A1A1),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400),
+                style: themeData.textTheme.titleSmall!.copyWith(
+                  fontSize: 10,
+                ),
               ),
             ),
           ),
@@ -518,19 +515,12 @@ class BioProfileUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: user.bio!.isNotEmpty,
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            '${user.bio}',
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(fontSize: 16, fontWeight: FontWeight.normal),
-          ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 8),
+        child: Text(
+          '${user.bio}',
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(height: 1.2),
+        ),
       ),
     );
   }
@@ -549,6 +539,8 @@ class ButtonProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+
     return Expanded(
       child: Container(
         height: 34,
@@ -556,22 +548,24 @@ class ButtonProfile extends StatelessWidget {
             style: OutlinedButton.styleFrom(
                 backgroundColor:
                     user.followers.contains(AuthRepository.readid())
-                        ? Colors.transparent
-                        : Colors.black,
+                        ? themeData.scaffoldBackgroundColor
+                        : themeData.colorScheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 )),
             onPressed: onTabfollow,
             child: Text(
-              user.followers.contains(AuthRepository.readid())
-                  ? 'Following'
-                  : 'Follow',
-              style: TextStyle(
-                color: user.followers.contains(AuthRepository.readid())
-                    ? Colors.black
-                    : Colors.white,
-              ),
-            )),
+                user.followers.contains(AuthRepository.readid())
+                    ? 'Following'
+                    : 'Follow',
+                style: user.followers.contains(AuthRepository.readid())
+                    ? Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontWeight: FontWeight.w400)
+                    : Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: themeData.scaffoldBackgroundColor,
+                        fontWeight: FontWeight.w400))),
       ),
     );
   }
@@ -584,9 +578,24 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: Colors.white,
-      child: _tabBar,
+    return Stack(
+      //   fit: StackFit.passthrough,
+      alignment: Alignment.bottomCenter,
+
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            border: Border(
+              bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.onPrimary, width: 0.7),
+            ),
+          ),
+
+          // child: _tabBar,
+        ),
+        Positioned(bottom: 0.5, left: 0, right: 0, child: _tabBar),
+      ],
     );
   }
 
@@ -598,7 +607,7 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+    return true;
   }
 }
 
@@ -667,18 +676,14 @@ class ImageAndTotalFollowers extends StatelessWidget {
           ),
           Text(
             user.followers.length.toString(),
-            style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                  fontSize: 18,
-                ),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           const SizedBox(
             width: 6,
           ),
           Text(
             userFollowers.length < 2 ? 'follower' : 'followers',
-            style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                  fontSize: 18,
-                ),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
         ],
       ),
@@ -696,22 +701,16 @@ class ImageProfileUser extends StatelessWidget {
         ? ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: SizedBox(
-                height: 84,
-                width: 84,
+                height: 74,
+                width: 74,
                 child: ImageLodingService(imageUrl: user.avatar)),
           )
         : ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Container(
-              height: 84,
-              width: 84,
-              color: LightThemeColors.secondaryTextColor.withOpacity(0.4),
-              child: const Icon(
-                CupertinoIcons.person_fill,
-                color: Colors.white,
-                size: 97,
-              ),
-            ),
+                height: 74,
+                width: 74,
+                child: Image.asset('assets/images/profile.png')),
           );
   }
 }
@@ -725,6 +724,7 @@ class LodingProfileUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -741,6 +741,7 @@ class LodingProfileUser extends StatelessWidget {
                       width: 24,
                       child: Image.asset(
                         'assets/images/more.png',
+                        color: themeData.colorScheme.onPrimary,
                       ),
                     ),
                     const SizedBox(
@@ -752,7 +753,6 @@ class LodingProfileUser extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20, left: 20),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -761,12 +761,9 @@ class LodingProfileUser extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
+                                  const SizedBox(height: 10),
                                   NameProfileUser(user: user),
                                   UserNameProfileUser(user: user),
                                 ],
@@ -777,12 +774,9 @@ class LodingProfileUser extends StatelessWidget {
                             )
                           ],
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            BioProfileUser(user: user),
-                            const SizedBox(height: 10),
-                          ],
+                        BioProfileUser(user: user),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Row(
                           children: [
@@ -798,20 +792,26 @@ class LodingProfileUser extends StatelessWidget {
                 ),
                 SliverPersistentHeader(
                   delegate: TabBarViewDelegate(
-                    const TabBar(
-                      indicatorWeight: 0.5,
-                      indicatorColor: Colors.black,
-                      labelColor: Colors.black,
-                      unselectedLabelColor: LightThemeColors.secondaryTextColor,
-                      tabs: [
+                    TabBar(
+                      indicatorPadding:
+                          const EdgeInsets.only(left: 20, right: 20),
+                      indicatorWeight: 1,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorColor: themeData.colorScheme.onPrimary,
+                      labelColor: themeData.colorScheme.onPrimary,
+                      unselectedLabelColor: themeData.colorScheme.secondary,
+                      labelStyle: themeData.textTheme.titleLarge!
+                          .copyWith(fontWeight: FontWeight.w700),
+                      tabs: const [
                         Tab(icon: Text('Danter')),
                         Tab(icon: Text('Replies')),
                       ],
                     ),
                   ),
-                  pinned: false,
-                  floating: true,
+                  pinned: true,
+                  floating: false,
                 ),
+                const SliverPadding(padding: EdgeInsets.only(top: 10))
               ];
             },
             body: TabBarView(children: [
@@ -821,23 +821,23 @@ class LodingProfileUser extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 105,
+          top: 95,
           child: Container(
             height: 35,
             width: 35,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: themeData.scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(100),
                 border: Border.all(
-                    width: 1, color: LightThemeColors.secondaryTextColor)),
-            child: const Center(
+                    width: 1, color: themeData.colorScheme.secondary)),
+            child: Center(
               child: SizedBox(
                 height: 18,
                 width: 18,
                 child: Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.black,
+                    color: themeData.colorScheme.onPrimary,
                   ),
                 ),
               ),

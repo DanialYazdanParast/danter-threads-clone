@@ -4,7 +4,6 @@ import 'package:danter/theme.dart';
 import 'package:danter/widgets/image_user_post.dart';
 import 'package:flutter/material.dart';
 
-
 class FollowersPage extends StatelessWidget {
   final String userid;
   final User userFollowers;
@@ -14,70 +13,85 @@ class FollowersPage extends StatelessWidget {
     super.key,
     required this.userFollowers,
     required this.userid,
-    required this.onTabProfileUser, required this.onTabfolow,
+    required this.onTabProfileUser,
+    required this.onTabfolow,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTabProfileUser,
-      child: Padding(
-        padding:
-            const EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ImageUserPost(user: userFollowers, onTabNameUser: onTabProfileUser),
-            const SizedBox(
-              width: 15,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  userFollowers.username,
-                  style: Theme.of(context).textTheme.headline6,
+                ImageUserPost(
+                    user: userFollowers, onTabNameUser: onTabProfileUser),
+                const SizedBox(
+                  width: 15,
                 ),
-                Text(
-                  userFollowers.name == ''
-                      ? userFollowers.username
-                      : userFollowers.name!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      userFollowers.username,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text(
+                      userFollowers.name == ''
+                          ? userFollowers.username
+                          : userFollowers.name!,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Visibility(
+                  visible: userFollowers.id != AuthRepository.readid(),
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(120, 35),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                      onPressed: onTabfolow,
+                      child: Text(
+                          userid == AuthRepository.readid()
+                              ? 'Remove'
+                              : userFollowers.followers
+                                      .contains(AuthRepository.readid())
+                                  ? 'Following'
+                                  : 'Follow',
+                          style: userid == AuthRepository.readid()
+                              ? Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(fontWeight: FontWeight.w400)
+                              : userFollowers.followers
+                                      .contains(AuthRepository.readid())
+                                  ? Theme.of(context).textTheme.titleSmall
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(fontWeight: FontWeight.w400))),
                 ),
               ],
             ),
-            const Spacer(),
-            Visibility(
-              visible: userFollowers.id != AuthRepository.readid(),
-              child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(100, 35),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                  onPressed:onTabfolow,
-                  child: Text(
-                    userid == AuthRepository.readid()
-                        ? 'Remove'
-                        : userFollowers.followers
-                                .contains(AuthRepository.readid())
-                            ? 'Following'
-                            : 'Follow',
-                    style: TextStyle(
-                      color: userid == AuthRepository.readid()
-                          ? Colors.black
-                          : userFollowers.followers
-                                  .contains(AuthRepository.readid())
-                              ? LightThemeColors.secondaryTextColor
-                              : Colors.black,
-                    ),
-                  )),
-            ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 67),
+            child: Divider(
+                height: 14,
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                thickness: 0.7),
+          ),
+        ],
       ),
     );
   }

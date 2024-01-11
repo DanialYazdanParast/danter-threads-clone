@@ -8,18 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key , });
+  
   @override
   Widget build(BuildContext context) {
+     final ThemeData themeData = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+     
       body: BlocProvider(
         create: (context) => HomeBloc(locator.get())
           ..add(HomeStartedEvent(user: AuthRepository.readid())),
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state is HomeSuccesState) {
-              return
+              return  
+                  
+                 
               RefreshIndicator(
 
                 onRefresh: () async {
@@ -37,9 +41,10 @@ class HomeScreen extends StatelessWidget {
                         height: 40,
                         width: 40,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: (){},
                           child: Image.asset(
                             'assets/images/d.png',
+                            color: themeData.colorScheme.onPrimary,
                           ),
                         ),
                       ),
@@ -87,20 +92,32 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {},
                         child: Image.asset(
                           'assets/images/d.png',
+                          color: themeData.colorScheme.onPrimary,
                         ),
                       ),
                     ),
                     centerTitle: true,
                   ),
                   SliverToBoxAdapter(
-                    child: Center(
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 1.5,
-                            color: LightThemeColors.secondaryTextColor,
-                          )),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                         mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(height: 1,),
+                          Container(
+                              height: 40,
+                              width: 40,
+                              child:  CircularProgressIndicator(
+                                strokeWidth: 1.5,
+                                color: themeData.colorScheme.secondary,
+                              )),
+
+                               Container(height: 200,),
+                        ],
+                      ),
                     ),
                   )
                 ],

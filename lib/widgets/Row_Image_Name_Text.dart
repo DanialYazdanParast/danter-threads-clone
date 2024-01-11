@@ -11,14 +11,14 @@ class ImageAndNameAndText extends StatelessWidget {
       required this.onTabNameUser,
       required this.onTabmore});
 
-   final PostEntity postEntity;
+  final PostEntity postEntity;
   final GestureTapCallback onTabNameUser;
   final GestureTapCallback onTabmore;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -28,7 +28,7 @@ class ImageAndNameAndText extends StatelessWidget {
 
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: const EdgeInsets.only(left: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -38,9 +38,10 @@ class ImageAndNameAndText extends StatelessWidget {
                         onTap: onTabNameUser,
                         child: Text(
                           postEntity.user.username,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
+
                       const Spacer(),
                       //TimePost
                       TimePost(created: postEntity.created),
@@ -51,26 +52,21 @@ class ImageAndNameAndText extends StatelessWidget {
                         onTap: onTabmore,
                         child: Icon(
                           Icons.more_horiz,
-                          color: Colors.black87.withOpacity(0.8),
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          size: 24,
                         ),
                       )
                     ],
                   ),
                   postEntity.text != ''
                       ? Padding(
-                          padding: const EdgeInsets.only(top: 5, right: 7),
-                          child: Text(
-                            postEntity.text,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                    fontWeight: FontWeight.w500, fontSize: 16),
-                          ),
+                          padding: const EdgeInsets.only(right: 7),
+                          child: Text(postEntity.text,
+                              style: Theme.of(context).textTheme.titleMedium),
                         )
                       : const SizedBox(),
                   SizedBox(
-                    height: postEntity.text == '' ? 0 : 10,
+                    height: postEntity.text == '' ? 0 : 8,
                   ),
                 ],
               ),

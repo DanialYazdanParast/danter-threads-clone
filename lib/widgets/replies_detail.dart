@@ -50,11 +50,7 @@ class RepliseDtaile extends StatelessWidget {
                 Navigator.of(context, rootNavigator: true).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return BlocProvider(
-                        create: (context) => ProfileBloc(locator.get()),
-                        child: ProfileScreen(
-                            profileBloc: ProfileBloc(locator.get())),
-                      );
+                      return ProfileScreen();
                     },
                   ),
                 );
@@ -87,11 +83,7 @@ class RepliseDtaile extends StatelessWidget {
                 Navigator.of(context, rootNavigator: true).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return BlocProvider(
-                        create: (context) => ProfileBloc(locator.get()),
-                        child: ProfileScreen(
-                            profileBloc: ProfileBloc(locator.get())),
-                      );
+                      return ProfileScreen();
                     },
                   ),
                 );
@@ -139,18 +131,19 @@ class MyReply extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return GestureDetector(
       onTap: onTaNavigator,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        color: Colors.white,
+        color: themeData.scaffoldBackgroundColor,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
             Positioned(
-              left: 33,
-              top: 65,
-              bottom: 54,
+              left: 28,
+              top: 44,
+              bottom: 50,
               child: Container(
                 width: postEntity.replies.length > 0 ? 1 : 0,
                 color: LightThemeColors.secondaryTextColor,
@@ -158,18 +151,21 @@ class MyReply extends StatelessWidget {
             ),
             Column(
               children: [
+                SizedBox(
+                  height: 8,
+                ),
                 ImageAndNameAndText(
                     postEntity: postEntity,
                     onTabNameUser: onTabNameUser,
                     onTabmore: onTabmore),
-               ImagePost(postEntity: postEntity),
+                ImagePost(postEntity: postEntity),
                 Padding(
-                  padding: const EdgeInsets.only(left: 65),
+                  padding: const EdgeInsets.only(left: 55),
                   child: Row(
                     children: [
-                        LikeButton(postEntity: postEntity,onTabLike: onTabLike),
+                      LikeButton(postEntity: postEntity, onTabLike: onTabLike),
                       const SizedBox(
-                        width: 18,
+                        width: 12,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -184,6 +180,7 @@ class MyReply extends StatelessWidget {
                           width: 22,
                           child: Image.asset(
                             'assets/images/comments.png',
+                            color: themeData.colorScheme.onPrimary,
                           ),
                         ),
                       ),
@@ -191,9 +188,16 @@ class MyReply extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, top: 10),
+                  padding: EdgeInsets.only(
+                    left: 12,
+                    top: (postEntity.replies.isNotEmpty ||
+                            postEntity.likes.isNotEmpty)
+                        ? 8
+                        : 0,
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       postEntity.replies.length > 1
                           ? Stack(
@@ -218,7 +222,8 @@ class MyReply extends StatelessWidget {
                             )
                           : postEntity.replies.length == 1
                               ? Container(
-                                  margin: const EdgeInsets.only(left: 8),
+                                  margin:
+                                      const EdgeInsets.only(left: 8, top: 2),
                                   child: (postEntity
                                           .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
@@ -229,19 +234,19 @@ class MyReply extends StatelessWidget {
                               : Container(
                                   margin: const EdgeInsets.only(left: 30),
                                 ),
-                      SizedBox(width: postEntity.replies.length > 1 ? 30 : 22),
+                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 15),
                       Visibility(
                         visible: postEntity.replies.isNotEmpty,
                         child: Row(
                           children: [
                             Text(postEntity.replies.length.toString(),
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 6),
                             Text(
                                 postEntity.replies.length <= 1
                                     ? 'reply'
                                     : 'replies',
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 18),
                           ],
                         ),
@@ -251,7 +256,7 @@ class MyReply extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(postEntity.likes.length.toString(),
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 6),
                             GestureDetector(
                               onTap: () {
@@ -266,7 +271,8 @@ class MyReply extends StatelessWidget {
                                   postEntity.likes.length <= 1
                                       ? 'Like'
                                       : 'Likes',
-                                  style: Theme.of(context).textTheme.subtitle1),
+                                  style:
+                                      Theme.of(context).textTheme.titleSmall),
                             ),
                           ],
                         ),
@@ -274,7 +280,10 @@ class MyReply extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Divider(height: 20),
+                Divider(
+                    height: 20,
+                    color: themeData.colorScheme.secondary.withOpacity(0.5),
+                    thickness: 0.7),
               ],
             ),
           ],
@@ -300,17 +309,18 @@ class ReplyTo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return GestureDetector(
       onTap: onTaNavigator,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        color: Colors.white,
+        color: themeData.scaffoldBackgroundColor,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
             Positioned(
-              left: 33,
-              top: 65,
+              left: 28,
+              top: 44,
               bottom: 0,
               child: Container(
                 width: postEntity.replies.length > 0 ? 1 : 0,
@@ -323,14 +333,14 @@ class ReplyTo extends StatelessWidget {
                     postEntity: postEntity,
                     onTabNameUser: onTabNameUser,
                     onTabmore: onTabmore),
-              ImagePost(postEntity: postEntity),
+                ImagePost(postEntity: postEntity),
                 Padding(
-                  padding: const EdgeInsets.only(left: 65),
+                  padding: const EdgeInsets.only(left: 55),
                   child: Row(
                     children: [
-                         LikeButton(postEntity: postEntity,onTabLike: onTabLike),
+                      LikeButton(postEntity: postEntity, onTabLike: onTabLike),
                       const SizedBox(
-                        width: 18,
+                        width: 12,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -345,6 +355,7 @@ class ReplyTo extends StatelessWidget {
                           width: 22,
                           child: Image.asset(
                             'assets/images/comments.png',
+                            color: themeData.colorScheme.onPrimary,
                           ),
                         ),
                       ),
@@ -352,9 +363,16 @@ class ReplyTo extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 65, top: 10),
+                  padding: EdgeInsets.only(
+                    left: 55,
+                    top: (postEntity.replies.isNotEmpty ||
+                            postEntity.likes.isNotEmpty)
+                        ? 8
+                        : 0,
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       postEntity.replies.length > 1
                           ? Stack(
@@ -379,7 +397,8 @@ class ReplyTo extends StatelessWidget {
                             )
                           : postEntity.replies.length == 1
                               ? Container(
-                                  margin: const EdgeInsets.only(left: 8),
+                                  margin:
+                                      const EdgeInsets.only(left: 8, top: 2),
                                   child: (postEntity
                                           .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
@@ -390,19 +409,19 @@ class ReplyTo extends StatelessWidget {
                               : Container(
                                   margin: const EdgeInsets.only(left: 30),
                                 ),
-                      SizedBox(width: postEntity.replies.length > 1 ? 30 : 22),
+                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 15),
                       Visibility(
                         visible: postEntity.replies.isNotEmpty,
                         child: Row(
                           children: [
                             Text(postEntity.replies.length.toString(),
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 6),
                             Text(
                                 postEntity.replies.length <= 1
                                     ? 'reply'
                                     : 'replies',
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 18),
                           ],
                         ),
@@ -412,7 +431,7 @@ class ReplyTo extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(postEntity.likes.length.toString(),
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 6),
                             GestureDetector(
                               onTap: () {
@@ -427,7 +446,8 @@ class ReplyTo extends StatelessWidget {
                                   postEntity.likes.length <= 1
                                       ? 'Like'
                                       : 'Likes',
-                                  style: Theme.of(context).textTheme.subtitle1),
+                                  style:
+                                      Theme.of(context).textTheme.titleSmall),
                             ),
                           ],
                         ),

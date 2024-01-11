@@ -1,22 +1,17 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
-import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/likes/likes_Screen.dart';
-import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/theme.dart';
 import 'package:danter/widgets/Row_Image_Name_Text.dart';
-import 'package:danter/widgets/image.dart';
 import 'package:danter/widgets/image_post.dart';
 import 'package:danter/widgets/photoUserFollowers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostDetail extends StatelessWidget {
   final PostEntity postEntity;
@@ -33,6 +28,7 @@ class PostDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return GestureDetector(
       onTap: () {
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
@@ -43,14 +39,14 @@ class PostDetail extends StatelessWidget {
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        color: Colors.white,
+        color: themeData.scaffoldBackgroundColor,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
             Positioned(
-              left: 33,
-              top: 65,
-              bottom: 54,
+              left: 28,
+              top: 44,
+              bottom: 50,
               child: Container(
                 width: postEntity.replies.length > 0 ? 1 : 0,
                 color: LightThemeColors.secondaryTextColor,
@@ -65,11 +61,7 @@ class PostDetail extends StatelessWidget {
                         Navigator.of(context, rootNavigator: true).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              return BlocProvider(
-                                create: (context) => ProfileBloc(locator.get()),
-                                child: ProfileScreen(
-                                    profileBloc: ProfileBloc(locator.get())),
-                              );
+                              return ProfileScreen();
                             },
                           ),
                         );
@@ -88,7 +80,7 @@ class PostDetail extends StatelessWidget {
                     onTabmore: onTabmore),
                 ImagePost(postEntity: postEntity),
                 Padding(
-                  padding: const EdgeInsets.only(left: 65),
+                  padding: const EdgeInsets.only(left: 55),
                   child: Row(
                     children: [
                       LikeButton(postEntity: postEntity, onTabLike: onTabLike),
@@ -107,7 +99,7 @@ class PostDetail extends StatelessWidget {
                       //   ),
                       // ),
                       const SizedBox(
-                        width: 18,
+                        width: 12,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -122,6 +114,7 @@ class PostDetail extends StatelessWidget {
                           width: 22,
                           child: Image.asset(
                             'assets/images/comments.png',
+                            color: themeData.colorScheme.onPrimary,
                           ),
                         ),
                       ),
@@ -129,9 +122,16 @@ class PostDetail extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, top: 10),
+                  padding: EdgeInsets.only(
+                    left: 12,
+                    top: (postEntity.replies.isNotEmpty ||
+                            postEntity.likes.isNotEmpty)
+                        ? 8
+                        : 0,
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       postEntity.replies.length > 1
                           ? Stack(
@@ -156,7 +156,8 @@ class PostDetail extends StatelessWidget {
                             )
                           : postEntity.replies.length == 1
                               ? Container(
-                                  margin: const EdgeInsets.only(left: 8),
+                                  margin:
+                                      const EdgeInsets.only(left: 8, top: 2),
                                   child: (postEntity
                                           .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
@@ -167,19 +168,19 @@ class PostDetail extends StatelessWidget {
                               : Container(
                                   margin: const EdgeInsets.only(left: 30),
                                 ),
-                      SizedBox(width: postEntity.replies.length > 1 ? 30 : 22),
+                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 15),
                       Visibility(
                         visible: postEntity.replies.isNotEmpty,
                         child: Row(
                           children: [
                             Text(postEntity.replies.length.toString(),
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 6),
                             Text(
                                 postEntity.replies.length <= 1
                                     ? 'reply'
                                     : 'replies',
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 18),
                           ],
                         ),
@@ -189,7 +190,7 @@ class PostDetail extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(postEntity.likes.length.toString(),
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(width: 6),
                             GestureDetector(
                               onTap: () {
@@ -204,7 +205,8 @@ class PostDetail extends StatelessWidget {
                                   postEntity.likes.length <= 1
                                       ? 'Like'
                                       : 'Likes',
-                                  style: Theme.of(context).textTheme.subtitle1),
+                                  style:
+                                      Theme.of(context).textTheme.titleSmall),
                             ),
                           ],
                         ),
@@ -212,7 +214,10 @@ class PostDetail extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Divider(height: 20),
+                Divider(
+                    height: 20,
+                    color: themeData.colorScheme.secondary.withOpacity(0.5),
+                    thickness: 0.7),
               ],
             ),
           ],
@@ -242,6 +247,7 @@ class _LikeButtonState extends State<LikeButton> {
   @override
   Widget build(BuildContext context) {
     bool liked = widget.postEntity.likes.contains(AuthRepository.readid());
+    final ThemeData themeData = Theme.of(context);
     return GestureDetector(
         onTap: widget.onTabLike,
         child: liked
@@ -250,9 +256,10 @@ class _LikeButtonState extends State<LikeButton> {
                 .scaleXY(duration: 400.ms, begin: 1.0, end: 1.2)
                 .then()
                 .scaleXY(duration: 400.ms, begin: 1.2, end: 1.0)
-            : const Icon(
+            : Icon(
                 CupertinoIcons.heart,
                 size: 20,
+                color: themeData.colorScheme.onPrimary,
               )
                 .animate(target: liked ? 1 : 0)
                 .scaleXY(duration: 400.ms, begin: 1.0, end: 1.2)

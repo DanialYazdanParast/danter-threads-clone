@@ -1,15 +1,10 @@
 
-
-
 import 'package:danter/data/datasource/auth_data_source.dart';
 import 'package:danter/data/datasource/post_data_source.dart';
 import 'package:danter/data/datasource/reply_data_source.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/data/repository/reply_repository.dart';
-import 'package:danter/screen/auth/bloc/auth_bloc.dart';
-import 'package:danter/screen/home/bloc/home_bloc.dart';
-import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,11 +25,7 @@ Future<void> getItInit() async {
   locator.registerSingleton<IPostRepository>(PostRepository(locator.get()));
   locator.registerSingleton<IReplyRepository>(ReplyRepository(locator.get()));
 
-  //bloc
 
- //  locator.registerFactory<AuthBloc>(()=> AuthBloc(locator.get()));
- //  locator.registerFactory<HomeBloc>(()=> HomeBloc(locator.get()));
-// locator.registerSingleton<ProfileBloc>(ProfileBloc(locator.get()));
  
 
 }

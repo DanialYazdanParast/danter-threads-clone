@@ -24,25 +24,35 @@ class ImageUserPost extends StatelessWidget {
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: SizedBox(
-                    height: 47,
-                    width: 47,
+                    height: 36,
+                    width: 36,
                     child: 
                     ImageLodingService(imageUrl: user.avatar)),
               )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: Container(
-                  height: 47,
-                  width: 47,
-                  color: LightThemeColors.secondaryTextColor.withOpacity(0.4),
-                  child: const Icon(
-                    CupertinoIcons.person_fill,
-                    color: Colors.white,
-                    size: 55,
-                  ),
-                ),
-              ),
+                child: SizedBox(
+                    height: 36,
+                    width: 36,
+                    child: 
+                    Image.asset('assets/images/profile.png')),
+              )
       ),
     );
   }
 }
+
+
+// ClipRRect(
+//                 borderRadius: BorderRadius.circular(100),
+//                 child: Container(
+//                   height: 47,
+//                   width: 47,
+//                   color:Theme.of(context).colorScheme.secondary.withOpacity(0.4),
+//                   child:  Icon(
+//                     CupertinoIcons.person_fill,
+//                     color: Theme.of(context).scaffoldBackgroundColor,
+//                     size: 55,
+//                   ),
+//                 ),
+//               ),

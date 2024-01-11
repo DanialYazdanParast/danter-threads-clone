@@ -28,8 +28,9 @@ class _EditScreenFildState extends State<EditScreenFild> {
 
     final TextEditingController controllername =
         TextEditingController(text: widget.name);
+
+    final ThemeData themeData = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('Edit ${widget.nameFild}'),
@@ -79,11 +80,11 @@ class _EditScreenFildState extends State<EditScreenFild> {
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: themeData.scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 width: 0.5,
-                color: LightThemeColors.secondaryTextColor,
+                color: themeData.colorScheme.secondary,
               )),
           child: Padding(
               padding: const EdgeInsets.all(20),
@@ -94,16 +95,20 @@ class _EditScreenFildState extends State<EditScreenFild> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(widget.nameFild),
+                        Text(widget.nameFild,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                )),
                         GestureDetector(
                           onTap: () {
-                       
-                              if (widget.nameFild == 'Bio') {
-                                controllerbio.text = '';
-                              } else {
-                                controllername.text = '';
-                              }
-                          
+                            if (widget.nameFild == 'Bio') {
+                              controllerbio.text = '';
+                            } else {
+                              controllername.text = '';
+                            }
                           },
                           child: Container(
                             padding: EdgeInsets.all(3),
@@ -136,19 +141,15 @@ class _EditScreenFildState extends State<EditScreenFild> {
                       minLines: 3,
                       maxLines: 50,
                       textAlign: TextAlign.start,
-                      style:
-                          const TextStyle(fontSize: 16.0, color: Colors.black),
+                      style: Theme.of(context).textTheme.titleMedium,
                       decoration: InputDecoration(
                         isCollapsed: true,
                         // floatingLabelBehavior:
                         //     FloatingLabelBehavior.always,
                         alignLabelWithHint: true,
                         label: Text(
-                          'Write a ${widget.nameFild}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1!
-                              .copyWith(fontSize: 16),
+                          'Write a ${widget.nameFild}...',
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ),
                     ),

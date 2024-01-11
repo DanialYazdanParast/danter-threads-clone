@@ -2,25 +2,17 @@ import 'package:danter/data/datasource/post_data_source.dart';
 import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/like.dart';
 import 'package:danter/data/model/post.dart';
-import 'package:danter/data/model/replyphoto.dart';
+
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 
 abstract class IPostRepository {
   Future<List<PostEntity>> getPost(String userId);
   Future<List<PostEntity>> getPostProfile(String userId);
-  Future<int> getPosttotalLike(String postId);
-  Future<int> getPosttotalreplise(String postId);
-  Future<List<Replyphoto>> getPosttotalreplisePhoto(String postId);
   Future<void> sendPost(String userId, String text, image);
-  Future<int> getLikeuser(String postId, String userId);
   Future<void> addLike(String userId, String postid);
   Future<void> deleteLike(String userId, String postid);
-  Future<List<LikeId>> getLikeid(String postId, String userId);
-  Future<int> getTotalfollowers(String userId);
-  Future<int> getTruefollowing(String myuserId, String userIdProfile);
   Future<void> addfollow(String myuserId, String userIdProfile);
-  Future<List<FollowId>> getFollowid(String myuserId, String userIdProfile);
   Future<void> deleteFollow(String myuserId, String userIdProfile);
   Future<List<LikeUser>> getAllLikePost(String postId);
   Future<List<Followers>> geAllfollowers(String userId);
@@ -29,15 +21,10 @@ abstract class IPostRepository {
   Future<void> sendNameAndBio(String userid, String name, String bio);
   Future<void> sendImagePorofile(String userid, image);
   Future<List<PostReply>> getAllReply(String userId);
-  Future<List<PostEntityAll>> getAllpostHome(String userId);
-  Future<List<PostEntityAll>> getAllReplyPost(String userId, String postId);
- Future<List<PostEntityAll>> getAllPostReply(String userId ,String postId);
- Future<List<PostEntityAll>> getAllPostProfile(String userId );
-
- Future<List<PostEntity>> getPostReply(String postId);
- Future<List<PostEntity>> getReplyPost(String postId);
- Future<void> removeFollow(String myuserId, String userIdProfile);
- Future<User> getUser(String userId);
+  Future<List<PostEntity>> getPostReply(String postId);
+  Future<List<PostEntity>> getReplyPost(String postId);
+  Future<void> removeFollow(String myuserId, String userIdProfile);
+  Future<User> getUser(String userId);
 }
 
 class PostRepository implements IPostRepository {
@@ -46,21 +33,6 @@ class PostRepository implements IPostRepository {
   @override
   Future<List<PostEntity>> getPost(String userId) {
     return dataSource.getPost(userId);
-  }
-
-  @override
-  Future<int> getPosttotalLike(String postId) {
-    return dataSource.getPosttotalLike(postId);
-  }
-
-  @override
-  Future<int> getPosttotalreplise(String postId) {
-    return dataSource.getPosttotalreplise(postId);
-  }
-
-  @override
-  Future<List<Replyphoto>> getPosttotalreplisePhoto(String postId) {
-    return dataSource.getPosttotalreplisePhoto(postId);
   }
 
   @override
@@ -74,33 +46,13 @@ class PostRepository implements IPostRepository {
   }
 
   @override
-  Future<int> getLikeuser(String postId, String userId) {
-    return dataSource.getLikeuser(postId, userId);
-  }
-
-  @override
   Future<void> addLike(String userId, String postid) {
     return dataSource.addLike(userId, postid);
   }
 
   @override
   Future<void> deleteLike(String userId, String postid) {
-    return dataSource.deleteLike(userId,postid);
-  }
-
-  @override
-  Future<List<LikeId>> getLikeid(String postId, String userId) {
-    return dataSource.getLikeid(postId, userId);
-  }
-
-  @override
-  Future<int> getTotalfollowers(String userId) {
-    return dataSource.getTotalfollowers(userId);
-  }
-
-  @override
-  Future<int> getTruefollowing(String myuserId, String userIdProfile) {
-    return dataSource.getTruefollowing(myuserId, userIdProfile);
+    return dataSource.deleteLike(userId, postid);
   }
 
   @override
@@ -109,13 +61,8 @@ class PostRepository implements IPostRepository {
   }
 
   @override
-  Future<List<FollowId>> getFollowid(String myuserId, String userIdProfile) {
-    return dataSource.getFollowid(myuserId, userIdProfile);
-  }
-
-  @override
   Future<void> deleteFollow(String myuserId, String userIdProfile) {
-    return dataSource.deleteFollow(myuserId,userIdProfile);
+    return dataSource.deleteFollow(myuserId, userIdProfile);
   }
 
   @override
@@ -156,42 +103,26 @@ class PostRepository implements IPostRepository {
   }
 
   @override
-  Future<List<PostEntityAll>> getAllpostHome(String userId) {
-    return dataSource.getAllpostHome(userId);
+  Future<List<PostEntity>> getPostReply(String postId) {
+    return dataSource.getPostReply(
+      postId,
+    );
   }
 
   @override
-  Future<List<PostEntityAll>> getAllReplyPost(String userId, String postId) {
-    return dataSource.getAllReplyPost(userId, postId);
-  }
-  
-  @override
-  Future<List<PostEntityAll>> getAllPostReply(String userId, String postId) {
-     return dataSource.getAllPostReply(userId, postId);
-  }
-  
-  @override
-  Future<List<PostEntityAll>> getAllPostProfile(String userId) {
-     return dataSource.getAllPostProfile(userId,);
-  }
-  
-  @override
-  Future<List<PostEntity>> getPostReply(String postId) {
-    return dataSource.getPostReply(postId,);
-  }
-  
-  @override
   Future<List<PostEntity>> getReplyPost(String postId) {
-    return dataSource.getReplyPost(postId,);
+    return dataSource.getReplyPost(
+      postId,
+    );
   }
-  
+
   @override
   Future<void> removeFollow(String myuserId, String userIdProfile) {
-    return dataSource.removeFollow(myuserId,userIdProfile);
+    return dataSource.removeFollow(myuserId, userIdProfile);
   }
-  
+
   @override
   Future<User> getUser(String userId) {
-     return dataSource.getUser(userId);
+    return dataSource.getUser(userId);
   }
 }

@@ -23,7 +23,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       elevation: 0,
-      backgroundColor:  Colors.white,
+      backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
@@ -39,10 +39,10 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             ),
           ),
           const SizedBox(height: 15),
-          Text(widget.description),
-          const SizedBox(height: 20),
-          const Divider(
-            height: 1,
+          //  Text(widget.description),
+          //  const SizedBox(height: 20),
+           Divider(
+            height: 1,color:Theme.of(context).colorScheme.secondary.withOpacity(0.5) 
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -62,8 +62,8 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               ),
             ),
           ),
-          const Divider(
-            height: 1,
+           Divider(
+            height: 1,color:  Theme.of(context).colorScheme.secondary.withOpacity(0.5) 
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
