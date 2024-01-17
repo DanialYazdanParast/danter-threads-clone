@@ -1,3 +1,4 @@
+import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
@@ -5,14 +6,14 @@ import 'package:danter/screen/followers/followers_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/edit_profile/edit_profile.dart';
 import 'package:danter/screen/settings/settings_Screen.dart';
-import 'package:danter/widgets/custom_alert_dialog.dart';
-import 'package:danter/widgets/error.dart';
-import 'package:danter/widgets/image.dart';
-import 'package:danter/theme.dart';
-import 'package:danter/widgets/photoUserFollowers.dart';
-import 'package:danter/widgets/post_detail.dart';
-import 'package:danter/widgets/replies_detail.dart';
-import 'package:danter/widgets/snackbart.dart';
+import 'package:danter/core/widgets/custom_alert_dialog.dart';
+import 'package:danter/core/widgets/error.dart';
+import 'package:danter/core/widgets/image.dart';
+import 'package:danter/config/theme/theme.dart';
+import 'package:danter/core/widgets/photoUserFollowers.dart';
+import 'package:danter/core/widgets/post_detail.dart';
+import 'package:danter/core/widgets/replies_detail.dart';
+import 'package:danter/core/widgets/snackbart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

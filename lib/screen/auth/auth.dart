@@ -1,8 +1,9 @@
-import 'package:danter/di/di.dart';
+import 'package:danter/core/constants/custom_colors.dart';
+import 'package:danter/core/di/di.dart';
 import 'package:danter/main.dart';
 import 'package:danter/screen/auth/bloc/auth_bloc.dart';
 import 'package:danter/screen/root/root.dart';
-import 'package:danter/theme.dart';
+import 'package:danter/config/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

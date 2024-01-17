@@ -1,6 +1,7 @@
+import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
+import 'package:danter/core/di/di.dart';
 
 import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/likes/likes_Screen.dart';
@@ -10,13 +11,13 @@ import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
 
-import 'package:danter/theme.dart';
-import 'package:danter/widgets/Row_Image_Name_Text.dart';
+import 'package:danter/config/theme/theme.dart';
+import 'package:danter/core/widgets/Row_Image_Name_Text.dart';
 
-import 'package:danter/widgets/image.dart';
-import 'package:danter/widgets/image_post.dart';
-import 'package:danter/widgets/photoUserFollowers.dart';
-import 'package:danter/widgets/post_detail.dart';
+import 'package:danter/core/widgets/image.dart';
+import 'package:danter/core/widgets/image_post.dart';
+import 'package:danter/core/widgets/photoUserFollowers.dart';
+import 'package:danter/core/widgets/post_detail.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

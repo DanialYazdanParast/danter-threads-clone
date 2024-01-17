@@ -1,12 +1,12 @@
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
+import 'package:danter/core/di/di.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
 import 'package:danter/screen/likes/likes_detail_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
-import 'package:danter/theme.dart';
-import 'package:danter/widgets/error.dart';
+import 'package:danter/config/theme/theme.dart';
+import 'package:danter/core/widgets/error.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

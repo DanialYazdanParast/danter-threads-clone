@@ -2,7 +2,7 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:danter/main.dart';
 import 'package:danter/screen/auth/auth.dart';
 import 'package:danter/screen/settings/cubit/them_cubit.dart';
-import 'package:danter/theme.dart';
+import 'package:danter/config/theme/theme.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,7 +83,7 @@ class SettingScreen extends StatelessWidget {
                             .pushReplacement(
                           MaterialPageRoute(
                             builder: (context) {
-                              return  AuthScreen();
+                              return const AuthScreen();
                             },
                           ),
                         );

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/util/exceptions.dart';
+import 'package:danter/core/util/exceptions.dart';
 import 'package:equatable/equatable.dart';
 
 part 'auth_event.dart';
@@ -8,10 +8,9 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthRepository authRepository;
-  
+
   bool isLoginMode;
-  AuthBloc(this.authRepository,
-      { this.isLoginMode = true})
+  AuthBloc(this.authRepository, {this.isLoginMode = true})
       : super(AuthInitial(isLoginMode)) {
     on<AuthEvent>((event, emit) async {
       try {
@@ -22,7 +21,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
             emit(AuthSuccess(isLoginMode));
           } else {
-            await authRepository.signUp(event.username, event.password,event.passwordConfirm);
+            await authRepository.signUp(
+                event.username, event.password, event.passwordConfirm);
             emit(AuthSuccess(isLoginMode));
           }
         } else if (event is AuthModeChangeIsClicked) {

@@ -1,37 +1,33 @@
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
+import 'package:danter/core/di/di.dart';
 import 'package:danter/screen/home/bloc/home_bloc.dart';
-import 'package:danter/theme.dart';
-import 'package:danter/widgets/error.dart';
-import 'package:danter/widgets/post_detail.dart';
+import 'package:danter/config/theme/theme.dart';
+import 'package:danter/core/widgets/error.dart';
+import 'package:danter/core/widgets/post_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key , });
-  
+  const HomeScreen({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-     final ThemeData themeData = Theme.of(context);
+    final ThemeData themeData = Theme.of(context);
     return Scaffold(
-     
       body: BlocProvider(
         create: (context) => HomeBloc(locator.get())
           ..add(HomeStartedEvent(user: AuthRepository.readid())),
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state is HomeSuccesState) {
-              return  
-                  
-                 
-              RefreshIndicator(
-
+              return RefreshIndicator(
                 onRefresh: () async {
-                
                   BlocProvider.of<HomeBloc>(context)
                       .add(HomeRefreshEvent(user: AuthRepository.readid()));
 
-                  await  Future.delayed(const Duration(seconds: 2));    
+                  await Future.delayed(const Duration(seconds: 2));
                 },
                 child: CustomScrollView(
                   slivers: [
@@ -41,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                         height: 40,
                         width: 40,
                         child: GestureDetector(
-                          onTap: (){},
+                          onTap: () {},
                           child: Image.asset(
                             'assets/images/d.png',
                             color: themeData.colorScheme.onPrimary,
@@ -104,18 +100,21 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                         mainAxisSize: MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Container(height: 1,),
+                          Container(
+                            height: 1,
+                          ),
                           Container(
                               height: 40,
                               width: 40,
-                              child:  CircularProgressIndicator(
+                              child: CircularProgressIndicator(
                                 strokeWidth: 1.5,
                                 color: themeData.colorScheme.secondary,
                               )),
-
-                               Container(height: 200,),
+                          Container(
+                            height: 200,
+                          ),
                         ],
                       ),
                     ),

@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/data/repository/reply_repository.dart';
-import 'package:danter/util/exceptions.dart';
+import 'package:danter/core/util/exceptions.dart';
 
 part 'reply_event.dart';
 part 'reply_state.dart';

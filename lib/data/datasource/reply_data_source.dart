@@ -1,6 +1,6 @@
 import 'package:danter/data/model/post.dart';
 
-import 'package:danter/util/response_validator.dart';
+import 'package:danter/core/util/response_validator.dart';
 import 'package:dio/dio.dart';
 
 abstract class IReplyDataSource {

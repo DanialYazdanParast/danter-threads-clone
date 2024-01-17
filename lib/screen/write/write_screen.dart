@@ -1,9 +1,9 @@
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
+import 'package:danter/core/di/di.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/write/bloc/write_bloc.dart';
-import 'package:danter/widgets/snackbart.dart';
-import 'package:danter/widgets/write.dart';
+import 'package:danter/core/widgets/snackbart.dart';
+import 'package:danter/core/widgets/write.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

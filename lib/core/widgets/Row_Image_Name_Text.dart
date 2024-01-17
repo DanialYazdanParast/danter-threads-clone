@@ -1,7 +1,7 @@
 import 'package:danter/data/model/post.dart';
-import 'package:danter/widgets/image.dart';
-import 'package:danter/widgets/image_user_post.dart';
-import 'package:danter/widgets/time.dart';
+import 'package:danter/core/widgets/image.dart';
+import 'package:danter/core/widgets/image_user_post.dart';
+import 'package:danter/core/widgets/time.dart';
 import 'package:flutter/material.dart';
 
 class ImageAndNameAndText extends StatelessWidget {

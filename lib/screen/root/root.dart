@@ -1,6 +1,6 @@
 
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
+import 'package:danter/core/di/di.dart';
 import 'package:danter/screen/home/home_screen.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
@@ -178,6 +178,7 @@ class _RootScreenState extends State<RootScreen> {
     return key.currentState == null && selectedScreenIndex != index
         ? Container()
         : Navigator(
+          
       
 
 

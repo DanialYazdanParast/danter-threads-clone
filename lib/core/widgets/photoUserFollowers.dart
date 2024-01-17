@@ -1,5 +1,5 @@
-import 'package:danter/theme.dart';
-import 'package:danter/widgets/image.dart';
+import 'package:danter/config/theme/theme.dart';
+import 'package:danter/core/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

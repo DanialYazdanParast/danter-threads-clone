@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/post_repository.dart';
-import 'package:danter/util/exceptions.dart';
+import 'package:danter/core/util/exceptions.dart';
 import 'package:equatable/equatable.dart';
 
 part 'home_event.dart';

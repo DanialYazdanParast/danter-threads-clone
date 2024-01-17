@@ -1,18 +1,19 @@
 import 'dart:io';
 
+import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/di/di.dart';
+import 'package:danter/core/di/di.dart';
 import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/replies/bloc/reply_bloc.dart';
 import 'package:danter/screen/replies/write_reply/bloc/write_reply_bloc.dart';
 import 'package:danter/screen/write/bloc/write_bloc.dart';
 import 'package:danter/screen/write/write_screen.dart';
-import 'package:danter/widgets/image.dart';
-import 'package:danter/widgets/image_post.dart';
-import 'package:danter/widgets/snackbart.dart';
-import 'package:danter/widgets/write.dart';
-import 'package:danter/theme.dart';
+import 'package:danter/core/widgets/image.dart';
+import 'package:danter/core/widgets/image_post.dart';
+import 'package:danter/core/widgets/snackbart.dart';
+import 'package:danter/core/widgets/write.dart';
+import 'package:danter/config/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';

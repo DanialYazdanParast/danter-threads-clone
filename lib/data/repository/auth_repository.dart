@@ -1,6 +1,6 @@
 import 'package:danter/data/datasource/auth_data_source.dart';
 import 'package:danter/data/model/auth_info.dart';
-import 'package:danter/di/di.dart';
+import 'package:danter/core/di/di.dart';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

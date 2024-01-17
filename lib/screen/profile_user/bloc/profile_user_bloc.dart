@@ -3,7 +3,7 @@ import 'package:danter/data/model/follow.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/post_repository.dart';
-import 'package:danter/util/exceptions.dart';
+import 'package:danter/core/util/exceptions.dart';
 import 'package:equatable/equatable.dart';
 
 part 'profile_user_event.dart';
@@ -61,7 +61,7 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
               successState.reply,
               successState.user));
         }
-      }else if (event is AddLikeProfileUserEvent ||
+      } else if (event is AddLikeProfileUserEvent ||
           event is RemoveLikeProfileUserEvent ||
           event is AddLikeReplyToProfileUserEvent ||
           event is RemoveLikeReplyToProfileUserEvent ||
@@ -114,12 +114,11 @@ class ProfileUserBloc extends Bloc<ProfileUserEvent, ProfileUserState> {
             });
           }
 
-           emit(ProfileUserSuccesState(
+          emit(ProfileUserSuccesState(
               successState.post,
               successState.userFollowers,
               successState.reply,
               successState.user));
-        
         }
       }
     });

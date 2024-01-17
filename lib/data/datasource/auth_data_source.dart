@@ -1,5 +1,5 @@
 import 'package:danter/data/model/auth_info.dart';
-import 'package:danter/util/response_validator.dart';
+import 'package:danter/core/util/response_validator.dart';
 import 'package:dio/dio.dart';
 
 abstract class IAuthDataSource {
@@ -16,7 +16,7 @@ class AuthRemoteDataSource with HttpResponseValidat implements IAuthDataSource {
     final response = await _dio.post('collections/users/auth-with-password',
         data: {"identity": username, "password": password});
     validatResponse(response);
-    return AuthInfo.fromJson(response.data );
+    return AuthInfo.fromJson(response.data);
   }
 
   @override

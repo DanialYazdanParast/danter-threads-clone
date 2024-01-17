@@ -1,7 +1,7 @@
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/theme.dart';
-import 'package:danter/widgets/image_user_post.dart';
+import 'package:danter/config/theme/theme.dart';
+import 'package:danter/core/widgets/image_user_post.dart';
 import 'package:flutter/material.dart';
 
 class FollowingPage extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:danter/di/di.dart';
+import 'package:danter/core/di/di.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'them_state.dart';

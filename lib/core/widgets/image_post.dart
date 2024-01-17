@@ -1,11 +1,11 @@
 import 'package:danter/data/model/post.dart';
 import 'package:danter/screen/image/image_screen.dart';
-import 'package:danter/widgets/image.dart';
+import 'package:danter/core/widgets/image.dart';
 
 import 'package:flutter/material.dart';
 
 class ImagePost extends StatelessWidget {
-  const ImagePost({super.key, required this.postEntity , this.leftpading =55});
+  const ImagePost({super.key, required this.postEntity, this.leftpading = 55});
   final PostEntity postEntity;
   final double leftpading;
 
@@ -13,7 +13,7 @@ class ImagePost extends StatelessWidget {
   Widget build(BuildContext context) {
     return postEntity.image.isNotEmpty && postEntity.image.length < 2
         ? Padding(
-            padding:  EdgeInsets.only(right: 10, left: leftpading, bottom: 10),
+            padding: EdgeInsets.only(right: 10, left: leftpading, bottom: 10),
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context, rootNavigator: true)
