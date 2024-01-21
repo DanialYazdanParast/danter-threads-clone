@@ -15,6 +15,3 @@ class DarkThemeColors {
   static const secondaryTextColor = Color(0xffB8B8B8);
   static const onbackground = Color(0xff1e1e1e);
 }
-
-
-

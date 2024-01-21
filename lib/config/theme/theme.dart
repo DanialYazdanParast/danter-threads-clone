@@ -76,44 +76,20 @@ class MyAppThemeConfig {
       //-----------------------------------
 
       textTheme: TextTheme(
-        // bodyLarge: TextStyle(
-        //      color: primaryTextColor,
-        //    fontWeight: FontWeight.w600,
-        // ),
-
-        //  bodyLarge: defaultTextStyle.copyWith(
-        //   color: primaryTextColor,
-        //   fontWeight: FontWeight.w600
-        // ),
         titleLarge: defaultTextStyle.copyWith(
             fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w600),
-
         titleMedium: defaultTextStyle.copyWith(
             fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w300),
-
         titleSmall: defaultTextStyle.copyWith(
             fontSize: 16,
             color: secondaryTextColor,
             fontWeight: FontWeight.w400),
-
         labelSmall: defaultTextStyle.copyWith(
             fontSize: 14,
             color: secondaryTextColor,
             fontWeight: FontWeight.w400),
-
         labelLarge: defaultTextStyle.copyWith(
             fontSize: 24, color: primaryTextColor, fontWeight: FontWeight.w500),
-
-        //////////////////////////
-        // subtitle1: defaultTextStyle.copyWith(
-        //     color: secondaryTextColor,
-        //     fontSize: 17,
-        //     fontWeight: FontWeight.w400),
-        // button: defaultTextStyle,
-        // bodyText2: defaultTextStyle,
-        // caption: defaultTextStyle.apply(color: secondaryTextColor),
-        // headline6: defaultTextStyle.copyWith(
-        //     fontWeight: FontWeight.w700, fontSize: 18),
       ),
 
       //-----------------------------------
@@ -185,38 +161,24 @@ class MyAppThemeConfig {
       textTheme: TextTheme(
         titleLarge: defaultTextStyle.copyWith(
             fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w600),
-
         titleMedium: defaultTextStyle.copyWith(
             fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w300),
-
         titleSmall: defaultTextStyle.copyWith(
             fontSize: 16,
             color: secondaryTextColor,
             fontWeight: FontWeight.w400),
-
         labelSmall: defaultTextStyle.copyWith(
             fontSize: 14,
             color: secondaryTextColor,
             fontWeight: FontWeight.w400),
-
         labelLarge: defaultTextStyle.copyWith(
             fontSize: 24, color: primaryTextColor, fontWeight: FontWeight.w500),
-
-        // subtitle1: defaultTextStyle.copyWith(
-        //     color: secondaryTextColor,
-        //     fontSize: 17,
-        //     fontWeight: FontWeight.w400),
-        // button: defaultTextStyle,
-        // bodyText2: defaultTextStyle,
-        // caption: defaultTextStyle.apply(color: secondaryTextColor),
-        // headline6: defaultTextStyle.copyWith(
-        //     fontWeight: FontWeight.w700, fontSize: 18),
       ),
       //-----------------------------------
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(),
 
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
+
       progressIndicatorTheme: ProgressIndicatorThemeData(
           refreshBackgroundColor: primaryColor.withBlue(35)),
       colorScheme: ColorScheme.dark(
