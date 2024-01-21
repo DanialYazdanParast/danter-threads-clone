@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const int homeindex = 0;
-const int cartindex = 1;
+const int writeindex = 1;
 const int profileindex = 2;
 
 class RootScreen extends StatefulWidget {
@@ -23,13 +23,13 @@ class _RootScreenState extends State<RootScreen> {
   int selectedScreenIndex = homeindex;
   final List<int> _history = [];
 
-  GlobalKey<NavigatorState> _homeKey = GlobalKey();
-  GlobalKey<NavigatorState> _writeKey = GlobalKey();
-  GlobalKey<NavigatorState> _profileKey = GlobalKey();
+  final GlobalKey<NavigatorState> _homeKey = GlobalKey();
+  final GlobalKey<NavigatorState> _writeKey = GlobalKey();
+  final GlobalKey<NavigatorState> _profileKey = GlobalKey();
 
   late final map = {
     homeindex: _homeKey,
-    cartindex: _writeKey,
+    writeindex: _writeKey,
     profileindex: _profileKey,
   };
 
@@ -61,7 +61,7 @@ class _RootScreenState extends State<RootScreen> {
             index: selectedScreenIndex,
             children: [
               _navigator(_homeKey, homeindex, const HomeScreen()),
-              _navigator(_writeKey, cartindex, const WriteScreen()),
+              _navigator(_writeKey, writeindex, const WriteScreen()),
               _navigator(_profileKey, profileindex, const ProfileScreen())
             ],
           ),

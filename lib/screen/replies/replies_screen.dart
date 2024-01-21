@@ -2,14 +2,13 @@ import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/di/di.dart';
-import 'package:danter/screen/image/image_screen.dart';
+
 import 'package:danter/screen/likes/likes_Screen.dart';
-import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/bloc/reply_bloc.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
-import 'package:danter/config/theme/theme.dart';
 
 import 'package:danter/core/widgets/error.dart';
 import 'package:danter/core/widgets/image.dart';
@@ -18,10 +17,10 @@ import 'package:danter/core/widgets/image_user_post.dart';
 import 'package:danter/core/widgets/post_detail.dart';
 import 'package:danter/core/widgets/time.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bounce/flutter_bounce.dart';
 
 class RepliesScreen extends StatefulWidget {
   const RepliesScreen({
@@ -203,49 +202,50 @@ class ReplyTo extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return Container(
-      height: 55,
+      height: 60,
       color: themeData.scaffoldBackgroundColor,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: InkWell(
-              onTap: onTabNavigator,
-              child: Container(
-                color: themeData.colorScheme.onBackground, //Color(0xffF1A1A1A),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: ImageLodingService(
-                                    imageUrl:
-                                        AuthRepository.loadAuthInfo()!.avatar)),
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Container(
-                                height: 24,
-                                width: 24,
-                                color: themeData.colorScheme.secondary,
-                                child:
-                                    Image.asset('assets/images/profile.png')),
-                          ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text('Reply to ${postEntity.user.username}',
-                        style: Theme.of(context).textTheme.titleSmall),
-                  ],
-                ),
-              )),
+      child: Bounce(
+        duration: Duration(milliseconds: 180),
+        onPressed: onTabNavigator,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Container(
+              color: themeData.colorScheme.onBackground, //Color(0xffF1A1A1A),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: ImageLodingService(
+                                  imageUrl:
+                                      AuthRepository.loadAuthInfo()!.avatar)),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Container(
+                              height: 24,
+                              width: 24,
+                              color: themeData.colorScheme.secondary,
+                              child: Image.asset('assets/images/profile.png')),
+                        ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text('Reply to ${postEntity.user.username}',
+                      style: Theme.of(context).textTheme.titleSmall),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
