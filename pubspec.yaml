@@ -50,7 +50,7 @@ dependencies:
   lottie: ^2.7.0
   flutter_animate: ^4.3.0
   animated_theme_switcher: ^2.0.10
-  day_night_switcher: ^0.2.0+1
+  
   google_fonts: ^6.1.0
   flutter_bounce: ^1.1.0
 

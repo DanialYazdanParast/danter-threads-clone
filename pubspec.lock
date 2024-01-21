@@ -121,14 +121,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
-  day_night_switcher:
-    dependency: "direct main"
-    description:
-      name: day_night_switcher
-      sha256: "37354e55fdc0b49d1bea863121cc5a99ab952669f4f349cdd7fe78de2e62a72a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0+1"
   dio:
     dependency: "direct main"
     description:

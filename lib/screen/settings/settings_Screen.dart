@@ -4,6 +4,7 @@ import 'package:danter/screen/auth/auth.dart';
 import 'package:danter/screen/settings/cubit/them_cubit.dart';
 import 'package:danter/config/theme/theme.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repository/auth_repository.dart';
@@ -38,32 +39,25 @@ class SettingScreen extends StatelessWidget {
                     ThemeSwitcher(
                       clipper: const ThemeSwitcherCircleClipper(),
                       builder: (context) {
-                        return SizedBox(
-                          height: 50,
-                          width: 70,
-                          child: DayNightSwitcher(
-                            isDarkModeEnabled: !themee.isDark,
-                            onStateChanged: (isDarkModeEnabled) {
-                              final brightness =
-                                  ThemeModelInheritedNotifier.of(context)
-                                      .theme
-                                      .brightness;
+                        return CupertinoSwitch(
+                          activeColor: themeData.colorScheme.secondary,
+                          value: themee.isDark,
+                          onChanged: (isDarkModeEnabled) {
+                            final brightness =
+                                ThemeModelInheritedNotifier.of(context)
+                                    .theme
+                                    .brightness;
 
-                              ThemeSwitcher.of(context).changeTheme(
-                                theme: brightness == Brightness.light
-                                    ? darktheme
-                                    : lighttheme,
-                                isReversed: brightness == Brightness.light
-                                    ? true
-                                    : false,
-                              );
-                              ThemCubit.sharedPreferences.setBool(
-                                  "them",
-                                  brightness == Brightness.light
-                                      ? true
-                                      : false);
-                            },
-                          ),
+                            ThemeSwitcher.of(context).changeTheme(
+                              theme: brightness == Brightness.light
+                                  ? darktheme
+                                  : lighttheme,
+                              isReversed:
+                                  brightness == Brightness.light ? true : false,
+                            );
+                            ThemCubit.sharedPreferences.setBool("them",
+                                brightness == Brightness.light ? true : false);
+                          },
                         );
                       },
                     ),
