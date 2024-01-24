@@ -1,21 +1,13 @@
-import 'dart:io';
-
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/di/di.dart';
-import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/replies/bloc/reply_bloc.dart';
 import 'package:danter/screen/replies/write_reply/bloc/write_reply_bloc.dart';
-import 'package:danter/screen/write/bloc/write_bloc.dart';
-import 'package:danter/screen/write/write_screen.dart';
 import 'package:danter/core/widgets/image.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/snackbart.dart';
 import 'package:danter/core/widgets/write.dart';
-import 'package:danter/config/theme/theme.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,82 +59,85 @@ class WriteReply extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 color: themeData.scaffoldBackgroundColor,
-                height: 35,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Anyone can reply',
-                        style: Theme.of(context).textTheme.labelSmall),
-                    BlocConsumer<WriteReplyBloc, WriteReplyState>(
-                      listener: (context, state) {
-                        if (state is WriteReplySuccesState) {
-                          _controller.text = '';
-                          selectedImage = [];
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            snackBarApp(themeData, 'با موفقیت ثبت شد',
-                                (namePage == 'reply') ? 55 : 10),
-                          );
-                          if (namePage == 'reply') {
-                            BlocProvider.of<ReplyBloc>(context)
-                                .add(ReplyRefreshEvent(
-                              postId: postEntity.id,
-                            ));
-                          }
-                        } else if (state is WriteReplyErrorState) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              snackBarApp(themeData, state.exception.message,
-                                  (namePage == 'reply') ? 55 : 10));
-                        }
-                      },
-                      builder: (context, state) {
-                        return GestureDetector(
-                          onTap: () {
-                            if (_controller.text.isNotEmpty ||
-                                selectedImage!.isNotEmpty) {
-                              BlocProvider.of<WriteReplyBloc>(context).add(
-                                  WriteReplySendPostEvent(
-                                      user: AuthRepository.readid(),
-                                      text: _controller.text,
-                                      postid: postEntity.id,
-                                      image: selectedImage!));
+                height: 45,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Anyone can reply',
+                          style: Theme.of(context).textTheme.labelSmall),
+                      BlocConsumer<WriteReplyBloc, WriteReplyState>(
+                        listener: (context, state) {
+                          if (state is WriteReplySuccesState) {
+                            _controller.text = '';
+                            selectedImage = [];
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              snackBarApp(themeData, 'با موفقیت ثبت شد',
+                                  (namePage == 'reply') ? 55 : 10),
+                            );
+                            if (namePage == 'reply') {
+                              BlocProvider.of<ReplyBloc>(context)
+                                  .add(ReplyRefreshEvent(
+                                postId: postEntity.id,
+                              ));
                             }
-                          },
-                          child: Container(
-                            height: 30,
-                            width: 55,
-                            decoration: BoxDecoration(
-                                color: themeData.colorScheme.primary,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: state is WriteReplyLodingState
-                                ? Center(
-                                    child: SizedBox(
-                                      height: 23,
-                                      width: 23,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color:
-                                              themeData.colorScheme.secondary,
+                          } else if (state is WriteReplyErrorState) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                snackBarApp(themeData, state.exception.message,
+                                    (namePage == 'reply') ? 55 : 10));
+                          }
+                        },
+                        builder: (context, state) {
+                          return GestureDetector(
+                            onTap: () {
+                              if (_controller.text.isNotEmpty ||
+                                  selectedImage!.isNotEmpty) {
+                                BlocProvider.of<WriteReplyBloc>(context).add(
+                                    WriteReplySendPostEvent(
+                                        user: AuthRepository.readid(),
+                                        text: _controller.text,
+                                        postid: postEntity.id,
+                                        image: selectedImage!));
+                              }
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 55,
+                              decoration: BoxDecoration(
+                                  color: themeData.colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: state is WriteReplyLodingState
+                                  ? Center(
+                                      child: SizedBox(
+                                        height: 23,
+                                        width: 23,
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color:
+                                                themeData.colorScheme.secondary,
+                                          ),
                                         ),
                                       ),
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        'Post',
+                                        style: themeData.textTheme.titleMedium!
+                                            .copyWith(
+                                                fontSize: 14,
+                                                color: themeData
+                                                    .scaffoldBackgroundColor),
+                                      ),
                                     ),
-                                  )
-                                : Center(
-                                    child: Text(
-                                      'Post',
-                                      style: themeData.textTheme.titleMedium!
-                                          .copyWith(
-                                              fontSize: 14,
-                                              color: themeData
-                                                  .scaffoldBackgroundColor),
-                                    ),
-                                  ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )

@@ -88,6 +88,8 @@ class MyAppThemeConfig {
             fontSize: 14,
             color: secondaryTextColor,
             fontWeight: FontWeight.w400),
+        headlineLarge: defaultTextStyle.copyWith(
+            fontSize: 30, color: primaryTextColor, fontWeight: FontWeight.bold),
         labelLarge: defaultTextStyle.copyWith(
             fontSize: 24, color: primaryTextColor, fontWeight: FontWeight.w500),
       ),
@@ -102,6 +104,8 @@ class MyAppThemeConfig {
           secondary: secondaryColor,
           onSecondary: secondaryTextColor,
           background: Colors.white,
+          surface: secondaryTextColor.withOpacity(0.5),
+          onSurface: primaryTextColor,
           onBackground: onbackground),
       //-----------------------------------
       useMaterial3: true,
@@ -171,6 +175,8 @@ class MyAppThemeConfig {
             fontSize: 14,
             color: secondaryTextColor,
             fontWeight: FontWeight.w400),
+        headlineLarge: defaultTextStyle.copyWith(
+            fontSize: 30, color: primaryTextColor, fontWeight: FontWeight.bold),
         labelLarge: defaultTextStyle.copyWith(
             fontSize: 24, color: primaryTextColor, fontWeight: FontWeight.w500),
       ),
@@ -187,6 +193,8 @@ class MyAppThemeConfig {
           secondary: secondaryColor,
           onSecondary: secondaryTextColor,
           background: Colors.white,
+          surface: secondaryTextColor.withOpacity(0.5),
+          onSurface: primaryTextColor,
           onBackground: onbackground),
       //-----------------------------------
       useMaterial3: true,

@@ -1,35 +1,49 @@
+import 'package:hive/hive.dart';
 
-class User {
-  
+part 'user.g.dart';
+
+@HiveType(typeId: 0)
+class User extends HiveObject {
+  @HiveField(0)
   final String username;
+  @HiveField(1)
   final String? name;
+  @HiveField(2)
   final String id;
+  @HiveField(3)
   final String? bio;
+  @HiveField(4)
   final String collectionId;
+  @HiveField(5)
   final String avatar;
+  @HiveField(6)
   final String avatarchek;
+  @HiveField(7)
   final List<String> followers;
-   final List<String> following;
- 
+  @HiveField(8)
+  final List<String> following;
 
-  User(this.followers, this.following, { required this.avatarchek,required this.username,required this.name,required this.id,required this.bio,
-     required this.collectionId,required this.avatar,});
+  User(
+    this.followers,
+    this.following, {
+    required this.avatarchek,
+    required this.username,
+    required this.name,
+    required this.id,
+    required this.bio,
+    required this.collectionId,
+    required this.avatar,
+  });
 
   User.fromJson(Map<String, dynamic> json)
-      : 
-        username = json['username'],
-        name = json['name'] == null?json['username']:json['name'],
-        id = json['id'] ,
+      : username = json['username'],
+        name = json['name'] == null ? json['username'] : json['name'],
+        id = json['id'],
         bio = json['bio'],
         collectionId = json['collectionId'],
         avatar =
             'https://dan.chbk.run/api/files/${json['collectionName']}/${json['id']}/${json['avatar']}',
-             avatarchek = json['avatar'],
-         followers =  List<String>.from(json["followers"]),
-         following =  List<String>.from(json["following"]);
-      
+        avatarchek = json['avatar'],
+        followers = List<String>.from(json["followers"]),
+        following = List<String>.from(json["following"]);
 }
-
-
-
-

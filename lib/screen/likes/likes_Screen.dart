@@ -1,13 +1,10 @@
-import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/di/di.dart';
+import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
-import 'package:danter/screen/likes/likes_detail_screen.dart';
-import 'package:danter/screen/profile/bloc/profile_bloc.dart';
+import 'package:danter/core/widgets/user_detail_follow.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
-import 'package:danter/config/theme/theme.dart';
 import 'package:danter/core/widgets/error.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,7 +50,7 @@ class _LikesScreenState extends State<LikesScreen> {
                   padding: EdgeInsets.only(top: 8),
                   itemCount: state.user[0].user.length,
                   itemBuilder: (context, index) {
-                    return LikedDetailScreen(
+                    return UserDetailFollow(
                       onTabFollow: () {
                         if (!state.user[0].user[index].followers
                             .contains(AuthRepository.readid())) {

@@ -2,13 +2,17 @@ import 'package:danter/screen/home/home_screen.dart';
 
 import 'package:danter/screen/profile/profile_screen.dart';
 
+import 'package:danter/screen/search/search_screen/search_screen.dart';
+
 import 'package:danter/screen/write/write_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const int homeindex = 0;
-const int writeindex = 1;
-const int profileindex = 2;
+const int searchindex = 1;
+const int writeindex = 2;
+
+const int profileindex = 3;
 
 class RootScreen extends StatefulWidget {
   const RootScreen({
@@ -25,10 +29,12 @@ class _RootScreenState extends State<RootScreen> {
 
   final GlobalKey<NavigatorState> _homeKey = GlobalKey();
   final GlobalKey<NavigatorState> _writeKey = GlobalKey();
+  final GlobalKey<NavigatorState> _searchKey = GlobalKey();
   final GlobalKey<NavigatorState> _profileKey = GlobalKey();
 
   late final map = {
     homeindex: _homeKey,
+    searchindex: _searchKey,
     writeindex: _writeKey,
     profileindex: _profileKey,
   };
@@ -61,6 +67,7 @@ class _RootScreenState extends State<RootScreen> {
             index: selectedScreenIndex,
             children: [
               _navigator(_homeKey, homeindex, const HomeScreen()),
+              _navigator(_searchKey, searchindex, const SearchScreen()),
               _navigator(_writeKey, writeindex, const WriteScreen()),
               _navigator(_profileKey, profileindex, const ProfileScreen())
             ],
@@ -76,11 +83,26 @@ class _RootScreenState extends State<RootScreen> {
                     child: Image.asset('assets/images/home.png',
                         color: themeData.colorScheme.secondary),
                   ),
-                  label: 'gggggg',
+                  label: '',
                   selectedIcon: SizedBox(
                     height: 26,
                     width: 26,
                     child: Image.asset('assets/images/home_activ (2).png',
+                        color: themeData.colorScheme.onPrimary),
+                  ),
+                ),
+                NavigationDestination(
+                  icon: SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: Image.asset('assets/images/search.png',
+                        color: themeData.colorScheme.secondary),
+                  ),
+                  label: '',
+                  selectedIcon: SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: Image.asset('assets/images/search.png',
                         color: themeData.colorScheme.onPrimary),
                   ),
                 ),

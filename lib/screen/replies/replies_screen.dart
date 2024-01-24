@@ -241,7 +241,10 @@ class ReplyTo extends StatelessWidget {
                     width: 8,
                   ),
                   Text('Reply to ${postEntity.user.username}',
-                      style: Theme.of(context).textTheme.titleSmall),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(height: 1.0)),
                 ],
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 
 import 'package:danter/core/di/di.dart';
@@ -7,12 +8,18 @@ import 'package:danter/screen/root/root.dart';
 import 'package:danter/screen/settings/cubit/them_cubit.dart';
 import 'package:danter/config/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapter());
+  await Hive.openBox<User>('Search');
+
   await getItInit();
   AuthRepository.loadAuthInfo();
 
@@ -41,7 +48,6 @@ class _MyAppState extends State<MyApp> {
     // }).catchError((e) {
     //   debugPrint(e.toString());
     // });
-    
 
     ThemCubit theme = BlocProvider.of<ThemCubit>(context, listen: true);
 

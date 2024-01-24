@@ -6,15 +6,13 @@ import 'package:danter/screen/followers/bloc/followers_bloc.dart';
 import 'package:danter/screen/followers/followers_screen.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
 import 'package:danter/screen/profile_user/bloc/profile_user_bloc.dart';
-import 'package:danter/config/theme/theme.dart';
-
 import 'package:danter/core/widgets/error.dart';
 import 'package:danter/core/widgets/image.dart';
 import 'package:danter/core/widgets/photoUserFollowers.dart';
-
 import 'package:danter/core/widgets/post_detail.dart';
 import 'package:danter/core/widgets/replies_detail.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:danter/screen/search/search_screen/bloc/search_bloc.dart';
+import 'package:danter/screen/search/search_user/bloc/search_user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,10 +21,14 @@ class ProfileUser extends StatelessWidget {
       {super.key,
       required this.user,
       this.idpostEntity = '0',
-      this.userid = '0'});
+      this.userid = '0',
+      this.search = '0',
+      this.searchuser = '0'});
   final User user;
   final String idpostEntity;
   final String userid;
+  final String search;
+  final String searchuser;
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +131,22 @@ class ProfileUser extends StatelessWidget {
                                                 .add(LikesStartedEvent(
                                                     postId: idpostEntity));
                                           }
+
+                                          if (search != '0') {
+                                            BlocProvider.of<SearchBloc>(context)
+                                                .add(SearchStartEvent(
+                                              AuthRepository.readid(),
+                                            ));
+                                          }
+
+                                          if (searchuser != '0') {
+                                            BlocProvider.of<SearchUserBloc>(
+                                                    context)
+                                                .add(SearchUserKeyUsernameEvent(
+                                                    userId:
+                                                        AuthRepository.readid(),
+                                                    keyUsername: searchuser));
+                                          }
                                         } else {
                                           BlocProvider.of<ProfileUserBloc>(
                                                   context)
@@ -152,6 +170,22 @@ class ProfileUser extends StatelessWidget {
                                             BlocProvider.of<LikesBloc>(context)
                                                 .add(LikesStartedEvent(
                                                     postId: idpostEntity));
+                                          }
+
+                                          if (search != '0') {
+                                            BlocProvider.of<SearchBloc>(context)
+                                                .add(SearchStartEvent(
+                                              AuthRepository.readid(),
+                                            ));
+                                          }
+
+                                          if (searchuser != '0') {
+                                            BlocProvider.of<SearchUserBloc>(
+                                                    context)
+                                                .add(SearchUserKeyUsernameEvent(
+                                                    userId:
+                                                        AuthRepository.readid(),
+                                                    keyUsername: searchuser));
                                           }
                                         }
                                       },
@@ -578,24 +612,11 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Stack(
-      //   fit: StackFit.passthrough,
-      alignment: Alignment.bottomCenter,
-
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            border: Border(
-              bottom: BorderSide(
-                  color: Theme.of(context).colorScheme.onPrimary, width: 0.7),
-            ),
-          ),
-
-          // child: _tabBar,
-        ),
-        Positioned(bottom: 0.5, left: 0, right: 0, child: _tabBar),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      child: _tabBar,
     );
   }
 

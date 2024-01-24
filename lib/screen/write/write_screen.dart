@@ -65,58 +65,61 @@ class WriteScreen extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     color: themeData.scaffoldBackgroundColor,
-                    height: 35,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Anyone can reply',
-                            style: Theme.of(context).textTheme.labelSmall),
-                        GestureDetector(
-                          onTap: () {
-                            if (controller.text.isNotEmpty ||
-                                selectedImage!.isNotEmpty) {
-                              BlocProvider.of<WriteBloc>(context).add(
-                                  WriteSendPostEvent(
-                                      user: AuthRepository.readid(),
-                                      text: controller.text,
-                                      image: selectedImage!));
-                            }
-                          },
-                          child: Container(
-                            height: 30,
-                            width: 55,
-                            // padding: EdgeInsets.only(
-                            //     left: 10, right: 10, top: 4, bottom: 4),
-                            decoration: BoxDecoration(
-                                color: themeData.colorScheme.primary,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: state is WriteLodingState
-                                ? Center(
-                                    child: SizedBox(
-                                      height: 23,
-                                      width: 23,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color:
-                                              themeData.colorScheme.secondary,
+                    height: 45,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Anyone can reply',
+                              style: Theme.of(context).textTheme.labelSmall),
+                          GestureDetector(
+                            onTap: () {
+                              if (controller.text.isNotEmpty ||
+                                  selectedImage!.isNotEmpty) {
+                                BlocProvider.of<WriteBloc>(context).add(
+                                    WriteSendPostEvent(
+                                        user: AuthRepository.readid(),
+                                        text: controller.text,
+                                        image: selectedImage!));
+                              }
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 55,
+                              // padding: EdgeInsets.only(
+                              //     left: 10, right: 10, top: 4, bottom: 4),
+                              decoration: BoxDecoration(
+                                  color: themeData.colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: state is WriteLodingState
+                                  ? Center(
+                                      child: SizedBox(
+                                        height: 23,
+                                        width: 23,
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color:
+                                                themeData.colorScheme.secondary,
+                                          ),
                                         ),
                                       ),
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        'Post',
+                                        style: themeData.textTheme.titleMedium!
+                                            .copyWith(
+                                                fontSize: 14,
+                                                color: themeData
+                                                    .scaffoldBackgroundColor),
+                                      ),
                                     ),
-                                  )
-                                : Center(
-                                    child: Text(
-                                      'Post',
-                                      style: themeData.textTheme.titleMedium!
-                                          .copyWith(
-                                              fontSize: 14,
-                                              color: themeData
-                                                  .scaffoldBackgroundColor),
-                                    ),
-                                  ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 )

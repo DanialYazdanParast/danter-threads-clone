@@ -61,21 +61,6 @@ class _FollowersScreenState extends State<FollowersScreen> {
               children: [
                 Stack(
                   children: [
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          border: Border(
-                            bottom: BorderSide(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                width: 0.7),
-                          ),
-                        ),
-                      ),
-                    ),
                     TabBar(
                       indicatorPadding:
                           const EdgeInsets.only(left: 20, right: 20),

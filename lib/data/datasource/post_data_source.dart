@@ -9,14 +9,10 @@ import 'package:pocketbase/pocketbase.dart';
 abstract class IPostDataSource {
   Future<List<PostEntity>> getPost(String userId);
   Future<List<PostEntity>> getPostProfile(String userId);
-
   Future<void> sendPost(String userId, String text, image);
-
   Future<void> addLike(String userId, String postid);
   Future<void> deleteLike(String userId, String postid);
-
   Future<void> addfollow(String myuserId, String userIdProfile);
-
   Future<void> deleteFollow(String myuserId, String userIdProfile);
   Future<List<LikeUser>> getAllLikePost(String postId);
   Future<List<Followers>> geAllfollowers(String userId);
@@ -25,12 +21,13 @@ abstract class IPostDataSource {
   Future<User> sendNameAndBio(String userid, String name, String bio);
   Future<User> sendImagePorofile(String userid, image);
   Future<List<PostEntity>> getReply(String userId);
-
   Future<List<PostEntity>> getReplyPost(String postId);
   Future<List<PostEntity>> getPostReply(String postId);
   Future<List<PostReply>> getAllReply(String userId);
   Future<void> removeFollow(String myuserId, String userIdProfile);
   Future<User> getUser(String userId);
+  Future<List<User>> getAllUser(String userId);
+  Future<List<User>> getSearchUser(String keyuserName, String userId);
 }
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
@@ -61,7 +58,8 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     Map<String, dynamic> qParams = {
       'filter': 'user ="$userId"&& postid= ""',
       'expand': 'user,replies.user ',
-      'sort': '-created'
+      'sort': '-created',
+      'perPage': 500
     };
     var response = await _dio.get(
       'collections/post/records',
@@ -147,6 +145,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     Map<String, dynamic> qParams = {
       'filter': 'id="$postId"',
       'expand': 'likes',
+      'perPage': 500
     };
     var response = await _dio.get(
       'collections/post/records',
@@ -164,7 +163,8 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     Map<String, dynamic> qParams = {
       'filter': 'id="$userId"',
       'expand': 'followers',
-      'sort': '-created'
+      'sort': '-created',
+      'perPage': 500
     };
     var response = await _dio.get(
       'collections/users/records',
@@ -182,7 +182,8 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     Map<String, dynamic> qParams = {
       'filter': 'id="$userId"',
       'expand': 'following',
-      'sort': '-created'
+      'sort': '-created',
+      'perPage': 500
     };
     var response = await _dio.get(
       'collections/users/records',
@@ -253,7 +254,8 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     Map<String, dynamic> qParams = {
       'filter': 'postid ="$postId"',
       'expand': 'user,replies.user ',
-      'sort': '-created'
+      'sort': '-created',
+      'perPage': 500
     };
     var response = await _dio.get(
       'collections/post/records',
@@ -271,6 +273,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     Map<String, dynamic> qParams = {
       'filter': 'id ="$postId"',
       'expand': 'user,replies.user ',
+      'perPage': 500
     };
     var response = await _dio.get(
       'collections/post/records',
@@ -317,5 +320,39 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   Future<User> getUser(String userId) async {
     final response = await _dio.get('collections/users/records/$userId');
     return User.fromJson(response.data);
+  }
+
+  @override
+  Future<List<User>> getAllUser(String userId) async {
+    Map<String, dynamic> qParams = {
+      'filter': 'id !="$userId"',
+      'sort': '-created',
+      'perPage': 500
+    };
+    var response = await _dio.get(
+      'collections/users/records',
+      queryParameters: qParams,
+    );
+    validatResponse(response);
+    return response.data['items']
+        .map<User>((jsonObject) => User.fromJson(jsonObject))
+        .toList();
+  }
+
+  @override
+  Future<List<User>> getSearchUser(String keyuserName, String userId) async {
+    Map<String, dynamic> qParams = {
+      'filter': 'username~"$keyuserName" && id !="$userId"',
+      'sort': '-created',
+      'perPage': 500
+    };
+    var response = await _dio.get(
+      'collections/users/records',
+      queryParameters: qParams,
+    );
+    validatResponse(response);
+    return response.data['items']
+        .map<User>((jsonObject) => User.fromJson(jsonObject))
+        .toList();
   }
 }

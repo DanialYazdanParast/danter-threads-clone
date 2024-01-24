@@ -1,4 +1,5 @@
 import 'package:danter/core/constants/custom_colors.dart';
+import 'package:danter/core/widgets/loding.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
@@ -84,15 +85,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         NameProfile(),
                                         //   const SizedBox(height: 10),
-                                        UserNameProfile(),
+                                        const UserNameProfile(),
                                       ],
                                     ),
                                   ),
@@ -511,7 +512,7 @@ class DanterPage extends StatelessWidget {
                                         child: Text(
                                       'Delete',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                          //        fontWeight: FontWeight.bold,
                                           color: Colors.red,
                                           fontSize: 18),
                                     )),
@@ -541,7 +542,7 @@ class DanterPage extends StatelessWidget {
 }
 
 class NameProfile extends StatelessWidget {
-  const NameProfile({
+  NameProfile({
     super.key,
   });
 
@@ -736,24 +737,11 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Stack(
-      //   fit: StackFit.passthrough,
-      alignment: Alignment.bottomCenter,
-
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            border: Border(
-              bottom: BorderSide(
-                  color: Theme.of(context).colorScheme.onPrimary, width: 0.7),
-            ),
-          ),
-
-          // child: _tabBar,
-        ),
-        Positioned(bottom: 0.5, left: 0, right: 0, child: _tabBar),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      child: _tabBar,
     );
   }
 
@@ -879,30 +867,7 @@ class LodingProfile extends StatelessWidget {
             ]),
           ),
         ),
-        Positioned(
-          top: 95,
-          child: Container(
-            height: 35,
-            width: 35,
-            decoration: BoxDecoration(
-                color: themeData.scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                    width: 1, color: themeData.colorScheme.secondary)),
-            child: Center(
-              child: SizedBox(
-                height: 18,
-                width: 18,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: themeData.colorScheme.onPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        )
+        const Positioned(top: 95, child: LodingCustom())
       ],
     );
   }
