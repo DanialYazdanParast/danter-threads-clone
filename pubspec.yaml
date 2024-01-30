@@ -47,7 +47,7 @@ dependencies:
   pocketbase: ^0.16.0
   image_picker: ^1.0.4
   loading_indicator: ^3.1.1
-  lottie: ^2.7.0
+
   flutter_animate: ^4.3.0
   animated_theme_switcher: ^2.0.10
   
@@ -55,6 +55,7 @@ dependencies:
   flutter_bounce: ^1.1.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+
 
 
 dev_dependencies:

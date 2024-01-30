@@ -185,8 +185,9 @@ class MyAppThemeConfig {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
 
-      progressIndicatorTheme: ProgressIndicatorThemeData(
-          refreshBackgroundColor: primaryColor.withBlue(35)),
+      progressIndicatorTheme:
+          ProgressIndicatorThemeData(refreshBackgroundColor: primaryColor),
+
       colorScheme: ColorScheme.dark(
           primary: primaryTextColor,
           onPrimary: primaryTextColor,
