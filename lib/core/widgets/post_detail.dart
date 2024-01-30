@@ -54,6 +54,7 @@ class PostDetail extends StatelessWidget {
               ),
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ImageAndNameAndText(
                     postEntity: postEntity,

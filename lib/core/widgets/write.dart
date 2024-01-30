@@ -78,6 +78,7 @@ class _FildWriteState extends State<FildWrite> {
                             ),
                             TextField(
                               controller: widget.controller,
+                              autofocus: true,
                               onChanged: (value) {
                                 setState(() {
                                   widget.controller;
@@ -88,14 +89,18 @@ class _FildWriteState extends State<FildWrite> {
                               textAlign: TextAlign.start,
                               style: Theme.of(context).textTheme.titleMedium,
                               decoration: InputDecoration(
+                                hintText: 'Start a danter...',
+                                hintStyle:
+                                    Theme.of(context).textTheme.titleSmall,
+
                                 isCollapsed: true,
                                 // floatingLabelBehavior:
                                 //     FloatingLabelBehavior.always,
                                 alignLabelWithHint: false,
-                                label: Text(
-                                  'Start a danter...',
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                ),
+                                // label: Text(
+                                //   'Start a danter...',
+                                //   style: Theme.of(context).textTheme.titleSmall,
+                                // ),
                               ),
                             ),
                             const SizedBox(

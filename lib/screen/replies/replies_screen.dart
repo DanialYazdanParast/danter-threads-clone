@@ -275,9 +275,10 @@ class ThePostReply extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,

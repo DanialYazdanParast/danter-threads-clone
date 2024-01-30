@@ -139,19 +139,23 @@ class _EditScreenFildState extends State<EditScreenFild> {
 
                       //   });
                       // },
+
+                      autofocus: true,
                       minLines: 3,
                       maxLines: 50,
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.titleMedium,
                       decoration: InputDecoration(
+                        hintText: 'Write a ${widget.nameFild}...',
+                        hintStyle: Theme.of(context).textTheme.titleSmall,
                         isCollapsed: true,
                         // floatingLabelBehavior:
                         //     FloatingLabelBehavior.always,
                         alignLabelWithHint: true,
-                        label: Text(
-                          'Write a ${widget.nameFild}...',
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
+                        // label: Text(
+                        //   'Write a ${widget.nameFild}...',
+                        //   style: Theme.of(context).textTheme.titleSmall,
+                        // ),
                       ),
                     ),
                   ],

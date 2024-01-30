@@ -14,26 +14,31 @@ class ImagePost extends StatelessWidget {
     return postEntity.image.isNotEmpty && postEntity.image.length < 2
         ? Padding(
             padding: EdgeInsets.only(right: 10, left: leftpading, bottom: 10),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true)
-                    .push(MaterialPageRoute(
-                  builder: (context) => ImageScreen(
-                    indeximage: 0,
-                    postEntity: postEntity,
-                  ),
-                ));
-              },
-              child: Hero(
-                tag: postEntity.image[0],
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: SizedBox(
-                      child: ImageLodingService(
-                        imageUrl:
-                            'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                      ),
-                    )),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 600,
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true)
+                      .push(MaterialPageRoute(
+                    builder: (context) => ImageScreen(
+                      indeximage: 0,
+                      postEntity: postEntity,
+                    ),
+                  ));
+                },
+                child: Hero(
+                  tag: postEntity.image[0],
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: SizedBox(
+                        child: ImageLodingService(
+                          imageUrl:
+                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                        ),
+                      )),
+                ),
               ),
             ),
           )

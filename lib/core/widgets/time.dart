@@ -22,11 +22,12 @@ class TimePost extends StatelessWidget {
               ? '${time.inMinutes}m'
               : time.inHours < 24
                   ? '${time.inHours}h'
-                  : time.inDays < 8
+                  : time.inDays >= 1
                       ? '${time.inDays}d'
-                      : time.inDays >= 8
-                          ? '${updatedtime}'
-                          : '',
+                      : '',
+      // : time.inDays >= 8
+      //     ? '${updatedtime}'
+      //     : '',
       style: Theme.of(context).textTheme.labelSmall,
     );
   }

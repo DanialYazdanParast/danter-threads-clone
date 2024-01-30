@@ -103,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const BioProfile(),
+                                  BioProfile(),
                                   ImageAndTotalFollowers(
                                       userFollowers:
                                           state.userFollowers[0].user),
@@ -805,6 +805,7 @@ class LodingProfile extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20, left: 20),
                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -824,15 +825,10 @@ class LodingProfile extends StatelessWidget {
                             ImageProfile()
                           ],
                         ),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                       
                             BioProfile(),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        
+                      
                         const RowButtonProfile(),
                       ],
                     ),
