@@ -42,9 +42,22 @@ class FollowersPage extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        userFollowers.username,
-                        style: Theme.of(context).textTheme.titleLarge,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            userFollowers.username,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(width: 2),
+                          Visibility(
+                            visible: userFollowers.tik,
+                            child: SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: Image.asset('assets/images/tik.png')),
+                          ),
+                        ],
                       ),
                       Text(
                         userFollowers.name == ''

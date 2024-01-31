@@ -203,9 +203,23 @@ class PostWrite extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              postEntity.user.username,
-                              style: Theme.of(context).textTheme.titleLarge,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  postEntity.user.username,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                const SizedBox(width: 2),
+                                Visibility(
+                                  visible: postEntity.user.tik,
+                                  child: SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child:
+                                          Image.asset('assets/images/tik.png')),
+                                ),
+                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 7, right: 7),

@@ -184,22 +184,38 @@ class ImageProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
-        ? ClipRRect(
-            borderRadius: BorderRadius.circular(100),
+    return Stack(
+      children: [
+        Container(
+          child: (AuthRepository.loadAuthInfo()!.avatarchek.isNotEmpty)
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: SizedBox(
+                      height: 74,
+                      width: 74,
+                      child: ImageLodingService(
+                          imageUrl: AuthRepository.loadAuthInfo()!.avatar)),
+                )
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: SizedBox(
+                      height: 74,
+                      width: 74,
+                      child: Image.asset('assets/images/profile.png')),
+                ),
+        ),
+        Positioned(
+          bottom: 0,
+          child: Visibility(
+            visible: AuthRepository.loadAuthInfo()!.tik,
             child: SizedBox(
-                height: 74,
-                width: 74,
-                child: ImageLodingService(
-                    imageUrl: AuthRepository.loadAuthInfo()!.avatar)),
-          )
-        : ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: SizedBox(
-                height: 74,
-                width: 74,
-                child: Image.asset('assets/images/profile.png')),
-          );
+                width: 24,
+                height: 24,
+                child: Image.asset('assets/images/tik.png')),
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -805,7 +821,7 @@ class LodingProfile extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20, left: 20),
                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -825,10 +841,7 @@ class LodingProfile extends StatelessWidget {
                             ImageProfile()
                           ],
                         ),
-                       
-                            BioProfile(),
-                        
-                      
+                        BioProfile(),
                         const RowButtonProfile(),
                       ],
                     ),

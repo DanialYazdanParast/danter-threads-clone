@@ -35,9 +35,22 @@ class SearchDetailScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        user.username,
-                        style: Theme.of(context).textTheme.titleLarge,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            user.username,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(width: 2),
+                          Visibility(
+                            visible: user.tik,
+                            child: SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: Image.asset('assets/images/tik.png')),
+                          ),
+                        ],
                       ),
                       Text(
                         user.name == '' ? user.username : user.name!,

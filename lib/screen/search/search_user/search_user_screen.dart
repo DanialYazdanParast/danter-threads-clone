@@ -52,9 +52,18 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
                   },
                   minLines: 1,
                   maxLines: 1,
+                  autofocus: true,
                   textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(height: 1.6),
                   decoration: InputDecoration(
+                    hintText: 'Search',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(height: 1.6),
                     isCollapsed: true,
                     //  floatingLabelBehavior: FloatingLabelBehavior.always,
                     alignLabelWithHint: true,
@@ -62,14 +71,6 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
                         width: 24,
                         isAntiAlias: true,
                         color: Theme.of(context).colorScheme.secondary),
-
-                    label: Text(
-                      'Search',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(height: 1.6),
-                    ),
                   ),
                 ),
               ),

@@ -26,13 +26,14 @@ class UserAdapter extends TypeAdapter<User> {
       bio: fields[3] as String?,
       collectionId: fields[4] as String,
       avatar: fields[5] as String,
+      tik: fields[9] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.username)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(7)
       ..write(obj.followers)
       ..writeByte(8)
-      ..write(obj.following);
+      ..write(obj.following)
+      ..writeByte(9)
+      ..write(obj.tik);
   }
 
   @override

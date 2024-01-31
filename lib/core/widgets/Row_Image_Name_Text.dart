@@ -33,12 +33,25 @@ class ImageAndNameAndText extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
                         onTap: onTabNameUser,
                         child: Text(
                           postEntity.user.username,
                           style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+
+                      Visibility(
+                        visible: postEntity.user.tik,
+                        child: GestureDetector(
+                          onTap: onTabNameUser,
+                          child: SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: Image.asset('assets/images/tik.png')),
                         ),
                       ),
 

@@ -43,26 +43,29 @@ class AuthRepository implements IAuthRepository {
     sharedPreferencestoken.setString("token", authInfo.token);
   }
 
-static  Future<void> persistAuthTokens( authInfo) async {
+  static Future<void> persistAuthTokens(authInfo) async {
     sharedPreferences.setString("username", authInfo.username);
     sharedPreferences.setString("id", authInfo.id);
     sharedPreferences.setString("collectionId", authInfo.collectionId);
     sharedPreferences.setString("avatar", authInfo.avatar);
     sharedPreferences.setString("avatarchek", authInfo.avatarchek);
-    sharedPreferences.setString("bio", authInfo.bio  ?? '' );
-    sharedPreferences.setString("name", authInfo.name  ?? '');
+    sharedPreferences.setString("bio", authInfo.bio ?? '');
+    sharedPreferences.setString("name", authInfo.name ?? '');
+    sharedPreferences.setBool("tik", authInfo.tik);
 
     loadAuthInfo();
   }
 
-  static  loadAuthInfo() {
+  static loadAuthInfo() {
     final String username = sharedPreferences.getString("username") ?? '';
     final String id = sharedPreferences.getString("id") ?? '';
-    final String collectionId = sharedPreferences.getString("collectionId") ?? '';
+    final String collectionId =
+        sharedPreferences.getString("collectionId") ?? '';
     final String avatar = sharedPreferences.getString("avatar") ?? '';
     final String avatarchek = sharedPreferences.getString("avatarchek") ?? '';
     final String bio = sharedPreferences.getString("bio") ?? '';
     final String name = sharedPreferences.getString("name") ?? '';
+    final bool tik = sharedPreferences.getBool("tik") ?? false;
 
     return AuthInfo(
         avatarchek: avatarchek,
@@ -72,7 +75,7 @@ static  Future<void> persistAuthTokens( authInfo) async {
         bio: bio,
         collectionId: collectionId,
         avatar: avatar,
-       );
+        tik: tik);
   }
 
   static String readAuth() {

@@ -346,6 +346,41 @@ class ThePostReply extends StatelessWidget {
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                             ),
+                            const SizedBox(width: 4),
+                            Visibility(
+                              visible: postEntity.user.tik,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (postEntity.user.id ==
+                                      AuthRepository.readid()) {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const ProfileScreen();
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return ProfileUser(
+                                            user: postEntity.user,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child:
+                                        Image.asset('assets/images/tik.png')),
+                              ),
+                            ),
                             const Spacer(),
                             TimePost(created: postEntity.created),
                             const SizedBox(

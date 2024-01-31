@@ -718,21 +718,37 @@ class ImageProfileUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (user.avatarchek.isNotEmpty)
-        ? ClipRRect(
-            borderRadius: BorderRadius.circular(100),
+    return Stack(
+      children: [
+        Container(
+          child: (user.avatarchek.isNotEmpty)
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: SizedBox(
+                      height: 74,
+                      width: 74,
+                      child: ImageLodingService(imageUrl: user.avatar)),
+                )
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Container(
+                      height: 74,
+                      width: 74,
+                      child: Image.asset('assets/images/profile.png')),
+                ),
+        ),
+        Positioned(
+          bottom: 0,
+          child: Visibility(
+            visible: user.tik,
             child: SizedBox(
-                height: 74,
-                width: 74,
-                child: ImageLodingService(imageUrl: user.avatar)),
-          )
-        : ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Container(
-                height: 74,
-                width: 74,
-                child: Image.asset('assets/images/profile.png')),
-          );
+                width: 24,
+                height: 24,
+                child: Image.asset('assets/images/tik.png')),
+          ),
+        ),
+      ],
+    );
   }
 }
 

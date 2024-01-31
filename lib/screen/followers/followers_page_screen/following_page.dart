@@ -44,9 +44,22 @@ class FollowingPage extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        userFollowing.username,
-                        style: Theme.of(context).textTheme.titleLarge,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            userFollowing.username,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(width: 2),
+                          Visibility(
+                            visible: userFollowing.tik,
+                            child: SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: Image.asset('assets/images/tik.png')),
+                          ),
+                        ],
                       ),
                       Text(
                         userFollowing.name == ''

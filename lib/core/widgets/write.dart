@@ -71,8 +71,22 @@ class _FildWriteState extends State<FildWrite> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(AuthRepository.loadAuthInfo()!.username,
-                                style: Theme.of(context).textTheme.titleLarge),
+                            Row(
+                              children: [
+                                Text(AuthRepository.loadAuthInfo()!.username,
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge),
+                                const SizedBox(width: 2),
+                                Visibility(
+                                  visible: AuthRepository.loadAuthInfo()!.tik,
+                                  child: SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child:
+                                          Image.asset('assets/images/tik.png')),
+                                ),
+                              ],
+                            ),
                             const SizedBox(
                               height: 2,
                             ),
