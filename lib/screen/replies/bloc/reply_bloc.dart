@@ -69,6 +69,18 @@ class ReplyBloc extends Bloc<ReplyEvent, ReplyState> {
 
           emit(ReplySuccesState(successState.post, successState.reply));
         }
+      } else if (event is DeletRplyEvent) {
+        if (state is ReplySuccesState) {
+          final successState = (state as ReplySuccesState);
+          await postRepository.deletePost(event.postid);
+          successState.reply
+              .removeWhere((element) => element.id == event.postid);
+          emit(ReplySuccesState(successState.post, successState.reply));
+        }
+      } else if (event is DeletRplyPostEvent) {
+        await postRepository.deletePost(event.postid);
+
+        emit(ReplySuccesStateDelet());
       }
     });
   }

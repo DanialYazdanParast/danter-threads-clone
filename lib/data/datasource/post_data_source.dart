@@ -38,7 +38,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   @override
   Future<List<PostEntity>> getPost(String userId) async {
     Map<String, dynamic> qParams = {
-      'filter': 'user !="$userId" && postid= "" ',
+      'filter': 'user !="$userId" && category ="ykbdovmvv3qf66l"',
       'expand': 'user,replies.user ',
       'sort': '-created',
       'perPage': 500
@@ -56,7 +56,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   @override
   Future<List<PostEntity>> getPostProfile(String userId) async {
     Map<String, dynamic> qParams = {
-      'filter': 'user ="$userId"&& postid= ""',
+      'filter': 'user ="$userId" && category ="ykbdovmvv3qf66l"',
       'expand': 'user,replies.user ',
       'sort': '-created',
       'perPage': 500
@@ -91,6 +91,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
 
     FormData formData = FormData.fromMap({
       "user": userId,
+      "category": 'ykbdovmvv3qf66l',
       "text": text,
       "image": image
           .map((item) => MultipartFile.fromFileSync(item.path,
@@ -233,7 +234,8 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   @override
   Future<List<PostEntity>> getReply(String userId) async {
     Map<String, dynamic> qParams = {
-      'filter': 'user ="$userId" && postid != "" ',
+      'filter':
+          'user ="$userId" && postid != "" && category ="oevvz5ic1r1garf"',
       'expand': 'user,replies.user ',
       'sort': '-created',
       'perPage': 500

@@ -24,62 +24,65 @@ class ProfiledeletPostEvent extends ProfileEvent {
 
   const ProfiledeletPostEvent({required this.user, required this.postid});
 }
+
 ///----------------------------
 class AddLikeProfileEvent extends ProfileEvent {
-   final String postId;
+  final String postId;
   final String user;
-  AddLikeProfileEvent(
-      {required this.postId, required this.user,});
+  const AddLikeProfileEvent({
+    required this.postId,
+    required this.user,
+  });
 }
 
 class RemoveLikeProfileEvent extends ProfileEvent {
-   final String postId;
+  final String postId;
   final String user;
 
-  RemoveLikeProfileEvent(
-      {required this.postId,
-      required this.user,
-      });
+  const RemoveLikeProfileEvent({
+    required this.postId,
+    required this.user,
+  });
 }
 //-------------------------
 
-
 class AddLikeReplyToProfileEvent extends ProfileEvent {
-   final String postId;
+  final String postId;
   final String user;
-  AddLikeReplyToProfileEvent(
-      {required this.postId, required this.user, });
+  const AddLikeReplyToProfileEvent({
+    required this.postId,
+    required this.user,
+  });
 }
 
 class RemoveLikeReplyToProfileEvent extends ProfileEvent {
-   final String postId;
+  final String postId;
   final String user;
 
-  RemoveLikeReplyToProfileEvent(
-      {required this.postId,
-      required this.user,
-     });
+  const RemoveLikeReplyToProfileEvent({
+    required this.postId,
+    required this.user,
+  });
 }
 
 //-------------------------
-
 
 class AddLikeMyReplyProfileEvent extends ProfileEvent {
   final String postId;
   final String user;
 
-  AddLikeMyReplyProfileEvent(
-      {required this.postId, required this.user, });
+  const AddLikeMyReplyProfileEvent({
+    required this.postId,
+    required this.user,
+  });
 }
 
 class RemoveLikeMyReplyProfileEvent extends ProfileEvent {
-   final String postId;
+  final String postId;
   final String user;
 
-
-  RemoveLikeMyReplyProfileEvent(
-      {required this.postId,
-      required this.user,
-       });
+  const RemoveLikeMyReplyProfileEvent({
+    required this.postId,
+    required this.user,
+  });
 }
-

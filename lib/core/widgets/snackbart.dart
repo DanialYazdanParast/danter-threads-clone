@@ -1,4 +1,3 @@
-import 'package:danter/config/theme/theme.dart';
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:flutter/material.dart';
 

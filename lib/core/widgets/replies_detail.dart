@@ -100,7 +100,7 @@ class RepliseDtaile extends StatelessWidget {
                 );
               }
             },
-            onTabmore: () {},
+            onTabmore: onTabmore,
             postEntity: postEntity.myReply,
             onTaNavigator: () {
               Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(

@@ -10,6 +10,7 @@ import 'package:danter/core/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:image_picker/image_picker.dart';
 
 File? selectedImageedit;
@@ -304,12 +305,40 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Future _pickImage() async {
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (returnImage == null) return;
+  _pickImage() async {
+    var pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile == null) return;
     setState(() {
-      selectedImageedit = File(returnImage.path);
+      selectedImageedit = File(pickedFile.path);
     });
   }
 }
+
+
+
+//   _pickImage() async {
+//     var pickedFile = await ImagePicker().pickImage(
+//       source: ImageSource.gallery,
+//     );
+
+//     if (pickedFile == null) return;
+//     setState(() {
+//       _cropImage(pickedFile.path);
+//     });
+//   }
+
+//   _cropImage(filePath) async {
+//     CroppedFile? croppedImage = await ImageCropper().cropImage(
+//       sourcePath: filePath,
+//       maxWidth: 1080,
+//       maxHeight: 1080,
+//     );
+//     if (croppedImage != null) {
+//       selectedImageedit = File(croppedImage.path);
+//       setState(() {});
+//     }
+//   }
+// }

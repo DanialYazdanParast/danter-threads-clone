@@ -157,7 +157,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ProfileRefreshEvent(user: AuthRepository.readid()));
                         await Future.delayed(const Duration(seconds: 2));
                       },
-                      child: RepliesPage(reply: state.reply),
+                      child:
+                          RepliesPage(reply: state.reply, context2: context2),
                     )
                   ]),
                 ),
@@ -250,13 +251,16 @@ class RowButtonProfile extends StatelessWidget {
 
 class RepliesPage extends StatelessWidget {
   final List<PostReply> reply;
+  final BuildContext context2;
   const RepliesPage({
     super.key,
     required this.reply,
+    required this.context2,
   });
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return CustomScrollView(
       slivers: [
         SliverList.builder(
@@ -307,99 +311,84 @@ class RepliesPage extends StatelessWidget {
               onTabNameUser: () {},
               onTabmore: () {
                 showModalBottomSheet(
+                  barrierColor:
+                      themeData.colorScheme.onSecondary.withOpacity(0.1),
                   context: context,
                   useRootNavigator: true,
-                  backgroundColor: Colors.white,
-                  showDragHandle: true,
+                  backgroundColor: themeData.scaffoldBackgroundColor,
+                  //  showDragHandle: true,
+                  elevation: 0,
                   shape: const RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   builder: (context3) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 24),
-                      child: InkWell(
-                        onTap: () {
-                          showDialog(
-                            useRootNavigator: true,
-                            barrierDismissible: false,
-                            barrierColor: Colors.black26,
-                            context: context,
-                            builder: (context) {
-                              return CustomAlertDialog(
-                                button: 'Delete',
-                                title: "Delete this Post?",
-                                description: "",
-                                onTabRemove: () {
-                                  // BlocProvider.of<
-                                  //             ProfileBloc>(
-                                  //         context2)
-                                  //     .add(ProfiledeletPostEvent(
-                                  //         user: AuthRepository
-                                  //             .readid(),
-                                  //         postid: state
-                                  //             .post[index]
-                                  //             .id));
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 4,
+                          width: 32,
+                          decoration: BoxDecoration(
+                              color: themeData.colorScheme.secondary,
+                              borderRadius: BorderRadius.circular(30)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50, bottom: 24),
+                          child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                useRootNavigator: true,
+                                barrierDismissible: false,
+                                barrierColor: themeData.colorScheme.onSecondary
+                                    .withOpacity(0.1),
+                                context: context,
+                                builder: (context) {
+                                  return CustomAlertDialog(
+                                    button: 'Delete',
+                                    title: "Delete this Post?",
+                                    description: "",
+                                    onTabRemove: () {
+                                      BlocProvider.of<ProfileBloc>(context2)
+                                          .add(ProfiledeletPostEvent(
+                                              user: AuthRepository.readid(),
+                                              postid: reply[index].myReply.id));
 
-                                  // Navigator.pop(context);
+                                      Navigator.pop(context);
 
-                                  // Navigator.pop(context3);
+                                      Navigator.pop(context3);
 
-                                  // ScaffoldMessenger.of(
-                                  //         context)
-                                  //     .showSnackBar(
-                                  //   SnackBar(
-                                  //     margin: const EdgeInsets
-                                  //         .only(
-                                  //         bottom: 35,
-                                  //         left: 30,
-                                  //         right: 30),
-
-                                  //     //  width: 280.0,
-                                  //     padding:
-                                  //         const EdgeInsets
-                                  //             .symmetric(
-                                  //       horizontal: 10,
-                                  //     ),
-                                  //     behavior:
-                                  //         SnackBarBehavior
-                                  //             .floating,
-                                  //     shape: RoundedRectangleBorder(
-                                  //         borderRadius:
-                                  //             BorderRadius
-                                  //                 .circular(
-                                  //                     15)),
-                                  //     content: const Center(
-                                  //         child: Padding(
-                                  //       padding:
-                                  //           EdgeInsets.all(
-                                  //               14),
-                                  //       child: Text(
-                                  //           'با موفقیت حذف شد'),
-                                  //     )),
-                                  //   ),
-                                  // );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        snackBarApp(
+                                            themeData, 'با موفقیت حذف شد', 5),
+                                      );
+                                    },
+                                  );
                                 },
                               );
                             },
-                          );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 20, right: 20),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: LightThemeColors.secondaryTextColor
-                                  .withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(
-                              child: Text(
-                            'Delete',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Colors.red,
-                                fontSize: 16),
-                          )),
+                            child: Container(
+                              margin:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: themeData.colorScheme.onBackground,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(
+                                  child: Text(
+                                'Delete',
+                                style: TextStyle(
+                                    //        fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                    fontSize: 18),
+                              )),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     );
                   },
                 );
@@ -774,8 +763,7 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
 }
 
 //////////////////////////
-///
-///
+
 class LodingProfile extends StatelessWidget {
   const LodingProfile({
     super.key,

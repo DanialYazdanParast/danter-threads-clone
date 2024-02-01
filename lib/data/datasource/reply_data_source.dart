@@ -40,6 +40,7 @@ class ReplyRemoteDataSource
       String userId, String text, String postid, image) async {
     FormData formData = FormData.fromMap({
       "postid": postid,
+      "category": 'oevvz5ic1r1garf',
       "user": userId,
       "text": text,
       "image": image

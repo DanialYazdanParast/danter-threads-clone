@@ -1,12 +1,10 @@
 part of 'reply_bloc.dart';
 
-abstract class ReplyState  {
+abstract class ReplyState {
   const ReplyState();
-
 }
 
 class ReplyLodingState extends ReplyState {}
-
 
 class ReplyErrorState extends ReplyState {
   final AppException exception;
@@ -16,5 +14,10 @@ class ReplyErrorState extends ReplyState {
 class ReplySuccesState extends ReplyState {
   final List<PostEntity> post;
   final List<PostEntity> reply;
-  ReplySuccesState(this.post, this.reply,);
+  ReplySuccesState(
+    this.post,
+    this.reply,
+  );
 }
+
+class ReplySuccesStateDelet extends ReplyState {}
