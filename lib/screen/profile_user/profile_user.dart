@@ -1,3 +1,4 @@
+import 'package:danter/core/widgets/loding.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
@@ -857,30 +858,7 @@ class LodingProfileUser extends StatelessWidget {
             ]),
           ),
         ),
-        Positioned(
-          top: 95,
-          child: Container(
-            height: 35,
-            width: 35,
-            decoration: BoxDecoration(
-                color: themeData.scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                    width: 1, color: themeData.colorScheme.secondary)),
-            child: Center(
-              child: SizedBox(
-                height: 18,
-                width: 18,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: themeData.colorScheme.onPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        )
+        Positioned(top: 95, child: LodingCustom())
       ],
     );
   }

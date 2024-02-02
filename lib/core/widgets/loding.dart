@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class LodingCustom extends StatelessWidget {
   const LodingCustom({super.key});
@@ -28,6 +29,10 @@ class LodingCustom extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ).animate(target: 1).slide(
+        curve: Curves.easeIn,
+        duration: 500.ms,
+        begin: const Offset(0.0, -1.0),
+        end: const Offset(0.0, 0.0));
   }
 }
