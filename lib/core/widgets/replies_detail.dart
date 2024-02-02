@@ -143,7 +143,7 @@ class MyReply extends StatelessWidget {
           children: [
             Positioned(
               left: 28,
-              top: 44,
+              top: 50,
               bottom: 50,
               child: Container(
                 width: postEntity.replies.length > 0 ? 1 : 0,
@@ -331,6 +331,7 @@ class ReplyTo extends StatelessWidget {
             Column(
               children: [
                 ImageAndNameAndText(
+                    replypage: true,
                     postEntity: postEntity,
                     onTabNameUser: onTabNameUser,
                     onTabmore: onTabmore),

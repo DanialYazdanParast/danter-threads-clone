@@ -7,8 +7,9 @@ class PostEntity {
   final User user;
   final List<String> image;
   final String postid;
-   List<String> likes;
+  List<String> likes;
   final List<User> replies;
+  final String postiduser;
   PostEntity(
       {required this.created,
       required this.id,
@@ -17,26 +18,29 @@ class PostEntity {
       required this.image,
       required this.postid,
       required this.likes,
-      required this.replies});
+      required this.replies,
+      required this.postiduser});
 
   factory PostEntity.fromJson(Map<String, dynamic> json) {
-  
     return PostEntity(
         created: json['created'],
         id: json['id'],
         text: json['text'],
         user: User.fromJson(json['expand']['user']),
         image: List<String>.from(json["image"].map((x) => x)),
-        postid: json['postid'] ,
+        postid: json['postid'],
         likes: List<String>.from(json["likes"]),
-        replies:List<String>.from(json["replies"]).isNotEmpty? json['expand']['replies'].map<User>((jsonObject) => User.fromJson(jsonObject['expand']['user']))
-        .toList():[]);
+        replies: List<String>.from(json["replies"]).isNotEmpty
+            ? json['expand']['replies']
+                .map<User>(
+                    (jsonObject) => User.fromJson(jsonObject['expand']['user']))
+                .toList()
+            : [],
+        postiduser: json['postid'] != ''
+            ? json['expand']['postid']['expand']['user']['username']
+            : json['postid']);
   }
 }
-
-
-
-
 
 class PostReply {
   PostEntity myReply;
@@ -44,4 +48,3 @@ class PostReply {
 
   PostReply(this.myReply, this.replyTo);
 }
-

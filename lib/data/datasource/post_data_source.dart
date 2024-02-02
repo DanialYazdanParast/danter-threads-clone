@@ -39,7 +39,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   Future<List<PostEntity>> getPost(String userId) async {
     Map<String, dynamic> qParams = {
       'filter': 'user !="$userId" && category ="ykbdovmvv3qf66l"',
-      'expand': 'user,replies.user ',
+      'expand': 'user,replies.user,postid.user',
       'sort': '-created',
       'perPage': 500
     };
@@ -57,7 +57,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   Future<List<PostEntity>> getPostProfile(String userId) async {
     Map<String, dynamic> qParams = {
       'filter': 'user ="$userId" && category ="ykbdovmvv3qf66l"',
-      'expand': 'user,replies.user ',
+      'expand': 'user,replies.user,postid.user',
       'sort': '-created',
       'perPage': 500
     };
@@ -236,7 +236,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
     Map<String, dynamic> qParams = {
       'filter':
           'user ="$userId" && postid != "" && category ="oevvz5ic1r1garf"',
-      'expand': 'user,replies.user ',
+      'expand': 'user,replies.user,postid.user',
       'sort': '-created',
       'perPage': 500
     };
@@ -255,7 +255,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   Future<List<PostEntity>> getReplyPost(String postId) async {
     Map<String, dynamic> qParams = {
       'filter': 'postid ="$postId"',
-      'expand': 'user,replies.user ',
+      'expand': 'user,replies.user,postid.user',
       'sort': '-created',
       'perPage': 500
     };
@@ -274,7 +274,7 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   Future<List<PostEntity>> getPostReply(String postId) async {
     Map<String, dynamic> qParams = {
       'filter': 'id ="$postId"',
-      'expand': 'user,replies.user ',
+      'expand': 'user,replies.user,postid.user',
       'perPage': 500
     };
     var response = await _dio.get(

@@ -5,15 +5,18 @@ import 'package:danter/core/widgets/time.dart';
 import 'package:flutter/material.dart';
 
 class ImageAndNameAndText extends StatelessWidget {
-  const ImageAndNameAndText(
-      {super.key,
-      required this.postEntity,
-      required this.onTabNameUser,
-      required this.onTabmore});
+  const ImageAndNameAndText({
+    super.key,
+    required this.postEntity,
+    required this.onTabNameUser,
+    required this.onTabmore,
+    this.replypage = false,
+  });
 
   final PostEntity postEntity;
   final GestureTapCallback onTabNameUser;
   final GestureTapCallback onTabmore;
+  final bool replypage;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +73,17 @@ class ImageAndNameAndText extends StatelessWidget {
                         ),
                       )
                     ],
+                  ),
+                  Visibility(
+                    visible: postEntity.postid.isNotEmpty && replypage == true,
+                    child: Text('Replying to @${postEntity.postiduser}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontSize: 14)),
+                  ),
+                  const SizedBox(
+                    width: 10,
                   ),
                   postEntity.text != ''
                       ? Padding(
