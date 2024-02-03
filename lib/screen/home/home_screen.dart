@@ -31,21 +31,7 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: CustomScrollView(
                   slivers: [
-                    SliverAppBar(
-                      pinned: false,
-                      title: SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Image.asset(
-                            'assets/images/d.png',
-                            color: themeData.colorScheme.onPrimary,
-                          ),
-                        ),
-                      ),
-                      centerTitle: true,
-                    ),
+                    _appBar(themeData),
                     SliverList.builder(
                       itemCount: state.post.length,
                       itemBuilder: (context, index) {
@@ -79,21 +65,7 @@ class HomeScreen extends StatelessWidget {
             } else if (state is HomeLodingState) {
               return CustomScrollView(
                 slivers: [
-                  SliverAppBar(
-                    pinned: false,
-                    title: SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Image.asset(
-                          'assets/images/d.png',
-                          color: themeData.colorScheme.onPrimary,
-                        ),
-                      ),
-                    ),
-                    centerTitle: true,
-                  ),
+                  _appBar(themeData),
                   SliverToBoxAdapter(
                     child: Container(
                       height: MediaQuery.of(context).size.height,
@@ -122,12 +94,36 @@ class HomeScreen extends StatelessWidget {
                 ],
               );
             } else if (state is HomeErrorState) {
-              return AppErrorWidget(
-                exception: state.exception,
-                onpressed: () {
-                  BlocProvider.of<HomeBloc>(context)
-                      .add(HomeRefreshEvent(user: AuthRepository.readid()));
-                },
+              return CustomScrollView(
+                slivers: [
+                  _appBar(themeData),
+                  SliverToBoxAdapter(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(
+                            height: 1,
+                          ),
+                          AppErrorWidget(
+                            exception: state.exception,
+                            onpressed: () {
+                              BlocProvider.of<HomeBloc>(context).add(
+                                  HomeRefreshEvent(
+                                      user: AuthRepository.readid()));
+                            },
+                          ),
+                          Container(
+                            height: 200,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               );
             } else {
               throw Exception('state is not supported ');
@@ -135,6 +131,24 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _appBar(ThemeData themeData) {
+    return SliverAppBar(
+      pinned: false,
+      title: SizedBox(
+        height: 40,
+        width: 40,
+        child: GestureDetector(
+          onTap: () {},
+          child: Image.asset(
+            'assets/images/d.png',
+            color: themeData.colorScheme.onPrimary,
+          ),
+        ),
+      ),
+      centerTitle: true,
     );
   }
 }

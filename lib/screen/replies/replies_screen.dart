@@ -256,12 +256,26 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     ],
                   );
                 } else if (state is ReplyErrorState) {
-                  return AppErrorWidget(
-                    exception: state.exception,
-                    onpressed: () {
-                      // BlocProvider.of<ReplyBloc>(context)
-                      //     .add(HomeRefreshEvent(user: AuthRepository.readid()));
-                    },
+                  return Column(
+                    children: [
+                      ThePostReply(
+                          context2: context2,
+                          onTabReply: () {},
+                          postEntity: widget.postEntity,
+                          onTabLike: () {}),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AppErrorWidget(
+                        exception: state.exception,
+                        onpressed: () {
+                          BlocProvider.of<ReplyBloc>(context2)
+                              .add(ReplyRefreshEvent(
+                            postId: widget.postEntity.id,
+                          ));
+                        },
+                      )
+                    ],
                   );
                 } else if (state is ReplySuccesStateDelet) {
                   return Column(

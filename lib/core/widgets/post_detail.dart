@@ -6,7 +6,6 @@ import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
-import 'package:danter/config/theme/theme.dart';
 import 'package:danter/core/widgets/Row_Image_Name_Text.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/photoUserFollowers.dart';

@@ -28,8 +28,6 @@ class AuthRepository implements IAuthRepository {
   Future<void> login(String username, String password) async {
     final AuthInfo authInfo = await dataSource.login(username, password);
     persistAuthTokens(authInfo);
-
-    debugPrint("access token is: " + authInfo.token);
     sharedPreferencestoken.setString("token", authInfo.token);
   }
 
@@ -39,7 +37,6 @@ class AuthRepository implements IAuthRepository {
     final AuthInfo authInfo =
         await dataSource.singUp(username, password, passwordConfirm);
     persistAuthTokens(authInfo);
-    debugPrint("access token is: " + authInfo.token);
     sharedPreferencestoken.setString("token", authInfo.token);
   }
 

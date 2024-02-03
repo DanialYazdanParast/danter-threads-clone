@@ -12,14 +12,24 @@ class AppErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(exception.message),
-          ElevatedButton(onPressed: onpressed, child: const Text('تلاش دوباره'))
-        ],
+    final ThemeData themeData = Theme.of(context);
+    return InkWell(
+      onTap: onpressed,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              exception.message,
+              style: themeData.textTheme.titleSmall,
+            ),
+            Text(
+              'Try Again',
+              style: themeData.textTheme.titleSmall,
+            ),
+          ],
+        ),
       ),
     );
   }

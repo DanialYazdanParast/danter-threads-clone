@@ -1,4 +1,5 @@
 import 'package:danter/core/constants/custom_colors.dart';
+import 'package:danter/core/util/exceptions.dart';
 import 'package:danter/core/widgets/loding.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
@@ -145,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   body: TabBarView(children: [
                     RefreshIndicator(
                       onRefresh: () async {
-                        BlocProvider.of<ProfileBloc>(context).add(
+                        BlocProvider.of<ProfileBloc>(context2).add(
                             ProfileRefreshEvent(user: AuthRepository.readid()));
                         await Future.delayed(const Duration(seconds: 2));
                       },
@@ -153,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     RefreshIndicator(
                       onRefresh: () async {
-                        BlocProvider.of<ProfileBloc>(context).add(
+                        BlocProvider.of<ProfileBloc>(context2).add(
                             ProfileRefreshEvent(user: AuthRepository.readid()));
                         await Future.delayed(const Duration(seconds: 2));
                       },
@@ -166,10 +167,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             } else if (state is ProfileLodingState) {
               return const LodingProfile();
             } else if (state is ProfileErrorState) {
-              return AppErrorWidget(
-                exception: state.exception,
-                onpressed: () {},
-              );
+              return ErrorProfile(
+                  exception: state.exception,
+                  onpressed: () {
+                    BlocProvider.of<ProfileBloc>(context2).add(
+                        ProfileRefreshEvent(user: AuthRepository.readid()));
+                  });
             } else {
               throw Exception('state is not supported ');
             }
@@ -866,6 +869,127 @@ class LodingProfile extends StatelessWidget {
         ),
         const Positioned(top: 95, child: LodingCustom())
       ],
+    );
+  }
+}
+
+//////////////////////////
+
+class ErrorProfile extends StatelessWidget {
+  const ErrorProfile({
+    super.key,
+    required this.exception,
+    required this.onpressed,
+  });
+  final AppException exception;
+  final GestureTapCallback onpressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              pinned: true,
+
+              actions: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                            builder: (context) => const SettingScreen()));
+                  },
+                  child: SizedBox(
+                    width: 35,
+                    height: 35,
+                    child: Image.asset(
+                      'assets/images/Frame 29.png',
+                      color: themeData.colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+              ],
+              //       leading: Icon(Icons.language),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, left: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              NameProfile(),
+                              // const SizedBox(height: 5),
+                              UserNameProfile(),
+                            ],
+                          ),
+                        ),
+                        ImageProfile()
+                      ],
+                    ),
+                    BioProfile(),
+                    const RowButtonProfile(),
+                  ],
+                ),
+              ),
+            ),
+            SliverPersistentHeader(
+              delegate: TabBarViewDelegate(
+                TabBar(
+                  indicatorPadding: const EdgeInsets.only(left: 20, right: 20),
+                  indicatorWeight: 1,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: themeData.colorScheme.onPrimary,
+                  labelColor: themeData.colorScheme.onPrimary,
+                  unselectedLabelColor: themeData.colorScheme.secondary,
+                  labelStyle: themeData.textTheme.titleLarge!
+                      .copyWith(fontWeight: FontWeight.w700),
+                  tabs: const [
+                    Tab(icon: Text('Danter')),
+                    Tab(icon: Text('Replies')),
+                  ],
+                ),
+              ),
+              pinned: true,
+              floating: false,
+            ),
+          ];
+        },
+        body: TabBarView(children: [
+          Column(
+            children: [
+              const SizedBox(height: 30),
+              AppErrorWidget(
+                exception: exception,
+                onpressed: onpressed,
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const SizedBox(height: 30),
+              AppErrorWidget(
+                exception: exception,
+                onpressed: onpressed,
+              ),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }

@@ -112,7 +112,10 @@ class _LikesScreenState extends State<LikesScreen> {
               } else if (state is LikesErrorState) {
                 return AppErrorWidget(
                   exception: state.exception,
-                  onpressed: () {},
+                  onpressed: () {
+                    BlocProvider.of<LikesBloc>(context)
+                        .add(LikesStartedEvent(postId: widget.idpostEntity));
+                  },
                 );
               } else {
                 throw Exception('state is not supported ');

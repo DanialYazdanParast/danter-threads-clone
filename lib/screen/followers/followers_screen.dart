@@ -199,7 +199,11 @@ class _FollowersScreenState extends State<FollowersScreen> {
                       } else if (state is FollowersErrorState) {
                         return AppErrorWidget(
                           exception: state.exception,
-                          onpressed: () {},
+                          onpressed: () {
+                            BlocProvider.of<FollowersBloc>(context).add(
+                              FollowersRefreshEvent(user: widget.userid),
+                            );
+                          },
                         );
                       } else {
                         throw Exception('state is not supported ');

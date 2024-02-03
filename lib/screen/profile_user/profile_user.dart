@@ -1,3 +1,4 @@
+import 'package:danter/core/util/exceptions.dart';
 import 'package:danter/core/widgets/loding.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
@@ -296,9 +297,14 @@ class ProfileUser extends StatelessWidget {
                   user: user,
                 );
               } else if (state is ProfileUserErrorState) {
-                return AppErrorWidget(
+                return ErrorProfileUser(
+                  user: user,
                   exception: state.exception,
-                  onpressed: () {},
+                  onpressed: () {
+                    BlocProvider.of<ProfileUserBloc>(context).add(
+                        ProfileUserRefreshEvent(
+                            myuserId: AuthRepository.readid(), user: user.id));
+                  },
                 );
               } else {
                 throw Exception('state is not supported ');
@@ -368,105 +374,7 @@ class RepliesPage extends StatelessWidget {
               },
               postEntity: reply[index],
               onTabNameUser: () {},
-              onTabmore: () {
-                // showModalBottomSheet(
-                //   context: context,
-                //   useRootNavigator: true,
-                //   backgroundColor: Colors.white,
-                //   showDragHandle: true,
-                //   shape: const RoundedRectangleBorder(
-                //       borderRadius:
-                //           BorderRadius.vertical(top: Radius.circular(16))),
-                //   builder: (context3) {
-                //     return Padding(
-                //       padding: const EdgeInsets.only(top: 10, bottom: 24),
-                //       child: InkWell(
-                //         onTap: () {
-                //           showDialog(
-                //             useRootNavigator: true,
-                //             barrierDismissible: false,
-                //             barrierColor: Colors.black26,
-                //             context: context,
-                //             builder: (context) {
-                //               return CustomAlertDialog(
-                //                 button: 'Delete',
-                //                 title: "Delete this Post?",
-                //                 description: "",
-                //                 onTabRemove: () {
-                //                   // BlocProvider.of<
-                //                   //             ProfileBloc>(
-                //                   //         context2)
-                //                   //     .add(ProfiledeletPostEvent(
-                //                   //         user: AuthRepository
-                //                   //             .readid(),
-                //                   //         postid: state
-                //                   //             .post[index]
-                //                   //             .id));
-
-                //                   // Navigator.pop(context);
-
-                //                   // Navigator.pop(context3);
-
-                //                   // ScaffoldMessenger.of(
-                //                   //         context)
-                //                   //     .showSnackBar(
-                //                   //   SnackBar(
-                //                   //     margin: const EdgeInsets
-                //                   //         .only(
-                //                   //         bottom: 35,
-                //                   //         left: 30,
-                //                   //         right: 30),
-
-                //                   //     //  width: 280.0,
-                //                   //     padding:
-                //                   //         const EdgeInsets
-                //                   //             .symmetric(
-                //                   //       horizontal: 10,
-                //                   //     ),
-                //                   //     behavior:
-                //                   //         SnackBarBehavior
-                //                   //             .floating,
-                //                   //     shape: RoundedRectangleBorder(
-                //                   //         borderRadius:
-                //                   //             BorderRadius
-                //                   //                 .circular(
-                //                   //                     15)),
-                //                   //     content: const Center(
-                //                   //         child: Padding(
-                //                   //       padding:
-                //                   //           EdgeInsets.all(
-                //                   //               14),
-                //                   //       child: Text(
-                //                   //           'با موفقیت حذف شد'),
-                //                   //     )),
-                //                   //   ),
-                //                   // );
-                //                 },
-                //               );
-                //             },
-                //           );
-                //         },
-                //         child: Container(
-                //           margin: const EdgeInsets.only(left: 20, right: 20),
-                //           height: 50,
-                //           decoration: BoxDecoration(
-                //               color: LightThemeColors.secondaryTextColor
-                //                   .withOpacity(0.2),
-                //               borderRadius: BorderRadius.circular(5)),
-                //           child: const Center(
-                //               child: Text(
-                //             'Delete',
-                //             style: TextStyle(
-                //                 fontWeight: FontWeight.w400,
-                //                 color: Colors.red,
-                //                 fontSize: 16),
-                //           )),
-                //         ),
-                //       ),
-                //     );
-                //   },
-                // );
-              },
+              onTabmore: () {},
             );
           },
         )
@@ -860,6 +768,130 @@ class LodingProfileUser extends StatelessWidget {
         ),
         Positioned(top: 95, child: LodingCustom())
       ],
+    );
+  }
+}
+
+class ErrorProfileUser extends StatelessWidget {
+  const ErrorProfileUser({
+    super.key,
+    required this.user,
+    required this.exception,
+    required this.onpressed,
+  });
+  final User user;
+  final AppException exception;
+  final GestureTapCallback onpressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              pinned: true,
+              actions: [
+                SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: Image.asset(
+                    'assets/images/more.png',
+                    color: themeData.colorScheme.onPrimary,
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, left: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10),
+                              NameProfileUser(user: user),
+                              UserNameProfileUser(user: user),
+                            ],
+                          ),
+                        ),
+                        ImageProfileUser(
+                          user: user,
+                        )
+                      ],
+                    ),
+                    BioProfileUser(user: user),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        ButtonProfile(
+                          user: user,
+                          onTabfollow: () async {},
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverPersistentHeader(
+              delegate: TabBarViewDelegate(
+                TabBar(
+                  indicatorPadding: const EdgeInsets.only(left: 20, right: 20),
+                  indicatorWeight: 1,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: themeData.colorScheme.onPrimary,
+                  labelColor: themeData.colorScheme.onPrimary,
+                  unselectedLabelColor: themeData.colorScheme.secondary,
+                  labelStyle: themeData.textTheme.titleLarge!
+                      .copyWith(fontWeight: FontWeight.w700),
+                  tabs: const [
+                    Tab(icon: Text('Danter')),
+                    Tab(icon: Text('Replies')),
+                  ],
+                ),
+              ),
+              pinned: true,
+              floating: false,
+            ),
+            const SliverPadding(padding: EdgeInsets.only(top: 10))
+          ];
+        },
+        body: TabBarView(children: [
+          Column(
+            children: [
+              const SizedBox(height: 30),
+              AppErrorWidget(
+                exception: exception,
+                onpressed: onpressed,
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const SizedBox(height: 30),
+              AppErrorWidget(
+                exception: exception,
+                onpressed: onpressed,
+              ),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }
