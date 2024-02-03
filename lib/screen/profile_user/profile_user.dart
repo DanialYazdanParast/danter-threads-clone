@@ -232,53 +232,7 @@ class ProfileUser extends StatelessWidget {
                                   user: user.id));
                           await Future.delayed(const Duration(seconds: 2));
                         },
-                        child: CustomScrollView(
-                          slivers: [
-                            (state.post.isNotEmpty)
-                                ? SliverList.builder(
-                                    itemCount: state.post.length,
-                                    itemBuilder: (context, index) {
-                                      return PostDetail(
-                                          onTabLike: () {
-                                            if (!state.post[index].likes
-                                                .contains(
-                                                    AuthRepository.readid())) {
-                                              BlocProvider.of<ProfileUserBloc>(
-                                                      context)
-                                                  .add(
-                                                AddLikeProfileUserEvent(
-                                                  postId: state.post[index].id,
-                                                  user: AuthRepository.readid(),
-                                                ),
-                                              );
-                                            } else {
-                                              BlocProvider.of<ProfileUserBloc>(
-                                                      context)
-                                                  .add(
-                                                RemoveLikeProfileUserEvent(
-                                                  postId: state.post[index].id,
-                                                  user: AuthRepository.readid(),
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          postEntity: state.post[index],
-                                          onTabmore: () {});
-                                    },
-                                  )
-                                : SliverToBoxAdapter(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 40),
-                                      child: Center(
-                                        child: Text('No danter yet',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall),
-                                      ),
-                                    ),
-                                  ),
-                          ],
-                        ),
+                        child: DanterProfileUser(post: state.post),
                       ),
                       RefreshIndicator(
                           onRefresh: () async {
@@ -313,6 +267,57 @@ class ProfileUser extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class DanterProfileUser extends StatelessWidget {
+  const DanterProfileUser({super.key, required this.post});
+
+  final List<PostEntity> post;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        (post.isNotEmpty)
+            ? SliverList.builder(
+                itemCount: post.length,
+                itemBuilder: (context, index) {
+                  return PostDetail(
+                      onTabLike: () {
+                        if (!post[index]
+                            .likes
+                            .contains(AuthRepository.readid())) {
+                          BlocProvider.of<ProfileUserBloc>(context).add(
+                            AddLikeProfileUserEvent(
+                              postId: post[index].id,
+                              user: AuthRepository.readid(),
+                            ),
+                          );
+                        } else {
+                          BlocProvider.of<ProfileUserBloc>(context).add(
+                            RemoveLikeProfileUserEvent(
+                              postId: post[index].id,
+                              user: AuthRepository.readid(),
+                            ),
+                          );
+                        }
+                      },
+                      postEntity: post[index],
+                      onTabmore: () {});
+                },
+              )
+            : SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Center(
+                    child: Text('No danter yet',
+                        style: Theme.of(context).textTheme.titleSmall),
+                  ),
+                ),
+              ),
+      ],
     );
   }
 }
