@@ -78,15 +78,15 @@ class _RootScreenState extends State<RootScreen> {
               destinations: [
                 NavigationDestination(
                   icon: SizedBox(
-                    height: 26,
-                    width: 26,
+                    height: 32,
+                    width: 32,
                     child: Image.asset('assets/images/home.png',
                         color: themeData.colorScheme.secondary),
                   ),
                   label: '',
                   selectedIcon: SizedBox(
-                    height: 26,
-                    width: 26,
+                    height: 32,
+                    width: 32,
                     child: Image.asset('assets/images/home_activ (2).png',
                         color: themeData.colorScheme.onPrimary),
                   ),
@@ -108,28 +108,34 @@ class _RootScreenState extends State<RootScreen> {
                 ),
                 NavigationDestination(
                   icon: SizedBox(
-                    height: 25,
-                    width: 25,
+                    height: 32,
+                    width: 32,
                     child: Image.asset('assets/images/write (2).png',
                         color: themeData.colorScheme.secondary),
                   ),
                   label: '',
                   selectedIcon: SizedBox(
-                    height: 25,
-                    width: 25,
+                    height: 32,
+                    width: 32,
                     child: Image.asset('assets/images/write (2).png',
                         color: themeData.colorScheme.onPrimary),
                   ),
                 ),
                 NavigationDestination(
-                    icon: Icon(CupertinoIcons.person,
-                        color: themeData.colorScheme.secondary, size: 28),
-                    selectedIcon: Icon(
-                      CupertinoIcons.person_fill,
-                      size: 28,
-                      color: themeData.colorScheme.onPrimary,
-                    ),
-                    label: ''),
+                  icon: SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: Image.asset('assets/images/account.png',
+                        color: themeData.colorScheme.secondary),
+                  ),
+                  label: '',
+                  selectedIcon: SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: Image.asset('assets/images/account-active.png',
+                        color: themeData.colorScheme.onPrimary),
+                  ),
+                ),
               ],
               elevation: 0,
               selectedIndex: selectedScreenIndex,
