@@ -209,6 +209,20 @@ class ImageProfile extends StatelessWidget {
                 ),
         ),
         Positioned(
+          bottom: -1,
+          left: -1,
+          child: Visibility(
+            visible: AuthRepository.loadAuthInfo()!.tik,
+            child: SizedBox(
+                width: 27,
+                height: 27,
+                child: Image.asset(
+                  'assets/images/tik.png',
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                )),
+          ),
+        ),
+        Positioned(
           bottom: 0,
           child: Visibility(
             visible: AuthRepository.loadAuthInfo()!.tik,

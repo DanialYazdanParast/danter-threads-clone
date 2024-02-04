@@ -645,11 +645,25 @@ class ImageProfileUser extends StatelessWidget {
                 )
               : ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Container(
+                  child: SizedBox(
                       height: 74,
                       width: 74,
                       child: Image.asset('assets/images/profile.png')),
                 ),
+        ),
+        Positioned(
+          bottom: -1,
+          left: -1,
+          child: Visibility(
+            visible: AuthRepository.loadAuthInfo()!.tik,
+            child: SizedBox(
+                width: 27,
+                height: 27,
+                child: Image.asset(
+                  'assets/images/tik.png',
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                )),
+          ),
         ),
         Positioned(
           bottom: 0,

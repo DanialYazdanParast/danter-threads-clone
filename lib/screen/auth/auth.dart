@@ -56,7 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
             floatingLabelBehavior: FloatingLabelBehavior.never,
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: LightThemeColors.secondaryTextColor,
                   width: 2,
                 )),
@@ -78,7 +78,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 listener: (context, state) {
                   if (state is AuthSuccess) {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => MyApp(),
+                      builder: (context) => const RootScreen(),
                     ));
                   } else if (state is AuthError) {
                     ScaffoldMessenger.of(context).showSnackBar(

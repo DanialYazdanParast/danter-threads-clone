@@ -1,3 +1,4 @@
+import 'package:danter/core/constants/theme.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 
@@ -39,7 +40,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     // IPostRepository postRepository = locator.get();
@@ -49,12 +49,11 @@ class _MyAppState extends State<MyApp> {
     //   debugPrint(e.toString());
     // });
 
-    ThemCubit theme = BlocProvider.of<ThemCubit>(context, listen: true);
+    //  ThemCubit theme = BlocProvider.of<ThemCubit>(context, listen: true);
 
     return ThemeProvider(
         //   duration: Duration(minutes: 1),
-
-        initTheme: theme.isDark
+        initTheme: ThemeSave.getTheme()
             ? MyAppThemeConfig.dark().getThemedark()
             : MyAppThemeConfig.light().getThemelight(),
         builder: (_, myTheme) {
@@ -64,7 +63,7 @@ class _MyAppState extends State<MyApp> {
               theme: myTheme,
               home: (AuthRepository.readAuth().isEmpty)
                   ? const AuthScreen()
-                  : RootScreen());
+                  : const RootScreen());
         });
   }
 }

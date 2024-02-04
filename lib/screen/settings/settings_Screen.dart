@@ -1,4 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:danter/core/constants/theme.dart';
 import 'package:danter/main.dart';
 import 'package:danter/screen/auth/auth.dart';
 import 'package:danter/screen/settings/cubit/them_cubit.dart';
@@ -14,8 +15,6 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemCubit themee = BlocProvider.of<ThemCubit>(context, listen: false);
-
     var darktheme = MyAppThemeConfig.dark().getThemedark();
     var lighttheme = MyAppThemeConfig.light().getThemelight();
 
@@ -41,7 +40,7 @@ class SettingScreen extends StatelessWidget {
                       builder: (context) {
                         return CupertinoSwitch(
                           activeColor: themeData.colorScheme.secondary,
-                          value: themee.isDark,
+                          value: ThemeSave.getTheme(),
                           onChanged: (isDarkModeEnabled) {
                             final brightness =
                                 ThemeModelInheritedNotifier.of(context)
@@ -55,7 +54,7 @@ class SettingScreen extends StatelessWidget {
                               isReversed:
                                   brightness == Brightness.light ? true : false,
                             );
-                            ThemCubit.sharedPreferences.setBool("them",
+                            ThemeSave.setTheme(
                                 brightness == Brightness.light ? true : false);
                           },
                         );
@@ -73,14 +72,9 @@ class SettingScreen extends StatelessWidget {
                       onTap: () {
                         AuthRepository.logout();
 
-                        Navigator.of(context, rootNavigator: true)
-                            .pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const AuthScreen();
-                            },
-                          ),
-                        );
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => AuthScreen(),
+                        ));
                       },
                       child: Text(
                         'Log out',
