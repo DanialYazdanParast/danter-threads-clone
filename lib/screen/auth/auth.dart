@@ -1,11 +1,8 @@
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/core/di/di.dart';
-import 'package:danter/main.dart';
 import 'package:danter/screen/auth/bloc/auth_bloc.dart';
 import 'package:danter/screen/root/root.dart';
-import 'package:danter/config/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
@@ -179,9 +176,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                             passwordConfirmController.text));
                                   },
                                   child: state is AuthLoading
-                                      ? Container(
+                                      ? const SizedBox(
                                           height: 50,
-                                          child: const LoadingIndicator(
+                                          child: LoadingIndicator(
                                               indicatorType: Indicator.ballBeat,
 
                                               /// Required, The loading type of the widget
@@ -263,7 +260,6 @@ class _PasswordTextField extends StatefulWidget {
 
   final TextEditingController passwordController;
   final String titelText;
-
   final Color onbackground;
 
   @override

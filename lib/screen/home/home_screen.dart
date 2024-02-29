@@ -1,7 +1,6 @@
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/di/di.dart';
 import 'package:danter/screen/home/bloc/home_bloc.dart';
-import 'package:danter/config/theme/theme.dart';
 import 'package:danter/core/widgets/error.dart';
 import 'package:danter/core/widgets/post_detail.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                 slivers: [
                   _appBar(themeData),
                   SliverToBoxAdapter(
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                           Container(
                             height: 1,
                           ),
-                          Container(
+                          SizedBox(
                               height: 40,
                               width: 40,
                               child: CircularProgressIndicator(
@@ -98,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                 slivers: [
                   _appBar(themeData),
                   SliverToBoxAdapter(
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -4,6 +4,8 @@ import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/di/di.dart';
+import 'package:danter/screen/chat/bloc/chat_bloc.dart';
+import 'package:danter/screen/chat/chat_screen.dart';
 import 'package:danter/screen/followers/bloc/followers_bloc.dart';
 import 'package:danter/screen/followers/followers_screen.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
@@ -192,6 +194,31 @@ class ProfileUser extends StatelessWidget {
                                         }
                                       },
                                     ),
+
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+
+                                    /////
+                                    ButtonMessage(
+                                      name: 'Message',
+                                      onTabButtonPrpfile: () {
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => BlocProvider(
+                                            create: (context) => ChatBloc()
+                                              ..add(ChatInitilzeEvent(
+                                                  myuserid:
+                                                      AuthRepository.readid(),
+                                                  useridchat: user.id)),
+                                            child: ChatScreen(
+                                              user: user,
+                                            ),
+                                          ),
+                                        ));
+                                      },
+                                    )
                                   ],
                                 ),
                               ],
@@ -655,7 +682,7 @@ class ImageProfileUser extends StatelessWidget {
           bottom: -1,
           left: -1,
           child: Visibility(
-            visible: AuthRepository.loadAuthInfo()!.tik,
+            visible: user.tik,
             child: SizedBox(
                 width: 27,
                 height: 27,
@@ -912,5 +939,36 @@ class ErrorProfileUser extends StatelessWidget {
         ]),
       ),
     );
+  }
+}
+
+class ButtonMessage extends StatelessWidget {
+  const ButtonMessage({
+    super.key,
+    required this.name,
+    required this.onTabButtonPrpfile,
+  });
+
+  final String name;
+  final GestureTapCallback onTabButtonPrpfile;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: SizedBox(
+      height: 34,
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            )),
+        onPressed: onTabButtonPrpfile,
+        child: Text(name,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                fontWeight: FontWeight.w400)),
+      ),
+    ));
   }
 }

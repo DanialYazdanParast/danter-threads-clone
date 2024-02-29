@@ -1,4 +1,6 @@
 import 'package:danter/core/constants/theme.dart';
+import 'package:danter/data/datasource/messages_datasource.dart';
+import 'package:danter/data/datasource/online_user_datasource.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 
@@ -23,7 +25,8 @@ void main() async {
 
   await getItInit();
   AuthRepository.loadAuthInfo();
-
+  WidgetsBinding.instance
+      .addObserver(OnlineUserUatasource(userid: AuthRepository.readid()));
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (context) => ThemCubit(),

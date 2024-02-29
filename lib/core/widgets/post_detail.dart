@@ -111,8 +111,8 @@ class PostDetail extends StatelessWidget {
                           ));
                         },
                         child: SizedBox(
-                          height: 22,
-                          width: 22,
+                          height: 19,
+                          width: 19,
                           child: Image.asset(
                             'assets/images/comments.png',
                             color: themeData.colorScheme.onPrimary,

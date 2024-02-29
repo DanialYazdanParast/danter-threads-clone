@@ -1,18 +1,15 @@
+import 'package:danter/screen/chatList/chat_list_Screen.dart';
 import 'package:danter/screen/home/home_screen.dart';
-
 import 'package:danter/screen/profile/profile_screen.dart';
-
 import 'package:danter/screen/search/search_screen/search_screen.dart';
-
 import 'package:danter/screen/write/write_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const int homeindex = 0;
 const int searchindex = 1;
 const int writeindex = 2;
-
-const int profileindex = 3;
+const int chatindex = 3;
+const int profileindex = 4;
 
 class RootScreen extends StatefulWidget {
   const RootScreen({
@@ -30,12 +27,14 @@ class _RootScreenState extends State<RootScreen> {
   final GlobalKey<NavigatorState> _homeKey = GlobalKey();
   final GlobalKey<NavigatorState> _writeKey = GlobalKey();
   final GlobalKey<NavigatorState> _searchKey = GlobalKey();
+  final GlobalKey<NavigatorState> _chatKey = GlobalKey();
   final GlobalKey<NavigatorState> _profileKey = GlobalKey();
 
   late final map = {
     homeindex: _homeKey,
     searchindex: _searchKey,
     writeindex: _writeKey,
+    chatindex: _chatKey,
     profileindex: _profileKey,
   };
 
@@ -69,6 +68,7 @@ class _RootScreenState extends State<RootScreen> {
               _navigator(_homeKey, homeindex, const HomeScreen()),
               _navigator(_searchKey, searchindex, const SearchScreen()),
               _navigator(_writeKey, writeindex, const WriteScreen()),
+              _navigator(_chatKey, chatindex, const ChatListScreen()),
               _navigator(_profileKey, profileindex, const ProfileScreen())
             ],
           ),
@@ -125,13 +125,28 @@ class _RootScreenState extends State<RootScreen> {
                   icon: SizedBox(
                     height: 32,
                     width: 32,
-                    child: Image.asset('assets/images/account.png',
+                    child: Image.asset('assets/images/message.png',
                         color: themeData.colorScheme.secondary),
                   ),
                   label: '',
                   selectedIcon: SizedBox(
                     height: 32,
                     width: 32,
+                    child: Image.asset('assets/images/message_activ.png',
+                        color: themeData.colorScheme.onPrimary),
+                  ),
+                ),
+                NavigationDestination(
+                  icon: SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: Image.asset('assets/images/account.png',
+                        color: themeData.colorScheme.secondary),
+                  ),
+                  label: '',
+                  selectedIcon: SizedBox(
+                    height: 23,
+                    width: 23,
                     child: Image.asset('assets/images/account-active.png',
                         color: themeData.colorScheme.onPrimary),
                   ),

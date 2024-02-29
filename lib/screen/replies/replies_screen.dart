@@ -4,23 +4,18 @@ import 'package:danter/core/widgets/snackbart.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/di/di.dart';
-
 import 'package:danter/screen/likes/likes_Screen.dart';
-
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/bloc/reply_bloc.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
-
 import 'package:danter/core/widgets/error.dart';
 import 'package:danter/core/widgets/image.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/image_user_post.dart';
 import 'package:danter/core/widgets/post_detail.dart';
 import 'package:danter/core/widgets/time.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 
@@ -670,8 +665,8 @@ class ThePostReply extends StatelessWidget {
                         GestureDetector(
                           onTap: onTabReply,
                           child: SizedBox(
-                            height: 22,
-                            width: 22,
+                            height: 19,
+                            width: 19,
                             child: Image.asset(
                               'assets/images/comments.png',
                               color: themeData.colorScheme.onPrimary,

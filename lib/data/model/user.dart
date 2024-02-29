@@ -24,6 +24,8 @@ class User extends HiveObject {
   final List<String> following;
   @HiveField(9)
   final bool tik;
+  @HiveField(10)
+  final bool online;
 
   User(
     this.followers,
@@ -36,6 +38,7 @@ class User extends HiveObject {
     required this.collectionId,
     required this.avatar,
     required this.tik,
+    required this.online,
   });
 
   User.fromJson(Map<String, dynamic> json)
@@ -49,5 +52,6 @@ class User extends HiveObject {
         avatarchek = json['avatar'],
         followers = List<String>.from(json["followers"]),
         following = List<String>.from(json["following"]),
-        tik = json['tik'];
+        tik = json['tik'],
+        online = json['online'];
 }

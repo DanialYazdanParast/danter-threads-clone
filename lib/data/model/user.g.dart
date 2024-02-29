@@ -27,6 +27,7 @@ class UserAdapter extends TypeAdapter<User> {
       collectionId: fields[4] as String,
       avatar: fields[5] as String,
       tik: fields[9] as bool,
+      online: fields[9] as bool,
     );
   }
 
@@ -53,7 +54,9 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(8)
       ..write(obj.following)
       ..writeByte(9)
-      ..write(obj.tik);
+      ..write(obj.tik)
+      ..writeByte(10)
+      ..write(obj.online);
   }
 
   @override

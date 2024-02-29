@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/config/theme/theme.dart';
 import 'package:danter/core/widgets/image.dart';
-import 'package:danter/core/widgets/image_user_post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 List<XFile>? selectedImage = [];
 
 class FildWrite extends StatefulWidget {
-  FildWrite({
+  const FildWrite({
     super.key,
     required this.controller,
   });
@@ -58,7 +56,7 @@ class _FildWriteState extends State<FildWrite> {
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(100),
-                            child: Container(
+                            child: SizedBox(
                                 height: 40,
                                 width: 40,
                                 child:
@@ -125,8 +123,8 @@ class _FildWriteState extends State<FildWrite> {
                                 _pickImage();
                               },
                               child: SizedBox(
-                                height: 35,
-                                width: 35,
+                                height: 28,
+                                width: 28,
                                 child: Image.asset(
                                   'assets/images/paperclip.png',
                                 ),

@@ -1,16 +1,17 @@
-import 'package:danter/data/model/post.dart';
 import 'package:danter/data/model/user.dart';
-import 'package:danter/config/theme/theme.dart';
+
 import 'package:danter/core/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ImageUserPost extends StatelessWidget {
   final GestureTapCallback onTabNameUser;
+  final double size;
   const ImageUserPost({
     super.key,
     required this.user,
     required this.onTabNameUser,
+    this.size = 36,
   });
 
   final User user;
@@ -24,15 +25,15 @@ class ImageUserPost extends StatelessWidget {
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: SizedBox(
-                      height: 36,
-                      width: 36,
+                      height: size,
+                      width: size,
                       child: ImageLodingService(imageUrl: user.avatar)),
                 )
               : ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: SizedBox(
-                      height: 36,
-                      width: 36,
+                      height: size,
+                      width: size,
                       child: Image.asset('assets/images/profile.png')),
                 )),
     );
