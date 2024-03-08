@@ -1,14 +1,18 @@
 import 'package:bloc/bloc.dart';
-import 'package:danter/data/datasource/messages_datasource.dart';
+
 import 'package:danter/data/model/messageslist.dart';
+import 'package:danter/data/repository/messages_repository.dart';
 import 'package:flutter/foundation.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  final IchatDataSource data = ChatDataSource();
-  ChatBloc() : super(ChatLoding()) {
+  final IchatRepository data;
+
+  ChatBloc(
+    this.data,
+  ) : super(ChatLoding()) {
     data.getStreamChatUser.listen(
       (_) {
         add(ChatSuccesEvent());

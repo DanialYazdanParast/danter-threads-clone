@@ -1,27 +1,17 @@
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/core/di/di.dart';
-
-import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/likes/likes_Screen.dart';
-import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
-
-import 'package:danter/config/theme/theme.dart';
 import 'package:danter/core/widgets/Row_Image_Name_Text.dart';
-
-import 'package:danter/core/widgets/image.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/photoUserFollowers.dart';
 import 'package:danter/core/widgets/post_detail.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RepliseDtaile extends StatelessWidget {
   final PostReply postEntity;
@@ -322,12 +312,23 @@ class ReplyTo extends StatelessWidget {
             Positioned(
               left: 28,
               top: 44,
-              bottom: 0,
+              bottom: 20,
               child: Container(
                 width: postEntity.replies.length > 0 ? 1 : 0,
                 color: LightThemeColors.secondaryTextColor,
               ),
             ),
+            Positioned(
+                left: 10.7,
+                bottom: 0,
+                child: SizedBox(
+                  height: 23,
+                  width: 23,
+                  child: Image.asset(
+                    'assets/images/fold.png',
+                    color: LightThemeColors.secondaryTextColor,
+                  ),
+                )),
             Column(
               children: [
                 ImageAndNameAndText(

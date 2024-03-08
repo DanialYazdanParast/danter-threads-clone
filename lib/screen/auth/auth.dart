@@ -24,7 +24,7 @@ class _AuthScreenState extends State<AuthScreen> {
     final ThemeData themeData = Theme.of(context);
     const onbackground = Colors.black;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.ltr,
       child: Theme(
         data: themeData.copyWith(
           //------------------------//
@@ -69,7 +69,6 @@ class _AuthScreenState extends State<AuthScreen> {
           child: BlocProvider(
             create: (context) => AuthBloc(locator.get())..add(AuthStarted()),
             child: Scaffold(
-              //  backgroundColor: Colors.red,
               resizeToAvoidBottomInset: true,
               body: BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
@@ -102,24 +101,27 @@ class _AuthScreenState extends State<AuthScreen> {
                             Image.asset(
                               'assets/images/d.png',
                               width: 130,
+                              color: themeData.colorScheme.primary,
                             ),
                             const SizedBox(
                               height: 14,
                             ),
                             Text(
-                              state.isLoginMode ? 'خوش آمدید' : 'ثبت نام',
-                              style: const TextStyle(
-                                  color: onbackground, fontSize: 22),
+                              state.isLoginMode ? 'Welcome' : 'Register',
+                              style: TextStyle(
+                                  color: themeData.colorScheme.primary,
+                                  fontSize: 22),
                             ),
                             const SizedBox(
                               height: 16,
                             ),
                             Text(
                               state.isLoginMode
-                                  ? 'لطفا وارد حساب کاربری خود شوید'
-                                  : 'ایمیل و رمز عبور خود را تعیین کنید',
-                              style: const TextStyle(
-                                  color: onbackground, fontSize: 16),
+                                  ? 'Please Login to your account'
+                                  : 'Set your email and password',
+                              style: TextStyle(
+                                  color: themeData.colorScheme.primary,
+                                  fontSize: 16),
                             ),
                             const SizedBox(
                               height: 24,
@@ -127,19 +129,24 @@ class _AuthScreenState extends State<AuthScreen> {
                             Container(
                               height: 55,
                               decoration: BoxDecoration(
-                                color: LightThemeColors.secondaryTextColor
-                                    .withOpacity(0.2),
+                                color: themeData.colorScheme.onBackground,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Center(
                                 child: TextField(
                                   controller: usernameController,
                                   keyboardType: TextInputType.emailAddress,
-                                  style: const TextStyle(
-                                      fontSize: 18.0, color: Colors.black),
-                                  decoration: const InputDecoration(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall!
+                                      .copyWith(fontSize: 20, height: 1),
+                                  decoration: InputDecoration(
                                     label: Text(
-                                      'نام کاربری',
+                                      'username',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall!
+                                          .copyWith(fontSize: 20),
                                     ),
                                   ),
                                 ),
@@ -149,7 +156,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               height: 16,
                             ),
                             _PasswordTextField(
-                                titelText: 'رمز عبور',
+                                titelText: 'password',
                                 onbackground: onbackground,
                                 passwordController: passwordController),
                             const SizedBox(
@@ -157,7 +164,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             (!state.isLoginMode)
                                 ? _PasswordTextField(
-                                    titelText: ' تکرار رمز عبور',
+                                    titelText: 'repeat the password',
                                     onbackground: onbackground,
                                     passwordController:
                                         passwordConfirmController)
@@ -168,6 +175,10 @@ class _AuthScreenState extends State<AuthScreen> {
                             SizedBox(
                               height: 55,
                               child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        themeData.colorScheme.primary,
+                                  ),
                                   onPressed: () {
                                     BlocProvider.of<AuthBloc>(context).add(
                                         AuthButtonIsClicked(
@@ -176,33 +187,38 @@ class _AuthScreenState extends State<AuthScreen> {
                                             passwordConfirmController.text));
                                   },
                                   child: state is AuthLoading
-                                      ? const SizedBox(
+                                      ? SizedBox(
                                           height: 50,
                                           child: LoadingIndicator(
-                                              indicatorType: Indicator.ballBeat,
+                                            indicatorType: Indicator.ballBeat,
 
-                                              /// Required, The loading type of the widget
-                                              colors: [Colors.white],
+                                            /// Required, The loading type of the widget
+                                            colors: [
+                                              themeData.scaffoldBackgroundColor,
+                                            ],
 
-                                              /// Optional, The color collections
-                                              strokeWidth: 1,
+                                            /// Optional, The color collections
+                                            strokeWidth: 1,
 
-                                              /// Optional, The stroke of the line, only applicable to widget which contains line
-                                              backgroundColor: Colors.black,
+                                            /// Optional, The stroke of the line, only applicable to widget which contains line
+                                            backgroundColor:
+                                                themeData.colorScheme.primary,
 
-                                              /// Optional, Background of the widget
-                                              pathBackgroundColor: Colors.black
+                                            /// Optional, Background of the widget
+                                            pathBackgroundColor:
+                                                themeData.colorScheme.primary,
 
-                                              /// Optional, the stroke backgroundColor
-                                              ),
+                                            /// Optional, the stroke backgroundColor
+                                          ),
                                         )
                                       : Text(
                                           state.isLoginMode
-                                              ? 'ورود'
-                                              : 'ثبت نام',
-                                          style: const TextStyle(
+                                              ? 'Login'
+                                              : 'Register',
+                                          style: TextStyle(
                                               fontSize: 18,
-                                              color: Colors.white),
+                                              color: themeData
+                                                  .scaffoldBackgroundColor),
                                         )),
                             ),
                             const SizedBox(
@@ -218,20 +234,18 @@ class _AuthScreenState extends State<AuthScreen> {
                                 children: [
                                   Text(
                                       state.isLoginMode
-                                          ? 'حساب کاربری ندارید؟'
-                                          : 'حساب کار بری دارید',
-                                      style: const TextStyle(
-                                        color:
-                                            LightThemeColors.secondaryTextColor,
+                                          ? 'Don\'t have an account?'
+                                          : 'You have an account',
+                                      style: TextStyle(
+                                        color: themeData.colorScheme.primary,
                                       )),
                                   const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
-                                    state.isLoginMode ? 'ثبت نام ' : 'ورود',
-                                    style: const TextStyle(
-                                        color:
-                                            LightThemeColors.secondaryTextColor,
+                                    state.isLoginMode ? 'Register' : 'Login',
+                                    style: TextStyle(
+                                        color: themeData.colorScheme.primary,
                                         decoration: TextDecoration.underline),
                                   ),
                                 ],
@@ -273,14 +287,17 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
     return Container(
       height: 55,
       decoration: BoxDecoration(
-        color: LightThemeColors.secondaryTextColor.withOpacity(0.2),
+        color: Theme.of(context).colorScheme.onBackground,
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
         controller: widget.passwordController,
         keyboardType: TextInputType.visiblePassword,
         obscureText: obscureText,
-        style: const TextStyle(fontSize: 18.0, color: Colors.black),
+        style: Theme.of(context)
+            .textTheme
+            .labelSmall!
+            .copyWith(fontSize: 20, height: obscureText ? 1.3 : 1),
         decoration: InputDecoration(
           suffixIcon: IconButton(
               onPressed: () {
@@ -292,9 +309,13 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
                 obscureText
                     ? Icons.visibility_outlined
                     : Icons.visibility_off_outlined,
-                color: widget.onbackground.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
               )),
-          label: Text(widget.titelText),
+          label: Text(
+            widget.titelText,
+            style:
+                Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 20),
+          ),
         ),
       ),
     );

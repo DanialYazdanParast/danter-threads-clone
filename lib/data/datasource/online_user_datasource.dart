@@ -5,6 +5,19 @@ class OnlineUserUatasource extends WidgetsBindingObserver {
   final Dio dio = Dio(BaseOptions(baseUrl: 'https://dan.chbk.run/api/'));
   final String userid;
   OnlineUserUatasource({required this.userid});
+
+  @override
+  void online() async {
+    final body = <String, dynamic>{
+      "online": true,
+    };
+
+    await dio.patch(
+      'collections/users/records/$userid',
+      data: body,
+    );
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.inactive) {

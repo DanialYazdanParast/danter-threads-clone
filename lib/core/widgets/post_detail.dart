@@ -41,7 +41,7 @@ class PostDetail extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         color: themeData.scaffoldBackgroundColor,
         child: Stack(
-          alignment: Alignment.topCenter,
+          //alignment: Alignment.topLeft,
           children: [
             Positioned(
               left: 28,
@@ -54,6 +54,7 @@ class PostDetail extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 ImageAndNameAndText(
                     postEntity: postEntity,
@@ -85,20 +86,6 @@ class PostDetail extends StatelessWidget {
                   child: Row(
                     children: [
                       LikeButton(postEntity: postEntity, onTabLike: onTabLike),
-
-                      // GestureDetector(
-                      //   onTap: onTabLike,
-                      //   child: Container(
-                      //     child:
-                      //         postEntity.likes.contains(AuthRepository.readid())
-                      //             ? const Icon(CupertinoIcons.heart_fill,
-                      //                 color: Colors.red, size: 24)
-                      //             : const Icon(
-                      //                 CupertinoIcons.heart,
-                      //                 size: 24,
-                      //               ),
-                      //   ),
-                      // ),
                       const SizedBox(
                         width: 12,
                       ),
@@ -239,12 +226,6 @@ class LikeButton extends StatefulWidget {
 }
 
 class _LikeButtonState extends State<LikeButton> {
-  // void togglrButton() {
-  //   setState(() {
-  //     liked = !liked;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     bool liked = widget.postEntity.likes.contains(AuthRepository.readid());

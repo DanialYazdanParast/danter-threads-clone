@@ -83,79 +83,108 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
               } else if (state is SearchUserLodingState) {
                 return const LodingCustom();
               } else if (state is SearchUserHiveSuccesState) {
-                return CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Visibility(
-                        visible: state.user.isNotEmpty,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, top: 15, bottom: 20),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Recent',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(fontSize: 18),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    BlocProvider.of<SearchUserBloc>(context)
-                                        .add(
-                                      SearchUserDeleteAllSearchEvent(),
-                                    );
-                                  },
-                                  child: Text(
-                                    'Clear',
+                if (state.user.isNotEmpty) {
+                  return CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Visibility(
+                          visible: state.user.isNotEmpty,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 15, bottom: 20),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Recent',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium!
                                         .copyWith(fontSize: 18),
                                   ),
-                                ),
-                              ]),
+                                  GestureDetector(
+                                    onTap: () {
+                                      BlocProvider.of<SearchUserBloc>(context)
+                                          .add(
+                                        SearchUserDeleteAllSearchEvent(),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Clear',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(fontSize: 18),
+                                    ),
+                                  ),
+                                ]),
+                          ),
                         ),
                       ),
-                    ),
-                    SliverList.builder(
-                      itemCount: state.user.length,
-                      itemBuilder: (context, index) {
-                        return SearchUserDetailHive(
-                          onTabDelete: () {
-                            BlocProvider.of<SearchUserBloc>(context).add(
-                              SearchUserDeleteSearchEvent(
-                                user: state.user[state.user.length - 1 - index],
-                              ),
-                            );
-                          },
-                          onTabProfile: () {
-                            //-------------
-                            BlocProvider.of<SearchUserBloc>(context).add(
-                                SearchUserAddSearchHiveEvent(
-                                    user: state
-                                        .user[state.user.length - 1 - index]));
-                            //-------------
+                      SliverList.builder(
+                        itemCount: state.user.length,
+                        itemBuilder: (context, index) {
+                          return SearchUserDetailHive(
+                            onTabDelete: () {
+                              BlocProvider.of<SearchUserBloc>(context).add(
+                                SearchUserDeleteSearchEvent(
+                                  user:
+                                      state.user[state.user.length - 1 - index],
+                                ),
+                              );
+                            },
+                            onTabProfile: () {
+                              //-------------
+                              BlocProvider.of<SearchUserBloc>(context).add(
+                                  SearchUserAddSearchHiveEvent(
+                                      user: state.user[
+                                          state.user.length - 1 - index]));
+                              //-------------
 
-                            Navigator.of(context, rootNavigator: true).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ProfileUser(
-                                    user: state
-                                        .user[state.user.length - 1 - index],
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                          user: state.user[state.user.length - 1 - index],
-                        );
-                      },
-                    )
-                  ],
-                );
+                              Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ProfileUser(
+                                      user: state
+                                          .user[state.user.length - 1 - index],
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            user: state.user[state.user.length - 1 - index],
+                          );
+                        },
+                      )
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/empty_search.png',
+                          height: 180,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondary
+                              .withAlpha(90),
+                        ),
+                        SizedBox(height: 20),
+                        Text(
+                          'your search list is empty',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  fontSize: 18, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               } else if (state is SearchUserSuccesState) {
                 return ListView.builder(
                   itemCount: state.user.length,

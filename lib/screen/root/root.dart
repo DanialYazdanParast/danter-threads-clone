@@ -1,3 +1,5 @@
+import 'package:danter/data/datasource/online_user_datasource.dart';
+import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/screen/chatList/chat_list_Screen.dart';
 import 'package:danter/screen/home/home_screen.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
@@ -21,6 +23,15 @@ class RootScreen extends StatefulWidget {
 }
 
 class _RootScreenState extends State<RootScreen> {
+  @override
+  void initState() {
+    OnlineUserUatasource(userid: AuthRepository.readid()).online();
+
+    WidgetsBinding.instance
+        .addObserver(OnlineUserUatasource(userid: AuthRepository.readid()));
+    super.initState();
+  }
+
   int selectedScreenIndex = homeindex;
   final List<int> _history = [];
 

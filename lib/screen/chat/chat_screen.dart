@@ -11,7 +11,7 @@ String roomid = '';
 
 class ChatScreen extends StatelessWidget {
   final User user;
-  const ChatScreen({
+  ChatScreen({
     super.key,
     required this.user,
   });
@@ -23,7 +23,11 @@ class ChatScreen extends StatelessWidget {
           centerTitle: true,
           title: Row(
             children: [
-              ImageUserPost(user: user, onTabNameUser: () {}, size: 44),
+              Hero(
+                tag: user.id,
+                child:
+                    ImageUserPost(user: user, onTabNameUser: () {}, size: 44),
+              ),
               const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,7 +217,6 @@ class SendChat extends StatelessWidget {
   });
   final TextEditingController textController = TextEditingController();
   final User user;
-//  final GestureTapCallback onTabSendChat;
 
   @override
   Widget build(BuildContext context) {

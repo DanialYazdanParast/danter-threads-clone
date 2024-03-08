@@ -551,7 +551,7 @@ class DanterPage extends StatelessWidget {
               )
             : SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 40),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Center(
                     child: Text('You haven\'t postted any danter yet',
                         style: Theme.of(context).textTheme.titleSmall),
@@ -811,7 +811,7 @@ class LodingProfile extends StatelessWidget {
                         width: 35,
                         height: 35,
                         child: Image.asset(
-                          'assets/images/Frame 29.png',
+                          'assets/images/draver.png',
                           color: themeData.colorScheme.onPrimary,
                         ),
                       ),
@@ -881,7 +881,7 @@ class LodingProfile extends StatelessWidget {
             ]),
           ),
         ),
-        const Positioned(top: 95, child: LodingCustom())
+        const Positioned(top: 94, child: LodingCustom())
       ],
     );
   }
@@ -920,7 +920,7 @@ class ErrorProfile extends StatelessWidget {
                     width: 35,
                     height: 35,
                     child: Image.asset(
-                      'assets/images/Frame 29.png',
+                      'assets/images/draver.png',
                       color: themeData.colorScheme.onPrimary,
                     ),
                   ),
@@ -986,7 +986,7 @@ class ErrorProfile extends StatelessWidget {
         body: TabBarView(children: [
           Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               AppErrorWidget(
                 exception: exception,
                 onpressed: onpressed,
@@ -995,7 +995,7 @@ class ErrorProfile extends StatelessWidget {
           ),
           Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               AppErrorWidget(
                 exception: exception,
                 onpressed: onpressed,

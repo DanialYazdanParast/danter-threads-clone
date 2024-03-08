@@ -1,3 +1,4 @@
+import 'package:danter/core/di/di.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/screen/chat/bloc/chat_bloc.dart';
@@ -13,7 +14,7 @@ class ChatListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MessagesBloc()
+      create: (context) => MessagesBloc(locator.get())
         ..add(MessagesInitilzeEvent(userId: AuthRepository.readid())),
       child: Scaffold(
         appBar: AppBar(
@@ -32,33 +33,57 @@ class ChatListScreen extends StatelessWidget {
                     )),
               );
             } else if (state is MessagesResponseState) {
-              return ListView.builder(
-                itemCount: state.response.length,
-                itemBuilder: (context, index) {
-                  final User user = state.response[index].usersend.id ==
-                          AuthRepository.readid()
-                      ? state.response[index].usersseen
-                      : state.response[index].usersend;
-                  return ChatListDetail(
-                    onTabFollow: () {},
-                    onTabProfile: () {
-                      Navigator.of(context, rootNavigator: true)
-                          .push(MaterialPageRoute(
-                        builder: (context) => BlocProvider(
-                          create: (context) => ChatBloc()
-                            ..add(ChatInitilzeEvent(
-                                myuserid: AuthRepository.readid(),
-                                useridchat: user.id)),
-                          child: ChatScreen(
-                            user: user,
+              if (state.response.isNotEmpty) {
+                return ListView.builder(
+                  itemCount: state.response.length,
+                  itemBuilder: (context, index) {
+                    final User user = state.response[index].usersend.id ==
+                            AuthRepository.readid()
+                        ? state.response[index].usersseen
+                        : state.response[index].usersend;
+                    return ChatListDetail(
+                      onTabFollow: () {},
+                      onTabProfile: () {
+                        Navigator.of(context, rootNavigator: true)
+                            .push(MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => ChatBloc(locator.get())
+                              ..add(ChatInitilzeEvent(
+                                  myuserid: AuthRepository.readid(),
+                                  useridchat: user.id)),
+                            child: ChatScreen(
+                              user: user,
+                            ),
                           ),
-                        ),
-                      ));
-                    },
-                    messages: state.response[index],
-                  );
-                },
-              );
+                        ));
+                      },
+                      messages: state.response[index],
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/vecteezy_chat.png',
+                        height: 180,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .secondary
+                            .withAlpha(90),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        'your chat list is empty',
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontSize: 18, fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                );
+              }
             } else {
               throw Exception('state is not supported ');
             }

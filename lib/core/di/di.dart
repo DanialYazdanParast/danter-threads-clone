@@ -1,8 +1,10 @@
 import 'package:danter/data/datasource/auth_data_source.dart';
+import 'package:danter/data/datasource/messages_datasource.dart';
 import 'package:danter/data/datasource/post_data_source.dart';
 import 'package:danter/data/datasource/reply_data_source.dart';
 import 'package:danter/data/datasource/search_user_source.dart';
 import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/data/repository/messages_repository.dart';
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/data/repository/reply_repository.dart';
 import 'package:danter/data/repository/search_user_repository.dart';
@@ -25,6 +27,9 @@ Future<void> getItInit() async {
   locator.registerSingleton<IReplyDataSource>(
       ReplyRemoteDataSource(locator.get()));
   locator.registerSingleton<ISearchUserDatasource>(SearchUserLocalDatasource());
+  locator.registerFactory<IchatDataSource>(
+    () => ChatRemoteDataSource(locator.get()),
+  );
 
   //-----------repositories-----------//
   locator.registerSingleton<IAuthRepository>(AuthRepository(locator.get()));
@@ -32,4 +37,5 @@ Future<void> getItInit() async {
   locator.registerSingleton<IReplyRepository>(ReplyRepository(locator.get()));
   locator.registerSingleton<ISearchUserRepository>(
       SearchUserRepository(locator.get()));
+  locator.registerFactory<IchatRepository>(() => ChatRepository(locator.get()));
 }

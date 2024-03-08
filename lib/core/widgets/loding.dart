@@ -9,20 +9,27 @@ class LodingCustom extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
     return Center(
       child: Container(
-        height: 35,
-        width: 35,
+        height: 38,
+        width: 38,
         decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0, 1),
+                blurRadius: 2,
+              )
+            ],
             color: themeData.scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(100),
             border:
                 Border.all(width: 1, color: themeData.colorScheme.secondary)),
         child: Center(
-          child: SizedBox(
-            height: 18,
-            width: 18,
+          child: Container(
+            height: 14,
+            width: 14,
             child: Center(
               child: CircularProgressIndicator(
-                strokeWidth: 2,
+                strokeWidth: 2.5,
                 color: themeData.colorScheme.onPrimary,
               ),
             ),

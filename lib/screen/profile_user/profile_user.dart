@@ -207,7 +207,8 @@ class ProfileUser extends StatelessWidget {
                                                 rootNavigator: true)
                                             .push(MaterialPageRoute(
                                           builder: (context) => BlocProvider(
-                                            create: (context) => ChatBloc()
+                                            create: (context) => ChatBloc(
+                                                locator.get())
                                               ..add(ChatInitilzeEvent(
                                                   myuserid:
                                                       AuthRepository.readid(),
@@ -337,7 +338,7 @@ class DanterProfileUser extends StatelessWidget {
               )
             : SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 40),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Center(
                     child: Text('No danter yet',
                         style: Theme.of(context).textTheme.titleSmall),
@@ -776,6 +777,26 @@ class LodingProfileUser extends StatelessWidget {
                               user: user,
                               onTabfollow: () async {},
                             ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            ButtonMessage(
+                              name: 'Message',
+                              onTabButtonPrpfile: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .push(MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                    create: (context) => ChatBloc(locator.get())
+                                      ..add(ChatInitilzeEvent(
+                                          myuserid: AuthRepository.readid(),
+                                          useridchat: user.id)),
+                                    child: ChatScreen(
+                                      user: user,
+                                    ),
+                                  ),
+                                ));
+                              },
+                            )
                           ],
                         ),
                       ],
@@ -812,7 +833,7 @@ class LodingProfileUser extends StatelessWidget {
             ]),
           ),
         ),
-        Positioned(top: 95, child: LodingCustom())
+        Positioned(top: 94, child: LodingCustom())
       ],
     );
   }
@@ -888,6 +909,26 @@ class ErrorProfileUser extends StatelessWidget {
                           user: user,
                           onTabfollow: () async {},
                         ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        ButtonMessage(
+                          name: 'Message',
+                          onTabButtonPrpfile: () {
+                            Navigator.of(context, rootNavigator: true)
+                                .push(MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) => ChatBloc(locator.get())
+                                  ..add(ChatInitilzeEvent(
+                                      myuserid: AuthRepository.readid(),
+                                      useridchat: user.id)),
+                                child: ChatScreen(
+                                  user: user,
+                                ),
+                              ),
+                            ));
+                          },
+                        )
                       ],
                     ),
                   ],
@@ -920,7 +961,7 @@ class ErrorProfileUser extends StatelessWidget {
         body: TabBarView(children: [
           Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               AppErrorWidget(
                 exception: exception,
                 onpressed: onpressed,
@@ -929,7 +970,7 @@ class ErrorProfileUser extends StatelessWidget {
           ),
           Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               AppErrorWidget(
                 exception: exception,
                 onpressed: onpressed,
@@ -959,14 +1000,14 @@ class ButtonMessage extends StatelessWidget {
       height: 34,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             )),
         onPressed: onTabButtonPrpfile,
         child: Text(name,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Theme.of(context).scaffoldBackgroundColor,
+                //  color: Theme.of(context).scaffoldBackgroundColor,
                 fontWeight: FontWeight.w400)),
       ),
     ));

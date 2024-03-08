@@ -14,10 +14,11 @@ class ImagePost extends StatelessWidget {
     return postEntity.image.isNotEmpty && postEntity.image.length < 2
         ? Padding(
             padding: EdgeInsets.only(right: 10, left: leftpading, bottom: 10),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 600,
-              ),
+            child: Container(
+              constraints: BoxConstraints(
+                  maxHeight: 260,
+                  minHeight: 260,
+                  minWidth: MediaQuery.of(context).size.width),
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context, rootNavigator: true)
@@ -32,16 +33,13 @@ class ImagePost extends StatelessWidget {
                   tag: postEntity.image[0],
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: SizedBox(
-                        child: ImageLodingService(
-                          imageUrl:
-                              'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-                        ),
+                      child: ImageLodingService(
+                        imageUrl:
+                            'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
                       )),
                 ),
               ),
-            ),
-          )
+            ))
         : postEntity.image.length > 1
             ? SizedBox(
                 height: 260,

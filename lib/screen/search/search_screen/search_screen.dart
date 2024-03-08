@@ -1,11 +1,12 @@
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/core/di/di.dart';
 import 'package:danter/core/widgets/error.dart';
+import 'package:danter/core/widgets/loding.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/search/search_screen/bloc/search_bloc.dart';
 import 'package:danter/screen/search/search_screen/search_detail.dart';
-import 'package:danter/screen/search/search_user/bloc/search_user_bloc.dart';
+
 import 'package:danter/screen/search/search_user/search_user_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -35,14 +36,18 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Scaffold(
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
+              return <Widget>[
                 SliverAppBar(
-                    title: Text('Search',
-                        style: Theme.of(context).textTheme.headlineLarge)),
-                SliverPersistentHeader(
-                  delegate: SearchViewDelegate(),
+                  titleTextStyle: Theme.of(context).textTheme.headlineLarge,
+                  title: const Text(
+                    'Search',
+                  ),
                   pinned: true,
-                  floating: false,
+                  floating: true,
+                  bottom: PreferredSize(
+                    preferredSize: Size(MediaQuery.of(context).size.width, 55),
+                    child: const SearchBottom(),
+                  ),
                 ),
               ];
             },
@@ -95,15 +100,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     ],
                   );
                 } else if (state is SearchLodingState) {
-                  return const Center(
-                    child: SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 1.5,
-                        color: LightThemeColors.secondaryTextColor,
+                  return const Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
+                      LodingCustom(),
+                    ],
                   );
                 } else if (state is SearchErrorState) {
                   return AppErrorWidget(
@@ -125,10 +128,13 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 }
 
-class SearchViewDelegate extends SliverPersistentHeaderDelegate {
+class SearchBottom extends StatelessWidget {
+  const SearchBottom({
+    super.key,
+  });
+
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -137,13 +143,13 @@ class SearchViewDelegate extends SliverPersistentHeaderDelegate {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {
-              return SearchUserScreen();
+              return const SearchUserScreen();
             },
           ));
         },
         child: Container(
           margin:
-              const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+              const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 10),
           decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onBackground,
               borderRadius: BorderRadius.circular(10)),
@@ -170,16 +176,5 @@ class SearchViewDelegate extends SliverPersistentHeaderDelegate {
         ),
       ),
     );
-  }
-
-  @override
-  double get maxExtent => 60;
-
-  @override
-  double get minExtent => 60;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
   }
 }

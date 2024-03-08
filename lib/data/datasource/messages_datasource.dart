@@ -32,9 +32,11 @@ abstract class IchatDataSource {
   void closeMessagesList();
 }
 
-class ChatDataSource extends IchatDataSource {
+class ChatRemoteDataSource extends IchatDataSource {
+  final Dio dio;
+  ChatRemoteDataSource(this.dio);
   final pb = PocketBase('https://dan.chbk.run');
-  final Dio dio = Dio(BaseOptions(baseUrl: 'https://dan.chbk.run/api/'));
+
   List<MessagesList> _chat = [];
   List<MessagesList> _chatuser = [];
   bool _chatuseronline = false;
@@ -167,6 +169,7 @@ class ChatDataSource extends IchatDataSource {
   void closechatScreen() {
     _streamControllerChatuser.close();
     _streamControllerUseronline.close();
+    print('vvv');
   }
 
   @override

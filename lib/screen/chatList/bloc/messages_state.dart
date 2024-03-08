@@ -9,5 +9,7 @@ final class MessagesLoding extends MessagesState {}
 class MessagesResponseState extends MessagesState {
   final List<MessagesList> response;
 
-  MessagesResponseState(this.response);
+  MessagesResponseState(
+    this.response,
+  );
 }

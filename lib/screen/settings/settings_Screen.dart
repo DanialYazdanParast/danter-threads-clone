@@ -1,13 +1,9 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:danter/core/constants/theme.dart';
-import 'package:danter/main.dart';
 import 'package:danter/screen/auth/auth.dart';
-import 'package:danter/screen/settings/cubit/them_cubit.dart';
 import 'package:danter/config/theme/theme.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repository/auth_repository.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -38,25 +34,30 @@ class SettingScreen extends StatelessWidget {
                     ThemeSwitcher(
                       clipper: const ThemeSwitcherCircleClipper(),
                       builder: (context) {
-                        return CupertinoSwitch(
-                          activeColor: themeData.colorScheme.secondary,
-                          value: ThemeSave.getTheme(),
-                          onChanged: (isDarkModeEnabled) {
-                            final brightness =
-                                ThemeModelInheritedNotifier.of(context)
-                                    .theme
-                                    .brightness;
+                        return Transform.scale(
+                          scale: 0.9,
+                          child: CupertinoSwitch(
+                            activeColor: themeData.colorScheme.secondary,
+                            value: ThemeSave.getTheme(),
+                            onChanged: (isDarkModeEnabled) {
+                              final brightness =
+                                  ThemeModelInheritedNotifier.of(context)
+                                      .theme
+                                      .brightness;
 
-                            ThemeSwitcher.of(context).changeTheme(
-                              theme: brightness == Brightness.light
-                                  ? darktheme
-                                  : lighttheme,
-                              isReversed:
-                                  brightness == Brightness.light ? true : false,
-                            );
-                            ThemeSave.setTheme(
-                                brightness == Brightness.light ? true : false);
-                          },
+                              ThemeSwitcher.of(context).changeTheme(
+                                theme: brightness == Brightness.light
+                                    ? darktheme
+                                    : lighttheme,
+                                isReversed: brightness == Brightness.light
+                                    ? true
+                                    : false,
+                              );
+                              ThemeSave.setTheme(brightness == Brightness.light
+                                  ? true
+                                  : false);
+                            },
+                          ),
                         );
                       },
                     ),
@@ -73,15 +74,15 @@ class SettingScreen extends StatelessWidget {
                         AuthRepository.logout();
 
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => AuthScreen(),
+                          builder: (context) => const AuthScreen(),
                         ));
                       },
                       child: Text(
                         'Log out',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontWeight: FontWeight.w400),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.red,
+                            ),
                       )),
                 ),
               ],

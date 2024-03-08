@@ -25,8 +25,7 @@ void main() async {
 
   await getItInit();
   AuthRepository.loadAuthInfo();
-  WidgetsBinding.instance
-      .addObserver(OnlineUserUatasource(userid: AuthRepository.readid()));
+
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (context) => ThemCubit(),
@@ -43,6 +42,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
   @override
   Widget build(BuildContext context) {
     // IPostRepository postRepository = locator.get();

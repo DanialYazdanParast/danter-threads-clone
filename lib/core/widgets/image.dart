@@ -1,5 +1,7 @@
+import 'dart:ui' as ui;
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:danter/config/theme/theme.dart';
+
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -28,3 +30,6 @@ class ImageLodingService extends StatelessWidget {
     );
   }
 }
+
+
+//LightThemeColors.secondaryTextColor.withOpacity(0.5)
