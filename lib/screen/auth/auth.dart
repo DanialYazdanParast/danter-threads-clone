@@ -134,19 +134,20 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               child: Center(
                                 child: TextField(
+                                  cursorHeight: 20,
                                   controller: usernameController,
                                   keyboardType: TextInputType.emailAddress,
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelSmall!
-                                      .copyWith(fontSize: 20, height: 1),
+                                      .copyWith(fontSize: 20, height: 1.3),
                                   decoration: InputDecoration(
                                     label: Text(
                                       'username',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelSmall!
-                                          .copyWith(fontSize: 20),
+                                          .copyWith(fontSize: 20, height: 3),
                                     ),
                                   ),
                                 ),
@@ -291,13 +292,14 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
+        cursorHeight: 20,
         controller: widget.passwordController,
         keyboardType: TextInputType.visiblePassword,
         obscureText: obscureText,
         style: Theme.of(context)
             .textTheme
             .labelSmall!
-            .copyWith(fontSize: 20, height: obscureText ? 1.3 : 1),
+            .copyWith(fontSize: 20, height: 1.3),
         decoration: InputDecoration(
           suffixIcon: IconButton(
               onPressed: () {
@@ -313,8 +315,10 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
               )),
           label: Text(
             widget.titelText,
-            style:
-                Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 20),
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall!
+                .copyWith(fontSize: 20, height: 3),
           ),
         ),
       ),
