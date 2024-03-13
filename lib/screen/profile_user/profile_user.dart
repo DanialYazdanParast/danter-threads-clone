@@ -313,6 +313,7 @@ class DanterProfileUser extends StatelessWidget {
                 itemCount: post.length,
                 itemBuilder: (context, index) {
                   return PostDetail(
+                      namepage: 'ProfileUser',
                       onTabLike: () {
                         if (!post[index]
                             .likes
@@ -365,6 +366,7 @@ class RepliesPage extends StatelessWidget {
           itemCount: reply.length,
           itemBuilder: (context, index) {
             return RepliseDtaile(
+              namepage: 'ProfileUserReply',
               onTabLikeMyReply: () {
                 if (!reply[index]
                     .myReply

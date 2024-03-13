@@ -284,6 +284,7 @@ class RepliesPage extends StatelessWidget {
           itemCount: reply.length,
           itemBuilder: (context, index) {
             return RepliseDtaile(
+              namepage: 'ProfileScreenReply',
               onTabLikeMyReply: () {
                 if (!reply[index]
                     .myReply
@@ -437,6 +438,7 @@ class DanterPage extends StatelessWidget {
                 itemCount: post.length,
                 itemBuilder: (context, index) {
                   return PostDetail(
+                    namepage: 'ProfileScreen',
                     onTabLike: () {
                       if (!post[index]
                           .likes

@@ -5,9 +5,15 @@ import 'package:danter/core/widgets/image.dart';
 import 'package:flutter/material.dart';
 
 class ImagePost extends StatelessWidget {
-  const ImagePost({super.key, required this.postEntity, this.leftpading = 55});
+  const ImagePost({
+    super.key,
+    required this.postEntity,
+    required this.namepage,
+    this.leftpading = 55,
+  });
   final PostEntity postEntity;
   final double leftpading;
+  final String namepage;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +30,14 @@ class ImagePost extends StatelessWidget {
                   Navigator.of(context, rootNavigator: true)
                       .push(MaterialPageRoute(
                     builder: (context) => ImageScreen(
+                      pagename: namepage,
                       indeximage: 0,
                       postEntity: postEntity,
                     ),
                   ));
                 },
                 child: Hero(
-                  tag: postEntity.image[0],
+                  tag: '$namepage${postEntity.image[0]}',
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: ImageLodingService(
@@ -63,13 +70,14 @@ class ImagePost extends StatelessWidget {
                                 Navigator.of(context, rootNavigator: true)
                                     .push(MaterialPageRoute(
                                   builder: (context) => ImageScreen(
+                                    pagename: namepage,
                                     indeximage: index,
                                     postEntity: postEntity,
                                   ),
                                 ));
                               },
                               child: Hero(
-                                tag: postEntity.image[index],
+                                tag: '$namepage${postEntity.image[index]}',
                                 child: ImageLodingService(
                                   imageUrl:
                                       'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',

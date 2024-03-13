@@ -142,7 +142,9 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
                                           state.user.length - 1 - index]));
                               //-------------
 
-                              Navigator.of(context, rootNavigator: true).push(
+                              Navigator.of(
+                                context,
+                              ).push(
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return ProfileUser(
@@ -211,7 +213,9 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
                       onTabProfile: () {
                         BlocProvider.of<SearchUserBloc>(context).add(
                             SearchUserAddSearchEvent(user: state.user[index]));
-                        Navigator.of(context, rootNavigator: true).push(
+                        Navigator.of(
+                          context,
+                        ).push(
                           MaterialPageRoute(
                             builder: (context) {
                               return BlocProvider.value(

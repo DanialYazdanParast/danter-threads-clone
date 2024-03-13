@@ -8,9 +8,13 @@ import 'package:flutter/services.dart';
 
 class ImageScreen extends StatefulWidget {
   const ImageScreen(
-      {super.key, required this.postEntity, required this.indeximage});
+      {super.key,
+      required this.postEntity,
+      required this.indeximage,
+      required this.pagename});
   final PostEntity postEntity;
   final int indeximage;
+  final String pagename;
 
   @override
   State<ImageScreen> createState() => _ImageScreenState();
@@ -54,7 +58,7 @@ class _ImageScreenState extends State<ImageScreen> {
                 controller: PageController(initialPage: widget.indeximage),
                 itemBuilder: (context, index) {
                   return Hero(
-                    tag: widget.postEntity.image[index],
+                    tag: '${widget.pagename}${widget.postEntity.image[index]}',
                     child: InteractiveViewer(
                       panEnabled: false, // Set it to false
                       boundaryMargin: EdgeInsets.all(100),

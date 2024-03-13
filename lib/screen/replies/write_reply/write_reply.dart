@@ -44,7 +44,7 @@ class WriteReply extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    PostWrite(postEntity: postEntity),
+                    PostWrite(postEntity: postEntity, namePage: namePage),
                     FildWrite(
                       controller: _controller,
                     ),
@@ -150,9 +150,11 @@ class WriteReply extends StatelessWidget {
 
 class PostWrite extends StatelessWidget {
   final PostEntity postEntity;
+  final String namePage;
   const PostWrite({
     super.key,
     required this.postEntity,
+    required this.namePage,
   });
 
   @override
@@ -235,7 +237,7 @@ class PostWrite extends StatelessWidget {
                   ],
                 ),
               ),
-              ImagePost(postEntity: postEntity),
+              ImagePost(postEntity: postEntity, namepage: namePage),
             ],
           ),
         ],

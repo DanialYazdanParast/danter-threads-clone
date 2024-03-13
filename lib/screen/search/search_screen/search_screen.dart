@@ -79,7 +79,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               }
                             },
                             onTabProfile: () {
-                              Navigator.of(context, rootNavigator: true).push(
+                              Navigator.of(
+                                context,
+                              ).push(
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return BlocProvider.value(

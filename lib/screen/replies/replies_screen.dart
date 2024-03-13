@@ -1,9 +1,11 @@
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/core/widgets/custom_alert_dialog.dart';
+import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/snackbart.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/di/di.dart';
+import 'package:danter/screen/image/image_screen.dart';
 import 'package:danter/screen/likes/likes_Screen.dart';
 import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
@@ -11,7 +13,7 @@ import 'package:danter/screen/replies/bloc/reply_bloc.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
 import 'package:danter/core/widgets/error.dart';
 import 'package:danter/core/widgets/image.dart';
-import 'package:danter/core/widgets/image_post.dart';
+
 import 'package:danter/core/widgets/image_user_post.dart';
 import 'package:danter/core/widgets/post_detail.dart';
 import 'package:danter/core/widgets/time.dart';
@@ -23,8 +25,10 @@ class RepliesScreen extends StatefulWidget {
   const RepliesScreen({
     super.key,
     required this.postEntity,
+    required this.pagename,
   });
   final PostEntity postEntity;
+  final String pagename;
 
   @override
   State<RepliesScreen> createState() => _RepliesScreenState();
@@ -67,6 +71,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     slivers: [
                       SliverToBoxAdapter(
                         child: ThePostReply(
+                          pagename: widget.pagename,
                           context2: context2,
                           onTabReply: () {
                             Navigator.of(context, rootNavigator: true)
@@ -104,6 +109,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                         itemCount: state.reply.length,
                         itemBuilder: (context, index) {
                           return PostDetail(
+                            namepage: widget.pagename,
                             onTabLike: () {
                               if (!state.reply[index].likes
                                   .contains(AuthRepository.readid())) {
@@ -234,6 +240,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                   return Column(
                     children: [
                       ThePostReply(
+                          pagename: widget.pagename,
                           context2: context2,
                           onTabReply: () {},
                           postEntity: widget.postEntity,
@@ -254,6 +261,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                   return Column(
                     children: [
                       ThePostReply(
+                          pagename: widget.pagename,
                           context2: context2,
                           onTabReply: () {},
                           postEntity: widget.postEntity,
@@ -391,11 +399,13 @@ class ThePostReply extends StatelessWidget {
     required this.onTabLike,
     required this.onTabReply,
     required this.context2,
+    required this.pagename,
   });
   final BuildContext context2;
   final PostEntity postEntity;
   final GestureTapCallback onTabLike;
   final GestureTapCallback onTabReply;
+  final String pagename;
 
   @override
   Widget build(BuildContext context) {
@@ -644,7 +654,7 @@ class ThePostReply extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          ImagePost(postEntity: postEntity, leftpading: 10),
+          ImagePost(postEntity: postEntity, leftpading: 10, namepage: pagename),
           Column(
             children: [
               Padding(

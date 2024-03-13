@@ -35,6 +35,7 @@ class HomeScreen extends StatelessWidget {
                       itemCount: state.post.length,
                       itemBuilder: (context, index) {
                         return PostDetail(
+                          namepage: 'HomeScreen',
                           onTabLike: () async {
                             if (!state.post[index].likes
                                 .contains(AuthRepository.readid())) {

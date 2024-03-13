@@ -19,6 +19,7 @@ class RepliseDtaile extends StatelessWidget {
   final GestureTapCallback onTabLikeMyReply;
   final GestureTapCallback onTabNameUser;
   final GestureTapCallback onTabmore;
+  final String namepage;
   const RepliseDtaile({
     super.key,
     required this.postEntity,
@@ -26,6 +27,7 @@ class RepliseDtaile extends StatelessWidget {
     required this.onTabmore,
     required this.onTabLikeReplyTo,
     required this.onTabLikeMyReply,
+    required this.namepage,
   });
 
   @override
@@ -35,6 +37,7 @@ class RepliseDtaile extends StatelessWidget {
       child: Column(
         children: [
           ReplyTo(
+            namepage: namepage,
             onTabLike: onTabLikeReplyTo,
             onTabNameUser: () {
               if (postEntity.replyTo.user.id == AuthRepository.readid()) {
@@ -62,12 +65,14 @@ class RepliseDtaile extends StatelessWidget {
             onTaNavigator: () {
               Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
                 builder: (context) => RepliesScreen(
+                  pagename: namepage,
                   postEntity: postEntity.replyTo,
                 ),
               ));
             },
           ),
           MyReply(
+            namepage: namepage,
             onTabLike: onTabLikeMyReply,
             onTabNameUser: () {
               if (postEntity.myReply.user.id == AuthRepository.readid()) {
@@ -95,6 +100,7 @@ class RepliseDtaile extends StatelessWidget {
             onTaNavigator: () {
               Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
                 builder: (context) => RepliesScreen(
+                  pagename: namepage,
                   postEntity: postEntity.replyTo,
                 ),
               ));
@@ -113,12 +119,14 @@ class MyReply extends StatelessWidget {
       required this.onTabNameUser,
       required this.onTabmore,
       required this.postEntity,
+      required this.namepage,
       required this.onTaNavigator});
   final GestureTapCallback onTabLike;
   final GestureTapCallback onTabNameUser;
   final GestureTapCallback onTabmore;
   final PostEntity postEntity;
   final GestureTapCallback onTaNavigator;
+  final String namepage;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +157,7 @@ class MyReply extends StatelessWidget {
                     postEntity: postEntity,
                     onTabNameUser: onTabNameUser,
                     onTabmore: onTabmore),
-                ImagePost(postEntity: postEntity),
+                ImagePost(postEntity: postEntity, namepage: namepage),
                 Padding(
                   padding: const EdgeInsets.only(left: 55),
                   child: Row(
@@ -291,12 +299,14 @@ class ReplyTo extends StatelessWidget {
       required this.onTabNameUser,
       required this.onTabmore,
       required this.postEntity,
+      required this.namepage,
       required this.onTaNavigator});
   final GestureTapCallback onTabLike;
   final GestureTapCallback onTabNameUser;
   final GestureTapCallback onTabmore;
   final PostEntity postEntity;
   final GestureTapCallback onTaNavigator;
+  final String namepage;
 
   @override
   Widget build(BuildContext context) {
@@ -336,7 +346,7 @@ class ReplyTo extends StatelessWidget {
                     postEntity: postEntity,
                     onTabNameUser: onTabNameUser,
                     onTabmore: onTabmore),
-                ImagePost(postEntity: postEntity),
+                ImagePost(postEntity: postEntity, namepage: namepage),
                 Padding(
                   padding: const EdgeInsets.only(left: 55),
                   child: Row(

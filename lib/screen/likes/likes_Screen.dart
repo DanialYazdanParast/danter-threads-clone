@@ -73,7 +73,9 @@ class _LikesScreenState extends State<LikesScreen> {
                       onTabProfile: () {
                         if (state.user[0].user[index].id ==
                             AuthRepository.readid()) {
-                          Navigator.of(context, rootNavigator: true).push(
+                          Navigator.of(
+                            context,
+                          ).push(
                             MaterialPageRoute(
                               builder: (context) {
                                 return ProfileScreen();

@@ -18,12 +18,13 @@ class PostDetail extends StatelessWidget {
 
   final GestureTapCallback onTabmore;
   final GestureTapCallback onTabLike;
-
+  final String namepage;
   const PostDetail({
     super.key,
     required this.postEntity,
     required this.onTabmore,
     required this.onTabLike,
+    required this.namepage,
   });
 
   @override
@@ -33,6 +34,7 @@ class PostDetail extends StatelessWidget {
       onTap: () {
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
           builder: (context) => RepliesScreen(
+            pagename: namepage,
             postEntity: postEntity,
           ),
         ));
@@ -59,16 +61,10 @@ class PostDetail extends StatelessWidget {
                 ImageAndNameAndText(
                     postEntity: postEntity,
                     onTabNameUser: () {
-                      if (postEntity.user.id == AuthRepository.readid()) {
-                        Navigator.of(context, rootNavigator: true).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ProfileScreen();
-                            },
-                          ),
-                        );
-                      } else {
-                        Navigator.of(context, rootNavigator: true).push(
+                      if (postEntity.user.id != AuthRepository.readid()) {
+                        Navigator.of(
+                          context,
+                        ).push(
                           MaterialPageRoute(
                             builder: (context) {
                               return ProfileUser(
@@ -80,7 +76,7 @@ class PostDetail extends StatelessWidget {
                       }
                     },
                     onTabmore: onTabmore),
-                ImagePost(postEntity: postEntity),
+                ImagePost(postEntity: postEntity, namepage: namepage),
                 Padding(
                   padding: const EdgeInsets.only(left: 55),
                   child: Row(
@@ -182,8 +178,9 @@ class PostDetail extends StatelessWidget {
                             const SizedBox(width: 6),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context, rootNavigator: true)
-                                    .push(MaterialPageRoute(
+                                Navigator.of(
+                                  context,
+                                ).push(MaterialPageRoute(
                                   builder: (context) => LikesScreen(
                                     idpostEntity: postEntity.id,
                                   ),
