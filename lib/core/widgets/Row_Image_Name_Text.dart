@@ -85,6 +85,9 @@ class ImageAndNameAndText extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
+                  SizedBox(
+                    height: postEntity.text == '' ? 0 : 3,
+                  ),
                   postEntity.text != ''
                       ? Padding(
                           padding: const EdgeInsets.only(right: 7),
@@ -93,7 +96,7 @@ class ImageAndNameAndText extends StatelessWidget {
                         )
                       : const SizedBox(),
                   SizedBox(
-                    height: postEntity.text == '' ? 0 : 8,
+                    height: postEntity.text == '' ? 0 : 10,
                   ),
                 ],
               ),

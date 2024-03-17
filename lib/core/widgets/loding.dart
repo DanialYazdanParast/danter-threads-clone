@@ -12,13 +12,6 @@ class LodingCustom extends StatelessWidget {
         height: 38,
         width: 38,
         decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                offset: Offset(0, 1),
-                blurRadius: 2,
-              )
-            ],
             color: themeData.scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(100),
             border:

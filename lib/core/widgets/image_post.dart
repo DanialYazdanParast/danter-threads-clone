@@ -19,11 +19,11 @@ class ImagePost extends StatelessWidget {
   Widget build(BuildContext context) {
     return postEntity.image.isNotEmpty && postEntity.image.length < 2
         ? Padding(
-            padding: EdgeInsets.only(right: 10, left: leftpading, bottom: 10),
+            padding: EdgeInsets.only(right: 10, left: leftpading, bottom: 16),
             child: Container(
               constraints: BoxConstraints(
-                  maxHeight: 260,
-                  minHeight: 260,
+                  maxHeight: 266,
+                  minHeight: 266,
                   minWidth: MediaQuery.of(context).size.width),
               child: GestureDetector(
                 onTap: () {
@@ -49,14 +49,14 @@ class ImagePost extends StatelessWidget {
             ))
         : postEntity.image.length > 1
             ? SizedBox(
-                height: 260,
+                height: 266,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: postEntity.image.length,
                   itemBuilder: (context, index) {
                     return Padding(
                         padding: EdgeInsets.only(
-                            bottom: 10,
+                            bottom: 16,
                             left: (index == 0) ? leftpading : 10,
                             right: (index == postEntity.image.length - 1)
                                 ? 10

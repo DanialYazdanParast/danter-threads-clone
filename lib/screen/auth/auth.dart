@@ -20,6 +20,14 @@ class _AuthScreenState extends State<AuthScreen> {
       TextEditingController();
 
   @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    passwordConfirmController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     const onbackground = Colors.black;
@@ -134,7 +142,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               child: Center(
                                 child: TextField(
-                                  cursorHeight: 20,
+                                  cursorHeight: 25,
                                   controller: usernameController,
                                   keyboardType: TextInputType.emailAddress,
                                   style: Theme.of(context)
@@ -292,7 +300,7 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
-        cursorHeight: 20,
+        cursorHeight: 25,
         controller: widget.passwordController,
         keyboardType: TextInputType.visiblePassword,
         obscureText: obscureText,

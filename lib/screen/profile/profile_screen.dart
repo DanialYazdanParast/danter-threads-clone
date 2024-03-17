@@ -62,11 +62,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           const SettingScreen()));
                             },
                             child: SizedBox(
-                              width: 35,
-                              height: 35,
+                              width: 28,
+                              height: 28,
                               child: Image.asset(
                                 'assets/images/draver.png',
                                 color: themeData.colorScheme.onPrimary,
+                                //  fit: BoxFit.cover,
                               ),
                             ),
                           ),
@@ -810,8 +811,8 @@ class LodingProfile extends StatelessWidget {
                                 builder: (context) => const SettingScreen()));
                       },
                       child: SizedBox(
-                        width: 35,
-                        height: 35,
+                        width: 28,
+                        height: 28,
                         child: Image.asset(
                           'assets/images/draver.png',
                           color: themeData.colorScheme.onPrimary,
@@ -919,8 +920,8 @@ class ErrorProfile extends StatelessWidget {
                             builder: (context) => const SettingScreen()));
                   },
                   child: SizedBox(
-                    width: 35,
-                    height: 35,
+                    width: 28,
+                    height: 28,
                     child: Image.asset(
                       'assets/images/draver.png',
                       color: themeData.colorScheme.onPrimary,

@@ -83,7 +83,9 @@ class _LikesScreenState extends State<LikesScreen> {
                             ),
                           );
                         } else {
-                          Navigator.of(context, rootNavigator: true).push(
+                          Navigator.of(
+                            context,
+                          ).push(
                             MaterialPageRoute(
                               builder: (context) {
                                 return BlocProvider.value(

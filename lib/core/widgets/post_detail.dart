@@ -102,6 +102,24 @@ class PostDetail extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const SizedBox(width: 12),
+                      SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: Image.asset(
+                          'assets/images/repost.png',
+                          color: themeData.colorScheme.onPrimary,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      SizedBox(
+                        height: 19,
+                        width: 19,
+                        child: Image.asset(
+                          'assets/images/send.png',
+                          color: themeData.colorScheme.onPrimary,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -110,11 +128,11 @@ class PostDetail extends StatelessWidget {
                     left: 12,
                     top: (postEntity.replies.isNotEmpty ||
                             postEntity.likes.isNotEmpty)
-                        ? 8
+                        ? 12
                         : 0,
                   ),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       postEntity.replies.length > 1
@@ -165,7 +183,24 @@ class PostDetail extends StatelessWidget {
                                     ? 'reply'
                                     : 'replies',
                                 style: Theme.of(context).textTheme.titleSmall),
-                            const SizedBox(width: 18),
+                            const SizedBox(width: 6),
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: postEntity.likes.isNotEmpty &&
+                            postEntity.replies.isNotEmpty,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              height: 6,
+                              width: 6,
+                              child: Image.asset(
+                                'assets/images/dot.png',
+                                color: themeData.colorScheme.onSecondary,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
                           ],
                         ),
                       ),
