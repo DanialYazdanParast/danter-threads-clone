@@ -69,6 +69,7 @@ class MyAppThemeConfig {
                 Brightness.dark // For iOS (dark icons)
             ),
       ),
+
       //-----------------------------------
       snackBarTheme: SnackBarThemeData(
         contentTextStyle: defaultTextStyle.apply(color: Colors.white),
@@ -99,14 +100,15 @@ class MyAppThemeConfig {
       highlightColor: Colors.transparent,
 
       colorScheme: ColorScheme.light(
-          primary: primaryTextColor,
-          onPrimary: primaryTextColor,
-          secondary: secondaryColor,
-          onSecondary: secondaryTextColor,
-          background: Colors.white,
-          surface: secondaryTextColor.withOpacity(0.5),
-          onSurface: primaryTextColor,
-          onBackground: onbackground),
+        primary: primaryTextColor,
+        onPrimary: primaryTextColor,
+        secondary: secondaryColor,
+        onSecondary: secondaryTextColor,
+        background: Colors.white,
+        surface: secondaryTextColor.withOpacity(0.5),
+        onSurface: primaryTextColor,
+        onBackground: onbackground,
+      ),
       //-----------------------------------
       useMaterial3: true,
     );
@@ -189,14 +191,15 @@ class MyAppThemeConfig {
           ProgressIndicatorThemeData(refreshBackgroundColor: primaryColor),
 
       colorScheme: ColorScheme.dark(
-          primary: primaryTextColor,
-          onPrimary: primaryTextColor,
-          secondary: secondaryColor,
-          onSecondary: secondaryTextColor,
-          background: Colors.white,
-          surface: secondaryTextColor.withOpacity(0.5),
-          onSurface: primaryTextColor,
-          onBackground: onbackground),
+        primary: primaryTextColor,
+        onPrimary: primaryTextColor,
+        secondary: secondaryColor,
+        onSecondary: secondaryTextColor,
+        background: Colors.white,
+        surface: secondaryTextColor.withOpacity(0.5),
+        onSurface: primaryTextColor,
+        onBackground: onbackground,
+      ),
       //-----------------------------------
       useMaterial3: true,
     );

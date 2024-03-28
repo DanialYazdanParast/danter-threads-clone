@@ -1,20 +1,29 @@
+import 'dart:ui';
+
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
 
 import 'package:danter/core/widgets/image.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ImageScreen extends StatefulWidget {
-  const ImageScreen(
-      {super.key,
-      required this.postEntity,
-      required this.indeximage,
-      required this.pagename});
+  const ImageScreen({
+    super.key,
+    required this.postEntity,
+    required this.indeximage,
+    required this.pagename,
+    required this.color,
+    required this.brightness,
+  });
   final PostEntity postEntity;
   final int indeximage;
   final String pagename;
+  final Color color;
+  final Brightness brightness;
 
   @override
   State<ImageScreen> createState() => _ImageScreenState();
@@ -24,25 +33,53 @@ class _ImageScreenState extends State<ImageScreen> {
   bool celectmultiply = true;
 
   @override
-  void initState() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.bottom]);
-
-    super.initState();
-  }
-
-  @override
   void dispose() {
     super.dispose();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
-    // to re-show bars
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: widget.color,
+        statusBarIconBrightness: widget.brightness,
+        statusBarBrightness: widget.brightness,
+        systemNavigationBarColor: widget.color,
+        systemNavigationBarIconBrightness: widget.brightness,
+      ),
+    );
+  }
+
+
+
+  
+
+  initState() {
+    super.initState();
+
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+          statusBarColor: Colors.black,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.dark,
+          systemNavigationBarColor: Colors.black,
+          systemNavigationBarIconBrightness: Brightness.dark),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      // appBar: PreferredSize(
+      //     preferredSize: const Size.fromHeight(0),
+      //     child: AppBar(
+
+      //       backgroundColor: Colors.black,
+      //       systemOverlayStyle: const SystemUiOverlayStyle(
+      //           statusBarColor: Colors.black,
+      //           statusBarIconBrightness: Brightness.dark,
+      //           statusBarBrightness: Brightness.dark,
+      //           systemNavigationBarColor: Colors.black,
+      //           systemNavigationBarIconBrightness: Brightness
+      //               .dark),
+      //     )),
       body: SafeArea(
         child: Stack(
           children: [
@@ -61,7 +98,7 @@ class _ImageScreenState extends State<ImageScreen> {
                     tag: '${widget.pagename}${widget.postEntity.image[index]}',
                     child: InteractiveViewer(
                       panEnabled: false, // Set it to false
-                      boundaryMargin: EdgeInsets.all(100),
+                      boundaryMargin: const EdgeInsets.all(100),
                       minScale: 0.5,
                       maxScale: 4,
 
@@ -84,7 +121,7 @@ class _ImageScreenState extends State<ImageScreen> {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                             color: LightThemeColors.secondaryTextColor
                                 .withOpacity(0.3),

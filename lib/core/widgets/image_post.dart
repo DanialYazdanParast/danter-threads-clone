@@ -17,6 +17,7 @@ class ImagePost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return postEntity.image.isNotEmpty && postEntity.image.length < 2
         ? Padding(
             padding: EdgeInsets.only(right: 10, left: leftpading, bottom: 16),
@@ -30,6 +31,11 @@ class ImagePost extends StatelessWidget {
                   Navigator.of(context, rootNavigator: true)
                       .push(MaterialPageRoute(
                     builder: (context) => ImageScreen(
+                      color: themeData.scaffoldBackgroundColor,
+                      brightness:
+                          themeData.colorScheme.brightness == Brightness.dark
+                              ? Brightness.light
+                              : Brightness.dark,
                       pagename: namepage,
                       indeximage: 0,
                       postEntity: postEntity,
@@ -70,6 +76,12 @@ class ImagePost extends StatelessWidget {
                                 Navigator.of(context, rootNavigator: true)
                                     .push(MaterialPageRoute(
                                   builder: (context) => ImageScreen(
+                                    brightness:
+                                        themeData.colorScheme.brightness ==
+                                                Brightness.dark
+                                            ? Brightness.light
+                                            : Brightness.dark,
+                                    color: themeData.scaffoldBackgroundColor,
                                     pagename: namepage,
                                     indeximage: index,
                                     postEntity: postEntity,

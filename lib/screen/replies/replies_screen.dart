@@ -654,7 +654,7 @@ class ThePostReply extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          ImagePost(postEntity: postEntity, leftpading: 10, namepage: pagename),
+           ImagePost(postEntity: postEntity, leftpading: 10, namepage: pagename),
           Column(
             children: [
               Padding(
