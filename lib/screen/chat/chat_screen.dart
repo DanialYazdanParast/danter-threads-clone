@@ -23,11 +23,7 @@ class ChatScreen extends StatelessWidget {
           centerTitle: true,
           title: Row(
             children: [
-              Hero(
-                tag: user.id,
-                child:
-                    ImageUserPost(user: user, onTabNameUser: () {}, size: 44),
-              ),
+              ImageUserPost(user: user, onTabNameUser: () {}, size: 44),
               const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

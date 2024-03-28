@@ -34,11 +34,11 @@ class ChatListDetail extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Hero(
-                    tag: user.id,
-                    child: ImageUserPost(
+               
+                   
+                   ImageUserPost(
                         user: user, onTabNameUser: onTabProfile, size: 44),
-                  ),
+               
                   const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
