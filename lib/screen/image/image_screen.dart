@@ -1,11 +1,6 @@
-import 'dart:ui';
-
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
-
 import 'package:danter/core/widgets/image.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,20 +41,16 @@ class _ImageScreenState extends State<ImageScreen> {
     );
   }
 
-
-
-  
-
+  @override
   initState() {
     super.initState();
-
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
           statusBarColor: Colors.black,
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.dark,
           systemNavigationBarColor: Colors.black,
-          systemNavigationBarIconBrightness: Brightness.dark),
+          systemNavigationBarIconBrightness: Brightness.light),
     );
   }
 
@@ -67,19 +58,6 @@ class _ImageScreenState extends State<ImageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      // appBar: PreferredSize(
-      //     preferredSize: const Size.fromHeight(0),
-      //     child: AppBar(
-
-      //       backgroundColor: Colors.black,
-      //       systemOverlayStyle: const SystemUiOverlayStyle(
-      //           statusBarColor: Colors.black,
-      //           statusBarIconBrightness: Brightness.dark,
-      //           statusBarBrightness: Brightness.dark,
-      //           systemNavigationBarColor: Colors.black,
-      //           systemNavigationBarIconBrightness: Brightness
-      //               .dark),
-      //     )),
       body: SafeArea(
         child: Stack(
           children: [
