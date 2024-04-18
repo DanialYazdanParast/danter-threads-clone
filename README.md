@@ -11,6 +11,10 @@
   <img width="100%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/e3d0330c-18bc-44e3-a83a-ff11b773000a">
 </a>
 
+## Language & Tools used:
+ <a href="">
+  <img width="15%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/5028259b-782c-4683-bb1a-9ac09cb35908">
+</a>
 
 
 ## Screenshots light theme 
