@@ -1,19 +1,40 @@
-# danter
- 
+# What is Danter app? 
 
-# danter light theme 
+Danter is a clone of Threads with `real-time chat`. Built using the `Flutter framework`, `Dart language`, `Bloc state management`, and `pocketbase database`.
+
+## 🚀 Main features
+
+📱Realtime chat
+
+✍️Idea sharing
+
+❤️ Liking
+
+⭐ Following
+
+🔍Search
+
+🌙 Dark and light modestheir liking
+
+💎Built with Flutter and Dart 
+
+📦Bloc state management
+
+⚙️Pocketbase database
+
+# 🌕 light theme 
 <a href="">
   <img width="100%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/ae2adb08-9f52-4cf7-a38f-d2ceace79071">
 </a>
 
-# danter dark theme 
+# 🌑 dark theme 
 <a href="">
   <img width="100%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/e3d0330c-18bc-44e3-a83a-ff11b773000a">
 </a>
 
-## Language & Tools used:
+## Language & Tools used
  <a href="">
-  <img width="15%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/5028259b-782c-4683-bb1a-9ac09cb35908">
+  <img width="20%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/86bc0563-2729-4f5e-95f7-ac93a5237e74">
 </a>
 
 
