@@ -13,7 +13,7 @@
 
 
 
-## Screenshots
+## Screenshots light theme 
 
 AuthScreen         |  AuthScreen       |   ProfileScreen               |  ProfileScreen
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
@@ -44,3 +44,34 @@ ProfileUser         |  ProfileUser       |   FollowersPage               |  Foll
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](https://github.com/DanialYazdanParast/danter/assets/150327854/fbf0b963-2839-4218-af55-d81adb63f3ea)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/4a6aca7e-b439-4d76-a40a-22851d6ab641)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/0f70e750-52f5-47ad-8d5e-7ec8fa684f19)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/12af9355-034f-4b3b-8d79-76f2d3c66a02)|
 
+
+## Screenshots dark theme 
+
+AuthScreen         |  AuthScreen       |   ProfileScreen               |  ProfileScreen
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter/assets/150327854/8035e9ed-2613-4ad3-948f-be8ef46379d6)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/8f968b6e-dba4-4666-9e54-ed01bf56b83e)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/a975a73d-ba80-4148-9cb8-a7ecf321e42d)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/9c5fecab-b18a-4832-8ccd-6446fea974a5)|
+
+ProfileScreen         |  ProfileScreen       |   FollowersPage               |  FollowingPage
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter/assets/150327854/26c3ff8a-5abb-407c-aaa5-28724320b487)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/78637f88-be94-4293-a3c3-a84b87f78ff5)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/f7d80e9f-8d54-4ccc-8696-7a79777f54f7)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/11b85dd7-1ddd-4109-99ec-d6517fe5da31)|
+
+
+EditProfileScreen         |  EditScreenFild       |   EditScreenFild               |  SettingScreen
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter/assets/150327854/d34abcd8-1871-4be6-b6bd-6ba1f03b44a4)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/b8a5579e-1066-43a1-bd0b-fed44b74651f)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/e0f77191-5cd8-4549-a9c7-7826be46f7f2)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/c74cc67a-eca6-4653-b566-5fc15a1da1fb)|
+
+ChatListScreen         |  ChatListScreen       |   ChatScreen               |  WriteScreen
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter/assets/150327854/07d40da0-85d6-41e3-b249-44639bdc2f40)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/af2c56db-02dd-40be-bb8c-77aa6dba7867)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/58b4df30-f093-486a-bea8-227906ae21b3)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/5f02039a-7783-4eb6-8bad-7d8f369d467d)|
+
+SearchScreen         |  SearchUserScreen       |   SearchUserScreen               |  SearchUserScreen
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter/assets/150327854/9014f776-b406-4296-a0ed-6cdb0448bad0)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/56ada192-0687-4a9e-8000-a81be2c7567b)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/0351daf8-ec39-49d5-8802-cb6f0cc42cd3)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/5e1a30f8-667b-4a9c-a301-6a28ceba46f6)|
+
+HomeScreen         |  LikesScreen       |   RepliesScreen               |  WriteReply
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter/assets/150327854/cc8903f0-adfe-41df-a093-0abc38934a7b)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/c51e6089-43b5-4d06-9a5b-4623764d024e)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/403feed4-59e4-4f25-a519-7343dca98a83)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/de96d693-741a-4083-87d6-ce5e7afd896b)|
+
+ProfileUser         |  ProfileUser       |   FollowersPage               |  FollowingPage
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter/assets/150327854/77158c6e-0741-4116-885d-9a9b7ed263df)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/f199cb22-fd2a-4330-b72a-661608521fb9)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/f2cf0abb-0f06-4bdf-9d12-fa0ed9da9a7e)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/9466620b-622b-465e-8485-8359d2fe468a)|
