@@ -12,7 +12,7 @@ import 'package:danter/screen/likes/bloc/likes_bloc.dart';
 import 'package:danter/screen/profile_user/bloc/profile_user_bloc.dart';
 import 'package:danter/core/widgets/error.dart';
 import 'package:danter/core/widgets/image.dart';
-import 'package:danter/core/widgets/photoUserFollowers.dart';
+import 'package:danter/core/widgets/photo_user_followers.dart';
 import 'package:danter/core/widgets/post_detail.dart';
 import 'package:danter/core/widgets/replies_detail.dart';
 import 'package:danter/screen/search/search_screen/bloc/search_bloc.dart';
@@ -38,6 +38,24 @@ class ProfileUser extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(55),
+        child: AppBar(
+          actions: [
+            SizedBox(
+              height: 24,
+              width: 24,
+              child: Image.asset(
+                'assets/images/more.png',
+                color: themeData.colorScheme.onPrimary,
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+          ],
+        ),
+      ),
       body: BlocProvider(
         create: (context) => ProfileUserBloc(locator.get())
           ..add(ProfileUserStartedEvent(
@@ -51,22 +69,6 @@ class ProfileUser extends StatelessWidget {
                   child: NestedScrollView(
                     headerSliverBuilder: (context, innerBoxIsScrolled) {
                       return [
-                        SliverAppBar(
-                          pinned: true,
-                          actions: [
-                            SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: Image.asset(
-                                'assets/images/more.png',
-                                color: themeData.colorScheme.onPrimary,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
                         SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
@@ -728,22 +730,6 @@ class LodingProfileUser extends StatelessWidget {
           child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
-                SliverAppBar(
-                  pinned: true,
-                  actions: [
-                    SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Image.asset(
-                        'assets/images/more.png',
-                        color: themeData.colorScheme.onPrimary,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20, left: 20),
@@ -860,22 +846,6 @@ class ErrorProfileUser extends StatelessWidget {
       child: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
-            SliverAppBar(
-              pinned: true,
-              actions: [
-                SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: Image.asset(
-                    'assets/images/more.png',
-                    color: themeData.colorScheme.onPrimary,
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-              ],
-            ),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.only(right: 20, left: 20),

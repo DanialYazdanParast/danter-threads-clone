@@ -78,7 +78,10 @@ class MyAppThemeConfig {
 
       textTheme: TextTheme(
         titleLarge: defaultTextStyle.copyWith(
-            fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w600),
+            height: 0,
+            fontSize: 16,
+            color: primaryTextColor,
+            fontWeight: FontWeight.w600),
         titleMedium: defaultTextStyle.copyWith(
             fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w300),
         titleSmall: defaultTextStyle.copyWith(
@@ -166,7 +169,10 @@ class MyAppThemeConfig {
       //-----------------------------------
       textTheme: TextTheme(
         titleLarge: defaultTextStyle.copyWith(
-            fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w600),
+            height: 0,
+            fontSize: 16,
+            color: primaryTextColor,
+            fontWeight: FontWeight.w600),
         titleMedium: defaultTextStyle.copyWith(
             fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w300),
         titleSmall: defaultTextStyle.copyWith(

@@ -1,4 +1,5 @@
 import 'package:danter/core/constants/custom_colors.dart';
+import 'package:danter/core/extensions/global_extensions.dart';
 import 'package:danter/core/widgets/custom_alert_dialog.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/snackbart.dart';
@@ -143,7 +144,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                   elevation: 0,
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(16))),
+                                          top: Radius.circular(20))),
                                   builder: (context3) {
                                     return Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -211,15 +212,31 @@ class _RepliesScreenState extends State<RepliesScreen> {
                                                   color: themeData
                                                       .colorScheme.onBackground,
                                                   borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              child: const Center(
-                                                  child: Text(
-                                                'Delete',
-                                                style: TextStyle(
-                                                    //        fontWeight: FontWeight.bold,
-                                                    color: Colors.red,
-                                                    fontSize: 18),
-                                              )),
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: const Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 15),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Center(
+                                                        child: Text(
+                                                      'Delete',
+                                                      style: TextStyle(
+                                                          //        fontWeight: FontWeight.bold,
+                                                          color: Colors.red,
+                                                          fontSize: 18),
+                                                    )),
+                                                    Icon(
+                                                      Icons.delete_outline,
+                                                      color: Colors.red,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -266,7 +283,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           onTabReply: () {},
                           postEntity: widget.postEntity,
                           onTabLike: () {}),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       AppErrorWidget(
@@ -342,7 +359,7 @@ class ReplyTo extends StatelessWidget {
       height: 60,
       color: themeData.scaffoldBackgroundColor,
       child: Bounce(
-        duration: Duration(milliseconds: 180),
+        duration: const Duration(milliseconds: 180),
         onPressed: onTabNavigator,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
@@ -381,7 +398,7 @@ class ReplyTo extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
-                          .copyWith(height: 1.0)),
+                          .copyWith(height: 2.8)),
                 ],
               ),
             ),
@@ -414,7 +431,9 @@ class ThePostReply extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: postEntity.text.textdirection()
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
@@ -542,7 +561,7 @@ class ThePostReply extends StatelessWidget {
                                     elevation: 0,
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(16))),
+                                            top: Radius.circular(20))),
                                     builder: (context3) {
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
@@ -612,15 +631,30 @@ class ThePostReply extends StatelessWidget {
                                                         .onBackground,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            5)),
-                                                child: const Center(
-                                                    child: Text(
-                                                  'Delete',
-                                                  style: TextStyle(
-                                                      //        fontWeight: FontWeight.bold,
-                                                      color: Colors.red,
-                                                      fontSize: 18),
-                                                )),
+                                                            20)),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 15),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Center(
+                                                          child: Text(
+                                                        'Delete',
+                                                        style: TextStyle(
+                                                            //        fontWeight: FontWeight.bold,
+                                                            color: Colors.red,
+                                                            fontSize: 18),
+                                                      )),
+                                                      Icon(
+                                                        Icons.delete_outline,
+                                                        color: Colors.red,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -648,13 +682,18 @@ class ThePostReply extends StatelessWidget {
               ? Padding(
                   padding: const EdgeInsets.only(left: 10, top: 5, right: 10),
                   child: Text(postEntity.text,
-                      style: Theme.of(context).textTheme.titleMedium),
-                )
+                      textDirection: postEntity.text.textdirection()
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(height: 1.2)))
               : const SizedBox(),
           const SizedBox(
             height: 10,
           ),
-           ImagePost(postEntity: postEntity, leftpading: 10, namepage: pagename),
+          ImagePost(postEntity: postEntity, leftpading: 10, namepage: pagename),
           Column(
             children: [
               Padding(

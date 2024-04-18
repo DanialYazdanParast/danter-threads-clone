@@ -15,14 +15,14 @@ import 'package:image_picker/image_picker.dart';
 
 File? selectedImageedit;
 
-class EditProfile extends StatefulWidget {
-  EditProfile({super.key});
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void dispose() {
     editProfileBloc.close();

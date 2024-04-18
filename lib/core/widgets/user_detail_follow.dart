@@ -1,10 +1,6 @@
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-
-import 'package:danter/config/theme/theme.dart';
-
 import 'package:danter/core/widgets/image_user_post.dart';
-
 import 'package:flutter/material.dart';
 
 class UserDetailFollow extends StatelessWidget {
@@ -66,25 +62,23 @@ class UserDetailFollow extends StatelessWidget {
                   Visibility(
                     visible: user.id != AuthRepository.readid(),
                     child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            minimumSize: const Size(120, 35),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                        onPressed: onTabFollow,
-                        child: Text(
-                            user.followers.contains(AuthRepository.readid())
-                                ? 'Following'
-                                : 'Follow',
-                            style:
-                                user.followers.contains(AuthRepository.readid())
-                                    ? Theme.of(context).textTheme.titleSmall
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                          fontWeight: FontWeight.w400,
-                                        ))),
+                      style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(120, 35),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                      onPressed: onTabFollow,
+                      child: Text(
+                        user.followers.contains(AuthRepository.readid())
+                            ? 'Following'
+                            : 'Follow',
+                        style: user.followers.contains(AuthRepository.readid())
+                            ? Theme.of(context).textTheme.titleSmall
+                            : Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -92,10 +86,10 @@ class UserDetailFollow extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 67),
               child: Divider(
-                  height: 20,
-                  color:
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-                  thickness: 0.7),
+                height: 20,
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                thickness: 0.7,
+              ),
             ),
           ],
         ),

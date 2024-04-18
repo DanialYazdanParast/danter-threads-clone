@@ -2,13 +2,13 @@ import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/screen/likes/likes_Screen.dart';
-import 'package:danter/screen/profile/profile_screen.dart';
+
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
-import 'package:danter/core/widgets/Row_Image_Name_Text.dart';
+import 'package:danter/core/widgets/row_image_name_text.dart';
 import 'package:danter/core/widgets/image_post.dart';
-import 'package:danter/core/widgets/photoUserFollowers.dart';
+import 'package:danter/core/widgets/photo_user_followers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -50,7 +50,7 @@ class PostDetail extends StatelessWidget {
               top: 44,
               bottom: 50,
               child: Container(
-                width: postEntity.replies.length > 0 ? 1 : 0,
+                width: postEntity.replies.isNotEmpty ? 1 : 0,
                 color: LightThemeColors.secondaryTextColor,
               ),
             ),
@@ -159,7 +159,7 @@ class PostDetail extends StatelessWidget {
                           : postEntity.replies.length == 1
                               ? Container(
                                   margin:
-                                      const EdgeInsets.only(left: 8, top: 2),
+                                      const EdgeInsets.only(left: 7, top: 2),
                                   child: (postEntity
                                           .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
@@ -170,7 +170,7 @@ class PostDetail extends StatelessWidget {
                               : Container(
                                   margin: const EdgeInsets.only(left: 30),
                                 ),
-                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 15),
+                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 16),
                       Visibility(
                         visible: postEntity.replies.isNotEmpty,
                         child: Row(

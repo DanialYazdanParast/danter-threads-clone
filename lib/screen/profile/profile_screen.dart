@@ -12,7 +12,7 @@ import 'package:danter/core/widgets/custom_alert_dialog.dart';
 import 'package:danter/core/widgets/error.dart';
 import 'package:danter/core/widgets/image.dart';
 import 'package:danter/config/theme/theme.dart';
-import 'package:danter/core/widgets/photoUserFollowers.dart';
+import 'package:danter/core/widgets/photo_user_followers.dart';
 import 'package:danter/core/widgets/post_detail.dart';
 import 'package:danter/core/widgets/replies_detail.dart';
 import 'package:danter/core/widgets/snackbart.dart';
@@ -41,6 +41,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(55),
+        child: AppBar(
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SettingScreen(),
+                  ),
+                );
+              },
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: Image.asset(
+                  'assets/images/draver.png',
+                  color: themeData.colorScheme.onPrimary,
+                  //  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+          ],
+          //       leading: Icon(Icons.language),
+        ),
+      ),
       body: SafeArea(
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context2, state) {
@@ -50,33 +79,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: NestedScrollView(
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
                     return [
-                      SliverAppBar(
-                        pinned: true,
-
-                        actions: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context, rootNavigator: true).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SettingScreen()));
-                            },
-                            child: SizedBox(
-                              width: 28,
-                              height: 28,
-                              child: Image.asset(
-                                'assets/images/draver.png',
-                                color: themeData.colorScheme.onPrimary,
-                                //  fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                        //       leading: Icon(Icons.language),
-                      ),
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 20, left: 20),
@@ -251,7 +253,7 @@ class RowButtonProfile extends StatelessWidget {
           name: 'Edit profile',
           onTabButtonPrpfile: () {
             Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-              builder: (context) => EditProfile(),
+              builder: (context) => EditProfileScreen(),
             ));
           },
         ),
@@ -339,7 +341,7 @@ class RepliesPage extends StatelessWidget {
                   elevation: 0,
                   shape: const RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(16))),
+                          BorderRadius.vertical(top: Radius.circular(20))),
                   builder: (context3) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
@@ -395,15 +397,28 @@ class RepliesPage extends StatelessWidget {
                               height: 50,
                               decoration: BoxDecoration(
                                   color: themeData.colorScheme.onBackground,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: const Center(
-                                  child: Text(
-                                'Delete',
-                                style: TextStyle(
-                                    //        fontWeight: FontWeight.bold,
-                                    color: Colors.red,
-                                    fontSize: 18),
-                              )),
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Center(
+                                        child: Text(
+                                      'Delete',
+                                      style: TextStyle(
+                                          //        fontWeight: FontWeight.bold,
+                                          color: Colors.red,
+                                          fontSize: 18),
+                                    )),
+                                    Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.red,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -471,7 +486,7 @@ class DanterPage extends StatelessWidget {
                         elevation: 0,
                         shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(16))),
+                                top: Radius.circular(20))),
                         builder: (context3) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
@@ -532,15 +547,30 @@ class DanterPage extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         color:
                                             themeData.colorScheme.onBackground,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: const Center(
-                                        child: Text(
-                                      'Delete',
-                                      style: TextStyle(
-                                          //        fontWeight: FontWeight.bold,
-                                          color: Colors.red,
-                                          fontSize: 18),
-                                    )),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Center(
+                                              child: Text(
+                                            'Delete',
+                                            style: TextStyle(
+                                                //        fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                                fontSize: 18),
+                                          )),
+                                          Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.red,
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -763,9 +793,7 @@ class TabBarViewDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-      ),
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: _tabBar,
     );
   }
@@ -800,31 +828,6 @@ class LodingProfile extends StatelessWidget {
           child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
-                SliverAppBar(
-                  pinned: true,
-
-                  actions: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(
-                                builder: (context) => const SettingScreen()));
-                      },
-                      child: SizedBox(
-                        width: 28,
-                        height: 28,
-                        child: Image.asset(
-                          'assets/images/draver.png',
-                          color: themeData.colorScheme.onPrimary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                  //       leading: Icon(Icons.language),
-                ),
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20, left: 20),
@@ -909,31 +912,6 @@ class ErrorProfile extends StatelessWidget {
       child: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
-            SliverAppBar(
-              pinned: true,
-
-              actions: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                            builder: (context) => const SettingScreen()));
-                  },
-                  child: SizedBox(
-                    width: 28,
-                    height: 28,
-                    child: Image.asset(
-                      'assets/images/draver.png',
-                      color: themeData.colorScheme.onPrimary,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-              ],
-              //       leading: Icon(Icons.language),
-            ),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.only(right: 20, left: 20),

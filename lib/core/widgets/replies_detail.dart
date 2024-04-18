@@ -6,9 +6,9 @@ import 'package:danter/screen/profile/profile_screen.dart';
 import 'package:danter/screen/profile_user/profile_user.dart';
 import 'package:danter/screen/replies/replies_screen.dart';
 import 'package:danter/screen/replies/write_reply/write_reply.dart';
-import 'package:danter/core/widgets/Row_Image_Name_Text.dart';
+import 'package:danter/core/widgets/row_image_name_text.dart';
 import 'package:danter/core/widgets/image_post.dart';
-import 'package:danter/core/widgets/photoUserFollowers.dart';
+import 'package:danter/core/widgets/photo_user_followers.dart';
 import 'package:danter/core/widgets/post_detail.dart';
 
 import 'package:flutter/material.dart';
@@ -240,7 +240,7 @@ class MyReply extends StatelessWidget {
                           : postEntity.replies.length == 1
                               ? Container(
                                   margin:
-                                      const EdgeInsets.only(left: 8, top: 2),
+                                      const EdgeInsets.only(left: 7, top: 2),
                                   child: (postEntity
                                           .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
@@ -251,7 +251,7 @@ class MyReply extends StatelessWidget {
                               : Container(
                                   margin: const EdgeInsets.only(left: 30),
                                 ),
-                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 15),
+                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 16),
                       Visibility(
                         visible: postEntity.replies.isNotEmpty,
                         child: Row(
@@ -463,8 +463,7 @@ class ReplyTo extends StatelessWidget {
                             )
                           : postEntity.replies.length == 1
                               ? Container(
-                                  margin:
-                                      const EdgeInsets.only(left: 8, top: 2),
+                                  margin: const EdgeInsets.only(top: 2),
                                   child: (postEntity
                                           .replies[0].avatarchek.isNotEmpty)
                                       ? ImageReplyUser(
@@ -475,7 +474,7 @@ class ReplyTo extends StatelessWidget {
                               : Container(
                                   margin: const EdgeInsets.only(left: 30),
                                 ),
-                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 15),
+                      SizedBox(width: postEntity.replies.length > 1 ? 27 : 16),
                       Visibility(
                         visible: postEntity.replies.isNotEmpty,
                         child: Row(

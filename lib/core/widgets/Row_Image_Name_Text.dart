@@ -1,7 +1,7 @@
-import 'package:danter/data/model/post.dart';
-import 'package:danter/core/widgets/image.dart';
+import 'package:danter/core/extensions/global_extensions.dart';
 import 'package:danter/core/widgets/image_user_post.dart';
 import 'package:danter/core/widgets/time.dart';
+import 'package:danter/data/model/post.dart';
 import 'package:flutter/material.dart';
 
 class ImageAndNameAndText extends StatelessWidget {
@@ -33,7 +33,9 @@ class ImageAndNameAndText extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: postEntity.text.textdirection()
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,7 +70,10 @@ class ImageAndNameAndText extends StatelessWidget {
                         onTap: onTabmore,
                         child: Icon(
                           Icons.more_horiz,
-                          color: Theme.of(context).colorScheme.onPrimary,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onPrimary
+                              .withOpacity(0.7),
                           size: 24,
                         ),
                       )
@@ -82,19 +87,18 @@ class ImageAndNameAndText extends StatelessWidget {
                             .titleSmall!
                             .copyWith(fontSize: 14)),
                   ),
-                  const SizedBox(
-                    width: 10,
+                  Directionality(
+                    textDirection: postEntity.text.textdirection()
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
+                    child: postEntity.text != ''
+                        ? Text(postEntity.text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(height: 1.2))
+                        : const SizedBox(),
                   ),
-                  SizedBox(
-                    height: postEntity.text == '' ? 0 : 3,
-                  ),
-                  postEntity.text != ''
-                      ? Padding(
-                          padding: const EdgeInsets.only(right: 7),
-                          child: Text(postEntity.text,
-                              style: Theme.of(context).textTheme.titleMedium),
-                        )
-                      : const SizedBox(),
                   SizedBox(
                     height: postEntity.text == '' ? 0 : 10,
                   ),
@@ -107,38 +111,3 @@ class ImageAndNameAndText extends StatelessWidget {
     );
   }
 }
-
-
-// SizedBox(
-//                 height: 250,
-//                 child: ListView.builder(
-//                   scrollDirection: Axis.horizontal,
-//                   itemCount: selectedImage!.length,
-//                   itemBuilder: (context, index) {
-//                     return Padding(
-//                       padding: EdgeInsets.only(
-//                           left: (index == 0) ? 65 : 10,
-//                           right: (index == selectedImage!.length - 1) ? 10 : 0),
-//                       child: ClipRRect(
-//                           borderRadius: BorderRadius.circular(15),
-//                           child: Image.file(
-//                             File(selectedImage![index].path),
-//                             fit: BoxFit.cover,
-//                             width: 200,
-//                           )),
-//                     );
-//                   },
-//                 ),
-//               )
-
-
-
-// ClipRRect(
-//                           borderRadius: BorderRadius.circular(12),
-//                           child: SizedBox(
-//                             child: ImageLodingService(
-//                               imageUrl:
-//                                   'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
-//                             ),
-//                           ),
-//                         )

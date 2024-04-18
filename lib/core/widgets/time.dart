@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TimePost extends StatelessWidget {
   const TimePost({
@@ -13,8 +12,8 @@ class TimePost extends StatelessWidget {
   Widget build(BuildContext context) {
     var time = DateTime.now().difference(DateTime.parse(created));
 
-    var newFormat = DateFormat("yy-MM-dd");
-    String updatedtime = newFormat.format(DateTime.parse(created));
+    // var newFormat = DateFormat("yy-MM-dd");
+    //  String updatedtime = newFormat.format(DateTime.parse(created));
     return Text(
       time.inMinutes == 0
           ? 'Now'
