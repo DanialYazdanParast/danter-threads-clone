@@ -22,6 +22,30 @@ Danter is a clone of Threads with `real-time chat`. Built using the `Flutter fra
 
 ⚙️Pocketbase database
 
+
+## 📥 Direct Download
+
+<div align=left>
+<table>
+    <thead align=left>
+        <tr>
+            <th>OS</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody align=left>
+        <tr>
+        <td>Android</td>
+            <td>
+                <a href="https://github.com/DanialYazdanParast/danter/releases/download/v1.0.0%2B1/danter-release.apk"><img src="https://img.shields.io/badge/APK-Universal-044d29.svg?logo=android"></a><br>
+                <a href="https://github.com/DanialYazdanParast/danter/releases/download/v1.0.0%2B1/danter-arm64-v8a-release.apk"><img src="https://img.shields.io/badge/APK-ARMv8-168039.svg?logo=android"></a><br>
+                <a href="https://github.com/DanialYazdanParast/danter/releases/download/v1.0.0%2B1/danter-armeabi-v7a-release.apk"><img src="https://img.shields.io/badge/APK-ARMv7-45bf55.svg?logo=android"></a><br>
+                <a href="https://github.com/DanialYazdanParast/danter/releases/download/v1.0.0%2B1/danter-x86_64-release.apk"><img src="https://img.shields.io/badge/APK-x64-96ed89.svg?logo=android"></a>
+            </td>
+        </tr> 
+</table>
+</div>
+
 # 🌕 light theme 
 <a href="">
   <img width="100%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/ae2adb08-9f52-4cf7-a38f-d2ceace79071">
