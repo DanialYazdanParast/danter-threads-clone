@@ -6,17 +6,21 @@ https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7
 
 ## 🚀 Main features
 
-📱Realtime chat
+💬 Realtime chat
 
 ✍️Idea sharing
 
-❤️ Liking
+❤️ Like/Unlike Post
 
-⭐ Following
+💬 Comment to a Post
+
+🗑️ Delete Post
+
+👥 Follow/Unfollow Users
 
 🔍Search
 
-🌙 Dark and light modestheir liking
+🌓 Dark and light mode 
 
 💎Built with Flutter and Dart 
 
