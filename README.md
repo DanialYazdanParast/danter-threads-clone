@@ -12,7 +12,7 @@ https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7
 
 ❤️ Like/Unlike Post
 
-💬 Comment to a Post
+💬 Replies to a Post
 
 🗑️ Delete Post
 
