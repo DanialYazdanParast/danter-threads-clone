@@ -63,10 +63,10 @@ https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7
 </a>
 
 ## Language & Tools used
- <a href="">
-  <img width="40%" alt="danter " src="https://github.com/DanialYazdanParast/danter/assets/150327854/86bc0563-2729-4f5e-95f7-ac93a5237e74">
-</a>
 
+
+
+<img src="https://github.com/DanialYazdanParast/danter/assets/150327854/86bc0563-2729-4f5e-95f7-ac93a5237e74" width="160" height="60">
 
 ## Screenshots light theme 
 
