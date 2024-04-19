@@ -2,6 +2,8 @@
 
 Danter is a clone of Threads with `real-time chat`. Built using the `Flutter framework`, `Dart language`, `Bloc state management`, and `pocketbase database`.
 
+https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7-b004-be38597dd8cb
+
 ## 🚀 Main features
 
 📱Realtime chat
@@ -58,7 +60,7 @@ Danter is a clone of Threads with `real-time chat`. Built using the `Flutter fra
 
 ## Language & Tools used
  <a href="">
-  <img width="20%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/86bc0563-2729-4f5e-95f7-ac93a5237e74">
+  <img width="40%" alt="danter " src="https://github.com/DanialYazdanParast/danter/assets/150327854/86bc0563-2729-4f5e-95f7-ac93a5237e74">
 </a>
 
 
