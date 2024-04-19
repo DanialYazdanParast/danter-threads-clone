@@ -18,7 +18,7 @@ https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7
 
 👥 Follow/Unfollow Users
 
-🔍Search
+🔍Search Users
 
 🌓 Dark and light mode 
 
