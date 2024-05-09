@@ -5,9 +5,9 @@ import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 
 import 'package:danter/core/di/di.dart';
-import 'package:danter/screen/auth/auth.dart';
+import 'package:danter/screen/auth/screens/auth.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
-import 'package:danter/screen/root/root.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:danter/screen/settings/cubit/them_cubit.dart';
 import 'package:danter/config/theme/theme.dart';
 import 'package:flutter/material.dart';

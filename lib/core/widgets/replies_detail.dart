@@ -1,15 +1,17 @@
 import 'package:danter/core/constants/custom_colors.dart';
+import 'package:danter/core/widgets/like_button.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/screen/likes/likes_Screen.dart';
-import 'package:danter/screen/profile/profile_screen.dart';
-import 'package:danter/screen/profile_user/profile_user.dart';
-import 'package:danter/screen/replies/replies_screen.dart';
-import 'package:danter/screen/replies/write_reply/write_reply.dart';
+
+import 'package:danter/screen/likes/screens/likes_screen.dart';
+import 'package:danter/screen/profile/screens/profile_screen.dart';
+import 'package:danter/screen/profile_user/screens/profile_user.dart';
+import 'package:danter/screen/replies/screens/replies_screen.dart';
 import 'package:danter/core/widgets/row_image_name_text.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/photo_user_followers.dart';
-import 'package:danter/core/widgets/post_detail.dart';
+
+import 'package:danter/screen/write_reply/screens/write_reply.dart';
 
 import 'package:flutter/material.dart';
 
@@ -44,7 +46,7 @@ class RepliseDtaile extends StatelessWidget {
                 Navigator.of(context, rootNavigator: true).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return ProfileScreen();
+                      return const ProfileScreen();
                     },
                   ),
                 );
@@ -79,7 +81,7 @@ class RepliseDtaile extends StatelessWidget {
                 Navigator.of(context, rootNavigator: true).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return ProfileScreen();
+                      return const ProfileScreen();
                     },
                   ),
                 );
@@ -144,15 +146,13 @@ class MyReply extends StatelessWidget {
               top: 50,
               bottom: 50,
               child: Container(
-                width: postEntity.replies.length > 0 ? 1 : 0,
+                width: postEntity.replies.isNotEmpty ? 1 : 0,
                 color: LightThemeColors.secondaryTextColor,
               ),
             ),
             Column(
               children: [
-                SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 ImageAndNameAndText(
                     postEntity: postEntity,
                     onTabNameUser: onTabNameUser,
@@ -359,7 +359,7 @@ class ReplyTo extends StatelessWidget {
               top: 44,
               bottom: 20,
               child: Container(
-                width: postEntity.replies.length > 0 ? 1 : 0,
+                width: postEntity.replies.isNotEmpty ? 1 : 0,
                 color: LightThemeColors.secondaryTextColor,
               ),
             ),

@@ -1,13 +1,10 @@
 import 'dart:io';
-
+import 'package:danter/core/constants/variable_onstants.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-//File? selectedImage;
-List<XFile>? selectedImage = [];
 
 class FildWrite extends StatefulWidget {
   const FildWrite({
@@ -23,11 +20,6 @@ class FildWrite extends StatefulWidget {
 
 class _FildWriteState extends State<FildWrite> {
   @override
-  // void initState() {
-  //   selectedImage = [];
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -155,25 +147,28 @@ class _FildWriteState extends State<FildWrite> {
             ],
           ),
         ),
-        selectedImage!.isNotEmpty
+        VariableConstants.selectedImage!.isNotEmpty
             ? SizedBox(
                 height: 250,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: selectedImage!.length,
+                  itemCount: VariableConstants.selectedImage!.length,
                   itemBuilder: (context, index) {
                     return Stack(
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
                               left: (index == 0) ? 65 : 10,
-                              right: (index == selectedImage!.length - 1)
+                              right: (index ==
+                                      VariableConstants.selectedImage!.length -
+                                          1)
                                   ? 10
                                   : 0),
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(15),
                               child: Image.file(
-                                File(selectedImage![index].path),
+                                File(VariableConstants
+                                    .selectedImage![index].path),
                                 fit: BoxFit.cover,
                                 width: 200,
                                 height: 250,
@@ -181,13 +176,17 @@ class _FildWriteState extends State<FildWrite> {
                         ),
                         Positioned(
                           top: 10,
-                          right: index == selectedImage!.length - 1 ? 20 : 10,
+                          right: index ==
+                                  VariableConstants.selectedImage!.length - 1
+                              ? 20
+                              : 10,
                           child: GestureDetector(
                             onTap: () {
-                              setState(() => selectedImage!.removeAt(index));
+                              setState(() => VariableConstants.selectedImage!
+                                  .removeAt(index));
                             },
                             child: Container(
-                              padding: EdgeInsets.all(3),
+                              padding: const EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                   color: themeData.colorScheme.onSecondary
                                       .withOpacity(0.4),
@@ -216,7 +215,7 @@ class _FildWriteState extends State<FildWrite> {
   Future _pickImage() async {
     final List<XFile>? returnImage = await ImagePicker().pickMultiImage();
     if (returnImage!.isNotEmpty) {
-      selectedImage!.addAll(returnImage);
+      VariableConstants.selectedImage!.addAll(returnImage);
     }
     setState(() {});
   }

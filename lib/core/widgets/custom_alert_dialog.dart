@@ -1,21 +1,19 @@
-
 import 'package:flutter/material.dart';
 
 class CustomAlertDialog extends StatefulWidget {
-
   const CustomAlertDialog({
     Key? key,
     required this.title,
-    required this.description, required this.onTabRemove, required this.button,
+    required this.description,
+    required this.onTabRemove,
+    required this.button,
   }) : super(key: key);
 
-    final String title, description , button;
-    final GestureTapCallback onTabRemove;
- 
+  final String title, description, button;
+  final GestureTapCallback onTabRemove;
 
   @override
-  
-  _CustomAlertDialogState createState() => _CustomAlertDialogState();
+  State<CustomAlertDialog> createState() => _CustomAlertDialogState();
 }
 
 class _CustomAlertDialogState extends State<CustomAlertDialog> {
@@ -23,7 +21,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       elevation: 0,
-      backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
@@ -41,16 +39,16 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
           const SizedBox(height: 15),
           //  Text(widget.description),
           //  const SizedBox(height: 20),
-           Divider(
-            height: 1,color:Theme.of(context).colorScheme.secondary.withOpacity(0.5) 
-          ),
+          Divider(
+              height: 1,
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 50,
             child: InkWell(
               highlightColor: Colors.grey[200],
               onTap: widget.onTabRemove,
-              child:  Center(
+              child: Center(
                 child: Text(
                   widget.button,
                   style: const TextStyle(
@@ -62,9 +60,9 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               ),
             ),
           ),
-           Divider(
-            height: 1,color:  Theme.of(context).colorScheme.secondary.withOpacity(0.5) 
-          ),
+          Divider(
+              height: 1,
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 50,

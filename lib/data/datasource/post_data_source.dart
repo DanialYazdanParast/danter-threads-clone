@@ -32,9 +32,9 @@ abstract class IPostDataSource {
 
 class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
   final Dio _dio;
-  final pb = PocketBase('https://dan.chbk.run');
-  // final String userId = AuthRepository.readid();
-  PostRemoteDataSource(this._dio);
+  final PocketBase pb;
+
+  PostRemoteDataSource(this._dio, this.pb);
   @override
   Future<List<PostEntity>> getPost(String userId) async {
     Map<String, dynamic> qParams = {
@@ -74,21 +74,6 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
 
   @override
   Future<void> sendPost(String userId, String text, image) async {
-    // String filename = image.path.split('/').last;
-
-    //  List uploadList = [];
-    //   for (File file in image) {
-    //      await MultipartFile.fromFile(
-    //       uploadList.add(file.path)
-    //     );
-
-    //   }
-
-    //    for (File item in image)
-    //  formData.files.addAll([
-    //    MapEntry("image", await MultipartFile.fromFile(item.path)),
-    //  ]);
-
     FormData formData = FormData.fromMap({
       "user": userId,
       "category": 'ykbdovmvv3qf66l',
@@ -98,13 +83,11 @@ class PostRemoteDataSource with HttpResponseValidat implements IPostDataSource {
               filename: item.path.split('/').last))
           .toList()
     });
-
     final response =
         await _dio.post('collections/post/records', data: formData);
     validatResponse(response);
   }
 
-  @override
   @override
   Future<void> addLike(String userId, String postid) async {
     await _dio

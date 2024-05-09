@@ -1,5 +1,6 @@
+import 'package:danter/core/constants/variable_onstants.dart';
 import 'package:danter/data/model/post.dart';
-import 'package:danter/screen/image/image_screen.dart';
+import 'package:danter/screen/image/screens/image_screen.dart';
 import 'package:danter/core/widgets/image.dart';
 
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class ImagePost extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       child: ImageLodingService(
                         imageUrl:
-                            'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[0]}',
+                            '${VariableConstants.imageaddress}${postEntity.id}/${postEntity.image[0]}',
                       )),
                 ),
               ),
@@ -92,7 +93,7 @@ class ImagePost extends StatelessWidget {
                                 tag: '$namepage${postEntity.image[index]}',
                                 child: ImageLodingService(
                                   imageUrl:
-                                      'https://dan.chbk.run/api/files/6291brssbcd64k6/${postEntity.id}/${postEntity.image[index]}',
+                                      '${VariableConstants.imageaddress}${postEntity.id}/${postEntity.image[index]}',
                                 ),
                               ),
                             ),

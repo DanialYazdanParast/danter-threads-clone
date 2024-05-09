@@ -17,7 +17,7 @@ class LodingCustom extends StatelessWidget {
             border:
                 Border.all(width: 1, color: themeData.colorScheme.secondary)),
         child: Center(
-          child: Container(
+          child: SizedBox(
             height: 14,
             width: 14,
             child: Center(

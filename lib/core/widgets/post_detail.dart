@@ -1,17 +1,16 @@
 import 'package:danter/core/constants/custom_colors.dart';
+import 'package:danter/core/widgets/like_button.dart';
 import 'package:danter/data/model/post.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-import 'package:danter/screen/likes/likes_Screen.dart';
 
-import 'package:danter/screen/profile_user/profile_user.dart';
-import 'package:danter/screen/replies/replies_screen.dart';
-import 'package:danter/screen/replies/write_reply/write_reply.dart';
+import 'package:danter/screen/likes/screens/likes_screen.dart';
+import 'package:danter/screen/profile_user/screens/profile_user.dart';
+import 'package:danter/screen/replies/screens/replies_screen.dart';
 import 'package:danter/core/widgets/row_image_name_text.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/photo_user_followers.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:danter/screen/write_reply/screens/write_reply.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class PostDetail extends StatelessWidget {
   final PostEntity postEntity;
@@ -244,40 +243,5 @@ class PostDetail extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class LikeButton extends StatefulWidget {
-  const LikeButton(
-      {super.key, required this.postEntity, required this.onTabLike});
-  final PostEntity postEntity;
-  final GestureTapCallback onTabLike;
-
-  @override
-  State<LikeButton> createState() => _LikeButtonState();
-}
-
-class _LikeButtonState extends State<LikeButton> {
-  @override
-  Widget build(BuildContext context) {
-    bool liked = widget.postEntity.likes.contains(AuthRepository.readid());
-    final ThemeData themeData = Theme.of(context);
-    return GestureDetector(
-        onTap: widget.onTabLike,
-        child: liked
-            ? const Icon(CupertinoIcons.heart_fill, color: Colors.red, size: 20)
-                .animate(target: liked ? 1 : 0)
-                .scaleXY(duration: 400.ms, begin: 1.0, end: 1.2)
-                .then()
-                .scaleXY(duration: 400.ms, begin: 1.2, end: 1.0)
-            : Icon(
-                CupertinoIcons.heart,
-                size: 20,
-                color: themeData.colorScheme.onPrimary,
-              )
-                .animate(target: liked ? 1 : 0)
-                .scaleXY(duration: 400.ms, begin: 1.0, end: 1.2)
-                .then()
-                .scaleXY(duration: 400.ms, begin: 1.2, end: 1.0));
   }
 }

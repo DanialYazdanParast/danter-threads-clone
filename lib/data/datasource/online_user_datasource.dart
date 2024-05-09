@@ -6,7 +6,6 @@ class OnlineUserUatasource extends WidgetsBindingObserver {
   final String userid;
   OnlineUserUatasource({required this.userid});
 
-  @override
   void online() async {
     final body = <String, dynamic>{
       "online": true,

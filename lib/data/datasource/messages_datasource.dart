@@ -7,18 +7,14 @@ abstract class IchatDataSource {
   realtime(String userId);
   realtimeuser(String myuserid, String useridchat);
   realtimeuseronline(String userId);
-
   //---------------------------
-
   Stream<bool> get getStreamListMessages;
   Stream<bool> get getStreamChatUser;
   Stream<bool> get getStreamuseronline;
-
   //---------------------------
   List<MessagesList> get listMessages;
   List<MessagesList> get chatuser;
   bool get chatuseronline;
-
   //---------------------------
   Future<void> getListMessages(String userId);
   Future<void> getchatuser(String myuserid, String useridchat);
@@ -26,7 +22,6 @@ abstract class IchatDataSource {
       String usersend, String userseen, String text, String roomid);
   Future<String> addRooomId(String user1, String user2);
   Future<bool> getchatuseronline(String useridchat);
-
   //---------------------------
   void closechatScreen();
   void closeMessagesList();
@@ -34,8 +29,8 @@ abstract class IchatDataSource {
 
 class ChatRemoteDataSource extends IchatDataSource {
   final Dio dio;
-  ChatRemoteDataSource(this.dio);
-  final pb = PocketBase('https://dan.chbk.run');
+  final PocketBase pb;
+  ChatRemoteDataSource(this.dio, this.pb);
 
   List<MessagesList> _chat = [];
   List<MessagesList> _chatuser = [];
@@ -169,7 +164,6 @@ class ChatRemoteDataSource extends IchatDataSource {
   void closechatScreen() {
     _streamControllerChatuser.close();
     _streamControllerUseronline.close();
-    print('vvv');
   }
 
   @override
