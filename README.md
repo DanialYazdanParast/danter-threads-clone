@@ -141,7 +141,7 @@ ProfileUser         |  ProfileUser       |   FollowersPage               |  Foll
 
 AuthScreen         |  AuthScreen       |   HomeScreen               | 
 :-------------------------:|:-------------------------:|:-------------------------:
-![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/cfc84baa-c676-4bce-9948-bb51a26d6cb1)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/1b13be30-06ee-4018-aa9e-213c06a146e2)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/f5673d15-9c4f-4e40-a5fc-e0fc6fc8acff)|
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/483f185c-e4a6-4d01-a224-4370f9ddac65)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/57727ece-08fe-441a-b2d3-b62efb1c789b)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/f5673d15-9c4f-4e40-a5fc-e0fc6fc8acff)|
 
 SearchUserScreen         |  WriteScreen       |   ChatScreen               | 
 :-------------------------:|:-------------------------:|:-------------------------:
@@ -149,7 +149,7 @@ SearchUserScreen         |  WriteScreen       |   ChatScreen               |
 
 ProfileScreen         |  RepliesScreen       |   WriteReply               | 
 :-------------------------:|:-------------------------:|:-------------------------:
-![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/fa82a48a-2a44-4013-af61-687fe17354e8)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/6d9ad614-5916-4502-ab57-555f85345c73)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/4bb7f725-1847-42ab-b943-36c05296dacd)|
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/8dfe040d-ffda-4070-8785-68f316281edd)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/6d9ad614-5916-4502-ab57-555f85345c73)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/4bb7f725-1847-42ab-b943-36c05296dacd)|
 
 ProfileScreen         |  EditProfileScreen       |   EditScreenFild               | 
 :-------------------------:|:-------------------------:|:-------------------------:
