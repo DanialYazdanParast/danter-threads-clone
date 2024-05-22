@@ -1,6 +1,6 @@
 # What is Danter app? 
 
-Danter is a clone of Threads with `real-time chat`. Built using the `Flutter framework`, `Dart language`, `Bloc state management`, and `pocketbase database`.
+Danter is a Threads clone with `real-time chat`, developed using the `Flutter framework`, `Dart language`, `Bloc state management`, and `Pocketbase database`. Includes `responsive design` and works across `web`, `mobile`, and `desktop` platforms.
 
 ![danter-des](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/24c6331b-f896-4d63-9941-e9e1e4fc8f10)
 
@@ -8,6 +8,7 @@ Danter is a clone of Threads with `real-time chat`. Built using the `Flutter fra
 https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7-b004-be38597dd8cb
 
 ## 🚀 Main features
+✈️ Multi-platform Android, Windows, Web 
 
 💬 Realtime chat
 
@@ -133,3 +134,52 @@ HomeScreen         |  LikesScreen       |   RepliesScreen               |  Write
 ProfileUser         |  ProfileUser       |   FollowersPage               |  FollowingPage
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](https://github.com/DanialYazdanParast/danter/assets/150327854/77158c6e-0741-4116-885d-9a9b7ed263df)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/f199cb22-fd2a-4330-b72a-661608521fb9)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/f2cf0abb-0f06-4bdf-9d12-fa0ed9da9a7e)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/9466620b-622b-465e-8485-8359d2fe468a)|
+
+
+
+## Screenshots desktop light theme 
+
+AuthScreen         |  AuthScreen       |   HomeScreen               | 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/cfc84baa-c676-4bce-9948-bb51a26d6cb1)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/1b13be30-06ee-4018-aa9e-213c06a146e2)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/f5673d15-9c4f-4e40-a5fc-e0fc6fc8acff)|
+
+SearchUserScreen         |  WriteScreen       |   ChatScreen               | 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/db35e44d-309c-40ea-bbaa-36d576239570)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/3a1b9751-14e6-4e7d-b12b-72561cdafc74)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/9805fda0-70f9-4653-8efb-7342aba127f7)|
+
+ProfileScreen         |  RepliesScreen       |   WriteReply               | 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/fa82a48a-2a44-4013-af61-687fe17354e8)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/6d9ad614-5916-4502-ab57-555f85345c73)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/4bb7f725-1847-42ab-b943-36c05296dacd)|
+
+ProfileScreen         |  EditProfileScreen       |   EditScreenFild               | 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/be6f1622-32be-4228-8a9e-f8174354e487)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/4bc5725c-f966-4c95-8031-1dc142a04df6)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/b99ec7d0-8f5d-4ade-9780-1cf71ffa93ec)|
+
+
+
+
+
+## Screenshots desktop dark theme 
+
+
+AuthScreen         |  AuthScreen       |   HomeScreen               | 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/946e0607-f4c4-4ec4-8f97-104eab325799)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/0f6df77c-349d-4b9d-aadb-bf0929ae7e5b)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/9f0ebb58-ddb3-45e0-8b97-e6bb8741cd81)|
+
+SearchUserScreen         |  WriteScreen       |   ChatScreen               | 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/15c38802-1028-4b18-b585-46d2583b518a)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/a4f72535-ccc7-48dc-a9a1-c5cef7b19467)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/1a23f326-4ad5-4488-9f0e-a36156ab4f2c)|
+
+ProfileScreen         |  RepliesScreen       |   WriteReply               | 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/922f75a9-993e-4f05-812c-894e530247fe)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/1ddaf221-01e7-47a3-a370-b1895e19ae0b)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/fe49bae3-9a8c-4da5-95cc-ff32dae52694)|
+
+ProfileScreen         |  EditProfileScreen       |   EditScreenFild               | 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/07844411-8286-4f6e-ac92-498a89572e73)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/04a96054-de7c-43f3-953c-0a1f5839303e)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/c24c6f8f-9174-4809-aa17-1405b827fe64)|
+
+
+
+
+
+
