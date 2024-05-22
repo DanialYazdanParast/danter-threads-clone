@@ -10,6 +10,7 @@ import 'package:danter/screen/replies/screens/replies_screen.dart';
 import 'package:danter/core/widgets/row_image_name_text.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/photo_user_followers.dart';
+import 'package:danter/screen/root/screens/root.dart';
 
 import 'package:danter/screen/write_reply/screens/write_reply.dart';
 
@@ -65,12 +66,24 @@ class RepliseDtaile extends StatelessWidget {
             onTabmore: () {},
             postEntity: postEntity.replyTo,
             onTaNavigator: () {
-              Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                builder: (context) => RepliesScreen(
-                  pagename: namepage,
-                  postEntity: postEntity.replyTo,
-                ),
-              ));
+              if (!RootScreen.isMobile(context)) {
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(
+                  builder: (context) => RepliesScreen(
+                    pagename: namepage,
+                    postEntity: postEntity.replyTo,
+                  ),
+                ));
+              } else {
+                Navigator.of(context, rootNavigator: true)
+                    .push(MaterialPageRoute(
+                  builder: (context) => RepliesScreen(
+                    pagename: namepage,
+                    postEntity: postEntity.replyTo,
+                  ),
+                ));
+              }
             },
           ),
           MyReply(
@@ -100,12 +113,24 @@ class RepliseDtaile extends StatelessWidget {
             onTabmore: onTabmore,
             postEntity: postEntity.myReply,
             onTaNavigator: () {
-              Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                builder: (context) => RepliesScreen(
-                  pagename: namepage,
-                  postEntity: postEntity.replyTo,
-                ),
-              ));
+              if (!RootScreen.isMobile(context)) {
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(
+                  builder: (context) => RepliesScreen(
+                    pagename: namepage,
+                    postEntity: postEntity.replyTo,
+                  ),
+                ));
+              } else {
+                Navigator.of(context, rootNavigator: true)
+                    .push(MaterialPageRoute(
+                  builder: (context) => RepliesScreen(
+                    pagename: namepage,
+                    postEntity: postEntity.replyTo,
+                  ),
+                ));
+              }
             },
           ),
         ],
@@ -168,7 +193,10 @@ class MyReply extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context, rootNavigator: true)
+                          Navigator.of(context,
+                                  rootNavigator: RootScreen.isMobile(context)
+                                      ? true
+                                      : false)
                               .push(MaterialPageRoute(
                             builder: (context) => WriteReply(
                                 postEntity: postEntity, namePage: ''),

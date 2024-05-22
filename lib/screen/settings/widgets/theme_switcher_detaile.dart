@@ -19,7 +19,7 @@ class ThemeSwitcherDetaile extends StatelessWidget {
       clipper: const ThemeSwitcherCircleClipper(),
       builder: (context) {
         return Transform.scale(
-          scale: 0.9,
+          scale: 0.8,
           child: CupertinoSwitch(
             activeColor: themeData.colorScheme.secondary,
             value: ThemeSave.getTheme(),

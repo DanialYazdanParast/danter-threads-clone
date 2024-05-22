@@ -1,6 +1,7 @@
 import 'package:danter/data/model/user.dart';
 
 import 'package:danter/core/widgets/image_user_post.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
@@ -37,26 +38,40 @@ class SearchUserDetailHive extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            user.username,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(width: 2),
-                          Visibility(
-                            visible: user.tik,
-                            child: SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: Image.asset('assets/images/tik.png')),
-                          ),
-                        ],
+                      SizedBox(
+                        width: !RootScreen.isMobile(context) ? 180 : null,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 2),
+                            SizedBox(
+                              child: Text(
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                softWrap: true,
+                                user.username,
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                            Visibility(
+                              visible: user.tik,
+                              child: SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: Image.asset('assets/images/tik.png')),
+                            ),
+                          ],
+                        ),
                       ),
-                      Text(
-                        user.name == '' ? user.username : user.name!,
-                        style: Theme.of(context).textTheme.titleSmall,
+                      SizedBox(
+                        width: !RootScreen.isMobile(context) ? 200 : null,
+                        child: Text(
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                          user.name == '' ? user.username : user.name!,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
                       )
                     ],
                   ),

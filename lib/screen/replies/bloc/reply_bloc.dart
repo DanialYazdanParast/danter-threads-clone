@@ -45,6 +45,8 @@ class ReplyBloc extends Bloc<ReplyEvent, ReplyState> {
                 .firstWhere((element) => element.id == event.postId)
                 .likes
                 .add(event.user);
+
+            emit(ReplyAddAndRemoveLike());
           } else if (event is RemoveLikePostEvent) {
             await postRepository.deleteLike(event.user, event.postId);
 
@@ -52,6 +54,8 @@ class ReplyBloc extends Bloc<ReplyEvent, ReplyState> {
                 .firstWhere((element) => element.id == event.postId)
                 .likes
                 .remove(event.user);
+
+            emit(ReplyAddAndRemoveLike());
           } else if (event is AddLikeRplyEvent) {
             await postRepository.addLike(event.user, event.postId);
             successState.reply

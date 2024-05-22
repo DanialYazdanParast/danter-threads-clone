@@ -9,12 +9,24 @@ import 'package:danter/screen/write/widgets/send_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WriteScreen extends StatelessWidget {
+class WriteScreen extends StatefulWidget {
   const WriteScreen({super.key});
 
   @override
+  State<WriteScreen> createState() => _WriteScreenState();
+}
+
+class _WriteScreenState extends State<WriteScreen> {
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
     final ThemeData themeData = Theme.of(context);
 
     return BlocProvider(
@@ -35,11 +47,11 @@ class WriteScreen extends StatelessWidget {
               controller.text = '';
 
               ScaffoldMessenger.of(context).showSnackBar(
-                snackBarApp(themeData, 'با موفقیت ثبت شد', 45),
+                snackBarApp(themeData, 'با موفقیت ثبت شد', 45, context),
               );
             } else if (state is WriteErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
-                  snackBarApp(themeData, state.exception.message, 45));
+                  snackBarApp(themeData, state.exception.message, 45, context));
             }
           },
           builder: (context, state) {
@@ -64,10 +76,7 @@ class WriteScreen extends StatelessWidget {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  child: SendPost(
-                      themeData: themeData,
-                      controller: controller,
-                      state: state),
+                  child: SendPost(controller: controller, state: state),
                 )
               ],
             );

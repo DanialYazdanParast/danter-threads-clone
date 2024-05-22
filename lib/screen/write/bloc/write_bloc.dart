@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/core/util/exceptions.dart';
 import 'package:equatable/equatable.dart';
-import 'package:image_picker/image_picker.dart';
 
 part 'write_event.dart';
 part 'write_state.dart';

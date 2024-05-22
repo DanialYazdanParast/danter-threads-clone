@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 
 import 'package:danter/data/model/messageslist.dart';
 import 'package:danter/data/repository/messages_repository.dart';
-import 'package:flutter/foundation.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
@@ -56,7 +55,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   @override
   Future<void> close() {
     data.closechatScreen();
-    debugPrint('dddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
     return super.close();
   }
 }

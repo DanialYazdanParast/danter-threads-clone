@@ -21,3 +21,5 @@ class ReplySuccesState extends ReplyState {
 }
 
 class ReplySuccesStateDelet extends ReplyState {}
+
+class ReplyAddAndRemoveLike extends ReplyState {}

@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:danter/data/datasource/messages_datasource.dart';
 import 'package:danter/data/model/messageslist.dart';
+import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/messages_repository.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 part 'messages_event.dart';
@@ -26,6 +25,10 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
       });
 
       emit(MessagesResponseState(newList));
+    });
+
+    on<MessagesSelectionEvent>((event, emit) async {
+      emit(MessagesSelectionState(event.user));
     });
 
     on<MessagesInitilzeEvent>((event, emit) async {

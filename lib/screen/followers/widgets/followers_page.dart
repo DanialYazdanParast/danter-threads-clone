@@ -69,33 +69,37 @@ class FollowersPage extends StatelessWidget {
                   const Spacer(),
                   Visibility(
                     visible: userFollowers.id != AuthRepository.readid(),
-                    child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            minimumSize: const Size(120, 35),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                        onPressed: onTabfolow,
-                        child: Text(
-                            userid == AuthRepository.readid()
-                                ? 'Remove'
-                                : userFollowers.followers
-                                        .contains(AuthRepository.readid())
-                                    ? 'Following'
-                                    : 'Follow',
-                            style: userid == AuthRepository.readid()
-                                ? Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(fontWeight: FontWeight.w400)
-                                : userFollowers.followers
-                                        .contains(AuthRepository.readid())
-                                    ? Theme.of(context).textTheme.titleSmall
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w400))),
+                    child: SizedBox(
+                      height: 35,
+                      width: 130,
+                      child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              //  minimumSize: const Size(120, 35),
+                              shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                          onPressed: onTabfolow,
+                          child: Text(
+                              userid == AuthRepository.readid()
+                                  ? 'Remove'
+                                  : userFollowers.followers
+                                          .contains(AuthRepository.readid())
+                                      ? 'Following'
+                                      : 'Follow',
+                              style: userid == AuthRepository.readid()
+                                  ? Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(fontWeight: FontWeight.w400)
+                                  : userFollowers.followers
+                                          .contains(AuthRepository.readid())
+                                      ? Theme.of(context).textTheme.titleSmall
+                                      : Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w400))),
+                    ),
                   ),
                 ],
               ),

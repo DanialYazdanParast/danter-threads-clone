@@ -3,7 +3,6 @@ import 'package:danter/data/model/follow.dart';
 
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/core/util/exceptions.dart';
-import 'package:equatable/equatable.dart';
 
 part 'followers_event.dart';
 part 'followers_state.dart';

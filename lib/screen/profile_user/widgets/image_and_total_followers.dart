@@ -1,6 +1,7 @@
 import 'package:danter/core/widgets/photo_user_followers.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/screen/followers/screens/followers_screen.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:flutter/material.dart';
 
 class ImageAndTotalFollowers extends StatelessWidget {
@@ -17,8 +18,11 @@ class ImageAndTotalFollowers extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+        Navigator.of(context,
+                rootNavigator: RootScreen.isMobile(context) ? true : false)
+            .push(MaterialPageRoute(
           builder: (context) => FollowersScreen(
+            namePage: 'ProfileUser',
             userid: user.id,
             username: user.username,
           ),

@@ -1,5 +1,6 @@
 import 'package:danter/core/constants/custom_colors.dart';
 import 'package:danter/screen/edit_profile/bloc/edit_profile_bloc.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,10 +53,10 @@ class _EditScreenFildState extends State<EditScreenFild> {
                     .add(
                         ChengEditProfileEvent(
                             bio: widget.nameFild == 'Bio'
-                                ? controllerbio.text
+                                ? controllerbio.text.trim()
                                 : widget.bio,
                             name: widget.nameFild != 'Bio'
-                                ? controllername.text
+                                ? controllername.text.trim()
                                 : widget.name));
                 Navigator.pop(context);
               }
@@ -81,7 +82,13 @@ class _EditScreenFildState extends State<EditScreenFild> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.only(
+            left: !RootScreen.isMobile(context)
+                ? MediaQuery.of(context).size.width * 0.2
+                : 20,
+            right: !RootScreen.isMobile(context)
+                ? MediaQuery.of(context).size.width * 0.2
+                : 20),
         child: Container(
           decoration: BoxDecoration(
               color: themeData.scaffoldBackgroundColor,
@@ -139,6 +146,7 @@ class _EditScreenFildState extends State<EditScreenFild> {
                       autofocus: true,
                       minLines: 3,
                       maxLines: 50,
+                      maxLength: widget.nameFild == 'Bio' ? 100 : 30,
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.titleMedium,
                       decoration: InputDecoration(

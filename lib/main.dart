@@ -1,23 +1,30 @@
+import 'dart:io';
+
 import 'package:danter/core/constants/theme.dart';
-import 'package:danter/data/datasource/messages_datasource.dart';
-import 'package:danter/data/datasource/online_user_datasource.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
-
 import 'package:danter/core/di/di.dart';
 import 'package:danter/screen/auth/screens/auth.dart';
+import 'package:danter/screen/followers/bloc/followers_bloc.dart';
+import 'package:danter/screen/likes/bloc/likes_bloc.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 import 'package:danter/screen/root/screens/root.dart';
 import 'package:danter/screen/settings/cubit/them_cubit.dart';
 import 'package:danter/config/theme/theme.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
@@ -26,11 +33,17 @@ void main() async {
   await getItInit();
   AuthRepository.loadAuthInfo();
 
+  // await windowManager.ensureInitialized();
+  if (Platform.isWindows) {
+    await windowManager.setSize(const Size(1000, 700));
+    await windowManager.setMinimumSize(const Size(400, 600));
+  }
+
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(
-      create: (context) => ThemCubit(),
-    ),
-    BlocProvider(create: (context) => ProfileBloc(locator.get()))
+    BlocProvider(create: (context) => ThemCubit()),
+    BlocProvider(create: (context) => ProfileBloc(locator.get())),
+    BlocProvider(create: (context) => FollowersBloc(locator.get())),
+    BlocProvider(create: (context) => LikesBloc(locator.get()))
   ], child: const MyApp()));
 }
 

@@ -24,9 +24,11 @@ class ImagePost extends StatelessWidget {
             padding: EdgeInsets.only(right: 10, left: leftpading, bottom: 16),
             child: Container(
               constraints: BoxConstraints(
-                  maxHeight: 266,
-                  minHeight: 266,
-                  minWidth: MediaQuery.of(context).size.width),
+                maxHeight: 350,
+                minHeight: 350,
+                minWidth: MediaQuery.of(context).size.width,
+                //    maxWidth: 266
+              ),
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context, rootNavigator: true)

@@ -1,10 +1,19 @@
 import 'package:danter/core/constants/custom_colors.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:flutter/material.dart';
 
-SnackBar snackBarApp(ThemeData themeData, String text, double bottom) {
+SnackBar snackBarApp(
+    ThemeData themeData, String text, double bottom, BuildContext context) {
   return SnackBar(
     backgroundColor: DarkThemeColors.onbackground.withOpacity(0.9),
-    margin: EdgeInsets.only(bottom: bottom, left: 15, right: 15),
+    margin: EdgeInsets.only(
+        bottom: bottom,
+        left: !RootScreen.isMobile(context)
+            ? MediaQuery.of(context).size.width * 0.2
+            : 15,
+        right: !RootScreen.isMobile(context)
+            ? MediaQuery.of(context).size.width * 0.2
+            : 0),
     padding: const EdgeInsets.symmetric(
       horizontal: 10,
     ),

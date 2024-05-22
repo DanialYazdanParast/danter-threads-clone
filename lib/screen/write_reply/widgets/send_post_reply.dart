@@ -27,7 +27,7 @@ class SendPostReply extends StatelessWidget {
             VariableConstants.selectedImage!.isNotEmpty) {
           BlocProvider.of<WriteReplyBloc>(context).add(WriteReplySendPostEvent(
               user: AuthRepository.readid(),
-              text: _controller.text,
+              text: _controller.text.trim(),
               postid: postEntity.id,
               image: VariableConstants.selectedImage!));
         }

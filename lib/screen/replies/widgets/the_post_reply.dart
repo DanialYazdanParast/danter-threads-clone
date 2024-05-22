@@ -1,4 +1,5 @@
 import 'package:danter/core/extensions/global_extensions.dart';
+import 'package:danter/core/widgets/bottom_sheet_custom.dart';
 import 'package:danter/core/widgets/custom_alert_dialog.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/image_user_post.dart';
@@ -11,6 +12,7 @@ import 'package:danter/screen/likes/screens/likes_screen.dart';
 import 'package:danter/screen/profile/screens/profile_screen.dart';
 import 'package:danter/screen/profile_user/screens/profile_user.dart';
 import 'package:danter/screen/replies/bloc/reply_bloc.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -148,103 +150,42 @@ class ThePostReply extends StatelessWidget {
                                         borderRadius: BorderRadius.vertical(
                                             top: Radius.circular(20))),
                                     builder: (context3) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Container(
-                                            height: 4,
-                                            width: 32,
-                                            decoration: BoxDecoration(
-                                                color: themeData
-                                                    .colorScheme.secondary,
-                                                borderRadius:
-                                                    BorderRadius.circular(30)),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 50, bottom: 24),
-                                            child: InkWell(
-                                              onTap: () {
-                                                showDialog(
-                                                  useRootNavigator: true,
-                                                  barrierDismissible: false,
-                                                  barrierColor: themeData
-                                                      .colorScheme.onSecondary
-                                                      .withOpacity(0.1),
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return CustomAlertDialog(
-                                                      button: 'Delete',
-                                                      title:
-                                                          "Delete this Post?",
-                                                      description: "",
-                                                      onTabRemove: () {
-                                                        BlocProvider.of<
-                                                                    ReplyBloc>(
-                                                                context2)
-                                                            .add(DeletRplyPostEvent(
-                                                                postid:
-                                                                    postEntity
-                                                                        .id));
+                                      return BottomSheetCustom(onTap: () {
+                                        showDialog(
+                                          useRootNavigator: true,
+                                          barrierDismissible: false,
+                                          barrierColor: themeData
+                                              .colorScheme.onSecondary
+                                              .withOpacity(0.1),
+                                          context: context,
+                                          builder: (context) {
+                                            return CustomAlertDialog(
+                                              button: 'Delete',
+                                              title: "Delete this Post?",
+                                              description: "",
+                                              onTabRemove: () {
+                                                BlocProvider.of<ReplyBloc>(
+                                                        context2)
+                                                    .add(DeletRplyPostEvent(
+                                                        postid: postEntity.id));
 
-                                                        Navigator.pop(context);
+                                                Navigator.pop(context);
 
-                                                        Navigator.pop(context3);
+                                                Navigator.pop(context3);
 
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          snackBarApp(
-                                                              themeData,
-                                                              'با موفقیت حذف شد',
-                                                              55),
-                                                        );
-                                                      },
-                                                    );
-                                                  },
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  snackBarApp(
+                                                      themeData,
+                                                      'با موفقیت حذف شد',
+                                                      55,
+                                                      context),
                                                 );
                                               },
-                                              child: Container(
-                                                margin: const EdgeInsets.only(
-                                                    left: 20, right: 20),
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                    color: themeData.colorScheme
-                                                        .onBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 15),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Center(
-                                                          child: Text(
-                                                        'Delete',
-                                                        style: TextStyle(
-                                                            //        fontWeight: FontWeight.bold,
-                                                            color: Colors.red,
-                                                            fontSize: 18),
-                                                      )),
-                                                      Icon(
-                                                        Icons.delete_outline,
-                                                        color: Colors.red,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
+                                            );
+                                          },
+                                        );
+                                      });
                                     },
                                   );
                                 }
@@ -382,7 +323,11 @@ class ThePostReply extends StatelessWidget {
                               const SizedBox(width: 6),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context, rootNavigator: true)
+                                  Navigator.of(context,
+                                          rootNavigator:
+                                              !RootScreen.isMobile(context)
+                                                  ? false
+                                                  : true)
                                       .push(MaterialPageRoute(
                                     builder: (context) => LikesScreen(
                                       idpostEntity: postEntity.id,

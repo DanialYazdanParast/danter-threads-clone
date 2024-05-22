@@ -74,23 +74,30 @@ class SearchDetailScreen extends StatelessWidget {
                   const Spacer(),
                   Visibility(
                     visible: user.id != AuthRepository.readid(),
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: const Size(120, 35),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                    child: SizedBox(
+                      height: 35,
+                      width: 130,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
-                      ),
-                      onPressed: onTabFollow,
-                      child: Text(
-                        user.followers.contains(AuthRepository.readid())
-                            ? 'Following'
-                            : 'Follow',
-                        style: user.followers.contains(AuthRepository.readid())
-                            ? Theme.of(context).textTheme.titleSmall
-                            : Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                ),
+                        onPressed: onTabFollow,
+                        child: Text(
+                          user.followers.contains(AuthRepository.readid())
+                              ? 'Following'
+                              : 'Follow',
+                          style:
+                              user.followers.contains(AuthRepository.readid())
+                                  ? Theme.of(context).textTheme.titleSmall
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                        ),
                       ),
                     ),
                   ),

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:danter/core/util/exceptions.dart';
-import 'package:danter/data/datasource/search_user_source.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/post_repository.dart';
 import 'package:danter/data/repository/search_user_repository.dart';

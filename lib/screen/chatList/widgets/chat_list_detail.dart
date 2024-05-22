@@ -34,11 +34,8 @@ class ChatListDetail extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-               
-                   
-                   ImageUserPost(
-                        user: user, onTabNameUser: onTabProfile, size: 44),
-               
+                  ImageUserPost(
+                      user: user, onTabNameUser: onTabProfile, size: 44),
                   const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +56,7 @@ class ChatListDetail extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.6,
+                        // width: MediaQuery.of(context).size.width * 0.6,
                         child: Text(messages.text,
                             overflow: TextOverflow.fade,
                             maxLines: 1,

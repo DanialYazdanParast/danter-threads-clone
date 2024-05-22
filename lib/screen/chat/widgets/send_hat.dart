@@ -5,13 +5,25 @@ import 'package:danter/screen/chat/bloc/chat_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SendChat extends StatelessWidget {
-  SendChat({
+class SendChat extends StatefulWidget {
+  const SendChat({
     super.key,
     required this.user,
   });
-  final TextEditingController textController = TextEditingController();
   final User user;
+
+  @override
+  State<SendChat> createState() => _SendChatState();
+}
+
+class _SendChatState extends State<SendChat> {
+  final TextEditingController _textController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +34,7 @@ class SendChat extends StatelessWidget {
         child: SizedBox(
           //height: 50,
           child: TextFormField(
-              controller: textController,
+              controller: _textController,
               onChanged: (value) {},
               maxLines: 5,
               minLines: 1,
@@ -39,16 +51,16 @@ class SendChat extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 2, horizontal: 20.0),
                   suffixIcon: IconButton(
                       onPressed: () {
-                        if (textController.text != "") {
+                        if (_textController.text != "") {
                           BlocProvider.of<ChatBloc>(context).add(
                             SendChatEvent(
                                 usersend: AuthRepository.readid(),
-                                userseen: user.id,
-                                text: textController.text,
+                                userseen: widget.user.id,
+                                text: _textController.text,
                                 roomid: VariableConstants.roomid),
                           );
 
-                          textController.clear();
+                          _textController.clear();
                         }
                       },
                       icon: const Icon(

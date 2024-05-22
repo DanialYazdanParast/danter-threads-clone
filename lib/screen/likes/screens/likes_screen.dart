@@ -1,16 +1,18 @@
-import 'package:danter/core/di/di.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
 import 'package:danter/core/widgets/user_detail_follow.dart';
 import 'package:danter/screen/profile/screens/profile_screen.dart';
 import 'package:danter/core/widgets/error.dart';
 import 'package:danter/screen/profile_user/screens/profile_user.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LikesScreen extends StatefulWidget {
   final String idpostEntity;
-  const LikesScreen({super.key, required this.idpostEntity});
+  final String namePage;
+  const LikesScreen(
+      {super.key, required this.idpostEntity, this.namePage = ''});
 
   @override
   State<LikesScreen> createState() => _LikesScreenState();
@@ -18,29 +20,41 @@ class LikesScreen extends StatefulWidget {
 
 class _LikesScreenState extends State<LikesScreen> {
   @override
-  void dispose() {
-    likesBloc.close();
-    super.dispose();
+  void initState() {
+    super.initState();
+
+    BlocProvider.of<LikesBloc>(context)
+        .add(LikesStartedEvent(postId: widget.idpostEntity));
   }
 
-  final likesBloc = LikesBloc(locator.get());
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    return BlocProvider.value(
-      value: likesBloc..add(LikesStartedEvent(postId: widget.idpostEntity)),
+    return Padding(
+      padding: EdgeInsets.only(
+          top: !RootScreen.isMobile(context) && widget.namePage == '' ? 20 : 0),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Likes',
-          ),
-          bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0.0),
-              child: Divider(
-                  height: 1,
-                  color:
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-                  thickness: 0.7)),
+          automaticallyImplyLeading: widget.namePage != '' ? false : true,
+          title: widget.namePage != ''
+              ? Text(
+                  'Likes Post',
+                  style: Theme.of(context).textTheme.headlineLarge,
+                )
+              : const Text(
+                  'Likes',
+                ),
+          bottom: widget.namePage != ''
+              ? null
+              : PreferredSize(
+                  preferredSize: const Size.fromHeight(0.0),
+                  child: Divider(
+                      height: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(0.5),
+                      thickness: 0.7)),
         ),
         body: SafeArea(
           child: BlocBuilder<LikesBloc, LikesState>(
@@ -51,6 +65,7 @@ class _LikesScreenState extends State<LikesScreen> {
                   itemCount: state.user[0].user.length,
                   itemBuilder: (context, index) {
                     return UserDetailFollow(
+                      namePage: 'LikesScreen',
                       onTabFollow: () {
                         if (!state.user[0].user[index].followers
                             .contains(AuthRepository.readid())) {
@@ -88,12 +103,9 @@ class _LikesScreenState extends State<LikesScreen> {
                           ).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return BlocProvider.value(
-                                  value: likesBloc,
-                                  child: ProfileUser(
-                                    user: state.user[0].user[index],
-                                    idpostEntity: widget.idpostEntity,
-                                  ),
+                                return ProfileUser(
+                                  user: state.user[0].user[index],
+                                  idpostEntity: widget.idpostEntity,
                                 );
                               },
                             ),

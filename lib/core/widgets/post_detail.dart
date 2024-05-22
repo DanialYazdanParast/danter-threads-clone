@@ -9,6 +9,7 @@ import 'package:danter/screen/replies/screens/replies_screen.dart';
 import 'package:danter/core/widgets/row_image_name_text.dart';
 import 'package:danter/core/widgets/image_post.dart';
 import 'package:danter/core/widgets/photo_user_followers.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:danter/screen/write_reply/screens/write_reply.dart';
 import 'package:flutter/material.dart';
 
@@ -31,12 +32,23 @@ class PostDetail extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
     return GestureDetector(
       onTap: () {
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-          builder: (context) => RepliesScreen(
-            pagename: namepage,
-            postEntity: postEntity,
-          ),
-        ));
+        if (!RootScreen.isMobile(context)) {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(
+            builder: (context) => RepliesScreen(
+              pagename: namepage,
+              postEntity: postEntity,
+            ),
+          ));
+        } else {
+          Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (context) => RepliesScreen(
+              pagename: namepage,
+              postEntity: postEntity,
+            ),
+          ));
+        }
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -86,7 +98,10 @@ class PostDetail extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context, rootNavigator: true)
+                          Navigator.of(context,
+                                  rootNavigator: RootScreen.isMobile(context)
+                                      ? true
+                                      : false)
                               .push(MaterialPageRoute(
                             builder: (context) => WriteReply(
                                 postEntity: postEntity, namePage: ''),

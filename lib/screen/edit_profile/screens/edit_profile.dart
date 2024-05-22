@@ -8,6 +8,7 @@ import 'package:danter/screen/edit_profile/screens/edit_fild.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
 
 import 'package:danter/core/widgets/image.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -122,7 +123,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
             ),
             body: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
+              padding: EdgeInsets.only(
+                  left: !RootScreen.isMobile(context)
+                      ? MediaQuery.of(context).size.width * 0.2
+                      : 20,
+                  right: !RootScreen.isMobile(context)
+                      ? MediaQuery.of(context).size.width * 0.2
+                      : 20),
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(

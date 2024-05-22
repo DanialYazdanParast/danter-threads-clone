@@ -27,6 +27,13 @@ class MyAppThemeConfig {
     final defaultTextStyle = GoogleFonts.vazirmatn();
     // TextStyle(fontFamily: 'Shabnam', color: primaryTextColor);
     return ThemeData(
+      scrollbarTheme: ScrollbarThemeData(
+        thumbColor:
+            MaterialStateProperty.all(secondaryTextColor.withOpacity(0.5)),
+        thickness: MaterialStateProperty.all(6),
+        radius: const Radius.circular(15),
+      ),
+
       //-----------------------------------
 
       scaffoldBackgroundColor: primaryColor,
@@ -99,6 +106,19 @@ class MyAppThemeConfig {
       ),
 
       //-----------------------------------
+      tabBarTheme: TabBarTheme(
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorColor: primaryTextColor,
+        labelColor: primaryTextColor,
+        unselectedLabelColor: secondaryColor,
+        labelStyle: defaultTextStyle.copyWith(
+            height: 0,
+            fontSize: 16,
+            color: primaryTextColor,
+            fontWeight: FontWeight.w700),
+      ),
+
+      //-----------------------------------
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
 
@@ -121,6 +141,12 @@ class MyAppThemeConfig {
     final defaultTextStyle = GoogleFonts.vazirmatn();
     return ThemeData(
       //-----------------------------------
+      scrollbarTheme: ScrollbarThemeData(
+        thumbColor:
+            MaterialStateProperty.all(secondaryTextColor.withOpacity(0.5)),
+        thickness: MaterialStateProperty.all(6),
+        radius: const Radius.circular(15),
+      ),
 
       scaffoldBackgroundColor: primaryColor,
 
@@ -188,6 +214,19 @@ class MyAppThemeConfig {
         labelLarge: defaultTextStyle.copyWith(
             fontSize: 24, color: primaryTextColor, fontWeight: FontWeight.w500),
       ),
+      //-----------------------------------
+      tabBarTheme: TabBarTheme(
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorColor: primaryTextColor,
+        labelColor: primaryTextColor,
+        unselectedLabelColor: secondaryColor,
+        labelStyle: defaultTextStyle.copyWith(
+            height: 0,
+            fontSize: 16,
+            color: primaryTextColor,
+            fontWeight: FontWeight.w700),
+      ),
+
       //-----------------------------------
 
       splashColor: Colors.transparent,
