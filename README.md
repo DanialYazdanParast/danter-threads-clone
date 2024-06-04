@@ -47,10 +47,10 @@ https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7
         <tr>
         <td>Android</td>
             <td>
-                <a href="https://github.com/DanialYazdanParast/danter/releases/download/v1.0.0%2B1/danter-release.apk"><img src="https://img.shields.io/badge/APK-Universal-044d29.svg?logo=android"></a><br>
-                <a href="https://github.com/DanialYazdanParast/danter/releases/download/v1.0.0%2B1/danter-arm64-v8a-release.apk"><img src="https://img.shields.io/badge/APK-ARMv8-168039.svg?logo=android"></a><br>
-                <a href="https://github.com/DanialYazdanParast/danter/releases/download/v1.0.0%2B1/danter-armeabi-v7a-release.apk"><img src="https://img.shields.io/badge/APK-ARMv7-45bf55.svg?logo=android"></a><br>
-                <a href="https://github.com/DanialYazdanParast/danter/releases/download/v1.0.0%2B1/danter-x86_64-release.apk"><img src="https://img.shields.io/badge/APK-x64-96ed89.svg?logo=android"></a>
+                <a href="https://github.com/DanialYazdanParast/danter-threads-clone/releases/download/v1.0.0%2B1/danter-app-release.apk"><img src="https://img.shields.io/badge/APK-Universal-044d29.svg?logo=android"></a><br>
+                <a href="https://github.com/DanialYazdanParast/danter-threads-clone/releases/download/v1.0.0%2B1/danter-app-arm64-v8a-release.apk"><img src="https://img.shields.io/badge/APK-ARMv8-168039.svg?logo=android"></a><br>
+                <a href="https://github.com/DanialYazdanParast/danter-threads-clone/releases/download/v1.0.0%2B1/danter-app-armeabi-v7a-release.apk"><img src="https://img.shields.io/badge/APK-ARMv7-45bf55.svg?logo=android"></a><br>
+                <a href="https://github.com/DanialYazdanParast/danter-threads-clone/releases/download/v1.0.0%2B1/danter-app-x86_64-release.apk"><img src="https://img.shields.io/badge/APK-x64-96ed89.svg?logo=android"></a>
             </td>
         </tr> 
 </table>
