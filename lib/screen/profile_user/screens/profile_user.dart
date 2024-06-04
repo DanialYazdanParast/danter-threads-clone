@@ -29,90 +29,82 @@ class ProfileUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    return Padding(
-      padding: EdgeInsets.only(top: !RootScreen.isMobile(context) ? 20 : 0),
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(55),
-          child: AppBar(
-            actions: [
-              SizedBox(
-                height: 24,
-                width: 24,
-                child: Image.asset(
-                  'assets/images/more.png',
-                  color: themeData.colorScheme.onPrimary,
+    return Container(
+      color: themeData.scaffoldBackgroundColor,
+      child: Padding(
+        padding: EdgeInsets.only(top: !RootScreen.isMobile(context) ? 20 : 0),
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(55),
+            child: AppBar(
+              actions: [
+                SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: Image.asset(
+                    'assets/images/more.png',
+                    color: themeData.colorScheme.onPrimary,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-            ],
+                const SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
           ),
-        ),
-        body: BlocProvider(
-          create: (context) => ProfileUserBloc(locator.get())
-            ..add(ProfileUserStartedEvent(
-                myuserId: AuthRepository.readid(), user: user.id)),
-          child: SafeArea(
-            child: BlocBuilder<ProfileUserBloc, ProfileUserState>(
-              builder: (context, state) {
-                if (state is ProfileUserSuccesState) {
-                  return DefaultTabController(
-                    length: 2,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: NestedScrollView(
-                            headerSliverBuilder: (context, innerBoxIsScrolled) {
-                              return [
-                                SliverVisibility(
-                                  visible: RootScreen.isMobile(context),
-                                  sliver: SliverToBoxAdapter(
-                                    child: SizedBox(
-                                      width: 360,
-                                      child: HeaderUser(
-                                          state: state,
-                                          user: user,
-                                          userid: userid,
-                                          idpostEntity: idpostEntity,
-                                          search: search,
-                                          searchuser: searchuser),
+          body: BlocProvider(
+            create: (context) => ProfileUserBloc(locator.get())
+              ..add(ProfileUserStartedEvent(
+                  myuserId: AuthRepository.readid(), user: user.id)),
+            child: SafeArea(
+              child: BlocBuilder<ProfileUserBloc, ProfileUserState>(
+                builder: (context, state) {
+                  if (state is ProfileUserSuccesState) {
+                    return DefaultTabController(
+                      length: 2,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: NestedScrollView(
+                              headerSliverBuilder:
+                                  (context, innerBoxIsScrolled) {
+                                return [
+                                  SliverVisibility(
+                                    visible: RootScreen.isMobile(context),
+                                    sliver: SliverToBoxAdapter(
+                                      child: SizedBox(
+                                        width: 360,
+                                        child: HeaderUser(
+                                            state: state,
+                                            user: user,
+                                            userid: userid,
+                                            idpostEntity: idpostEntity,
+                                            search: search,
+                                            searchuser: searchuser),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SliverPersistentHeader(
-                                  delegate: TabBarViewDelegate(
-                                    const TabBar(
-                                      indicatorPadding:
-                                          EdgeInsets.only(left: 20, right: 20),
-                                      indicatorWeight: 1,
-                                      tabs: [
-                                        Tab(icon: Text('Danter')),
-                                        Tab(icon: Text('Replies')),
-                                      ],
+                                  SliverPersistentHeader(
+                                    delegate: TabBarViewDelegate(
+                                      const TabBar(
+                                        indicatorPadding: EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        indicatorWeight: 1,
+                                        tabs: [
+                                          Tab(icon: Text('Danter')),
+                                          Tab(icon: Text('Replies')),
+                                        ],
+                                      ),
                                     ),
+                                    pinned: true,
+                                    floating: false,
                                   ),
-                                  pinned: true,
-                                  floating: false,
-                                ),
-                                const SliverPadding(
-                                    padding: EdgeInsets.only(top: 10))
-                              ];
-                            },
-                            body: TabBarView(children: [
-                              RefreshIndicator(
-                                onRefresh: () async {
-                                  BlocProvider.of<ProfileUserBloc>(context).add(
-                                      ProfileUserRefreshEvent(
-                                          myuserId: AuthRepository.readid(),
-                                          user: user.id));
-                                  await Future.delayed(
-                                      const Duration(seconds: 2));
-                                },
-                                child: DanterProfileUser(post: state.post),
-                              ),
-                              RefreshIndicator(
+                                  const SliverPadding(
+                                      padding: EdgeInsets.only(top: 10))
+                                ];
+                              },
+                              body: TabBarView(children: [
+                                RefreshIndicator(
                                   onRefresh: () async {
                                     BlocProvider.of<ProfileUserBloc>(context)
                                         .add(ProfileUserRefreshEvent(
@@ -121,45 +113,57 @@ class ProfileUser extends StatelessWidget {
                                     await Future.delayed(
                                         const Duration(seconds: 2));
                                   },
-                                  child: RepliesPage(reply: state.reply)),
-                            ]),
+                                  child: DanterProfileUser(post: state.post),
+                                ),
+                                RefreshIndicator(
+                                    onRefresh: () async {
+                                      BlocProvider.of<ProfileUserBloc>(context)
+                                          .add(ProfileUserRefreshEvent(
+                                              myuserId: AuthRepository.readid(),
+                                              user: user.id));
+                                      await Future.delayed(
+                                          const Duration(seconds: 2));
+                                    },
+                                    child: RepliesPage(reply: state.reply)),
+                              ]),
+                            ),
                           ),
-                        ),
-                        Visibility(
-                          visible: !RootScreen.isMobile(context),
-                          child: SizedBox(
-                            width: 360,
-                            child: HeaderUser(
-                                state: state,
-                                user: user,
-                                userid: userid,
-                                idpostEntity: idpostEntity,
-                                search: search,
-                                searchuser: searchuser),
+                          Visibility(
+                            visible: !RootScreen.isMobile(context),
+                            child: SizedBox(
+                              width: 360,
+                              child: HeaderUser(
+                                  state: state,
+                                  user: user,
+                                  userid: userid,
+                                  idpostEntity: idpostEntity,
+                                  search: search,
+                                  searchuser: searchuser),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (state is ProfileUserLodingState) {
-                  return LodingProfileUser(
-                    user: user,
-                  );
-                } else if (state is ProfileUserErrorState) {
-                  return ErrorProfileUser(
-                    user: user,
-                    exception: state.exception,
-                    onpressed: () {
-                      BlocProvider.of<ProfileUserBloc>(context).add(
-                          ProfileUserRefreshEvent(
-                              myuserId: AuthRepository.readid(),
-                              user: user.id));
-                    },
-                  );
-                } else {
-                  throw Exception('state is not supported ');
-                }
-              },
+                        ],
+                      ),
+                    );
+                  } else if (state is ProfileUserLodingState) {
+                    return LodingProfileUser(
+                      user: user,
+                    );
+                  } else if (state is ProfileUserErrorState) {
+                    return ErrorProfileUser(
+                      user: user,
+                      exception: state.exception,
+                      onpressed: () {
+                        BlocProvider.of<ProfileUserBloc>(context).add(
+                            ProfileUserRefreshEvent(
+                                myuserId: AuthRepository.readid(),
+                                user: user.id));
+                      },
+                    );
+                  } else {
+                    throw Exception('state is not supported ');
+                  }
+                },
+              ),
             ),
           ),
         ),

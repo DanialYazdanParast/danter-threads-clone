@@ -3,27 +3,27 @@ import 'package:danter/core/widgets/image_user_post.dart';
 import 'package:danter/data/model/messageslist.dart';
 import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
+import 'package:danter/screen/root/screens/root.dart';
 import 'package:flutter/material.dart';
 
 class ChatListDetail extends StatelessWidget {
   final MessagesList messages;
-  final GestureTapCallback onTabProfile;
-  final GestureTapCallback onTabFollow;
-  const ChatListDetail({
+
+  final GestureTapCallback onTabuser;
+  ChatListDetail({
     super.key,
-    required this.onTabProfile,
-    required this.onTabFollow,
     required this.messages,
+    required this.onTabuser,
   });
+
+  late final User user = messages.usersend.id == AuthRepository.readid()
+      ? messages.usersseen
+      : messages.usersend;
 
   @override
   Widget build(BuildContext context) {
-    final User user = messages.usersend.id == AuthRepository.readid()
-        ? messages.usersseen
-        : messages.usersend;
-
     return GestureDetector(
-      onTap: onTabProfile,
+      onTap: onTabuser,
       child: Container(
         width: MediaQuery.of(context).size.width,
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -34,8 +34,7 @@ class ChatListDetail extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ImageUserPost(
-                      user: user, onTabNameUser: onTabProfile, size: 44),
+                  ImageUserPost(user: user, onTabNameUser: () {}, size: 44),
                   const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +55,11 @@ class ChatListDetail extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        // width: MediaQuery.of(context).size.width * 0.6,
+                        width: RootScreen.isDesktop(context)
+                            ? 170
+                            : RootScreen.isTablet(context)
+                                ? 120
+                                : MediaQuery.of(context).size.width * 0.6,
                         child: Text(messages.text,
                             overflow: TextOverflow.fade,
                             maxLines: 1,

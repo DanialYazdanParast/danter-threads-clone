@@ -44,7 +44,10 @@ class RepliseDtaile extends StatelessWidget {
             onTabLike: onTabLikeReplyTo,
             onTabNameUser: () {
               if (postEntity.replyTo.user.id == AuthRepository.readid()) {
-                Navigator.of(context, rootNavigator: true).push(
+                Navigator.of(context,
+                        rootNavigator:
+                            !RootScreen.isMobile(context) ? false : true)
+                    .push(
                   MaterialPageRoute(
                     builder: (context) {
                       return const ProfileScreen();
@@ -52,7 +55,10 @@ class RepliseDtaile extends StatelessWidget {
                   ),
                 );
               } else {
-                Navigator.of(context, rootNavigator: true).push(
+                Navigator.of(context,
+                        rootNavigator:
+                            !RootScreen.isMobile(context) ? false : true)
+                    .push(
                   MaterialPageRoute(
                     builder: (context) {
                       return ProfileUser(
@@ -76,7 +82,9 @@ class RepliseDtaile extends StatelessWidget {
                   ),
                 ));
               } else {
-                Navigator.of(context, rootNavigator: true)
+                Navigator.of(context,
+                        rootNavigator:
+                            !RootScreen.isMobile(context) ? false : true)
                     .push(MaterialPageRoute(
                   builder: (context) => RepliesScreen(
                     pagename: namepage,
@@ -91,7 +99,10 @@ class RepliseDtaile extends StatelessWidget {
             onTabLike: onTabLikeMyReply,
             onTabNameUser: () {
               if (postEntity.myReply.user.id == AuthRepository.readid()) {
-                Navigator.of(context, rootNavigator: true).push(
+                Navigator.of(context,
+                        rootNavigator:
+                            !RootScreen.isMobile(context) ? false : true)
+                    .push(
                   MaterialPageRoute(
                     builder: (context) {
                       return const ProfileScreen();
@@ -99,7 +110,10 @@ class RepliseDtaile extends StatelessWidget {
                   ),
                 );
               } else {
-                Navigator.of(context, rootNavigator: true).push(
+                Navigator.of(context,
+                        rootNavigator:
+                            !RootScreen.isMobile(context) ? false : true)
+                    .push(
                   MaterialPageRoute(
                     builder: (context) {
                       return ProfileUser(
@@ -123,7 +137,9 @@ class RepliseDtaile extends StatelessWidget {
                   ),
                 ));
               } else {
-                Navigator.of(context, rootNavigator: true)
+                Navigator.of(context,
+                        rootNavigator:
+                            !RootScreen.isMobile(context) ? false : true)
                     .push(MaterialPageRoute(
                   builder: (context) => RepliesScreen(
                     pagename: namepage,
@@ -420,7 +436,10 @@ class ReplyTo extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context, rootNavigator: true)
+                          Navigator.of(context,
+                                  rootNavigator: !RootScreen.isMobile(context)
+                                      ? false
+                                      : true)
                               .push(MaterialPageRoute(
                             builder: (context) => WriteReply(
                                 postEntity: postEntity, namePage: ''),

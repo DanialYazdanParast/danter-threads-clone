@@ -5,6 +5,9 @@ import 'package:danter/data/model/user.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/core/di/di.dart';
 import 'package:danter/screen/auth/screens/auth.dart';
+import 'package:danter/screen/chat/bloc/chat_bloc.dart';
+import 'package:danter/screen/chatList/bloc/messages_bloc.dart';
+import 'package:danter/screen/chatList/bloc_chat_esktop/bloc/chat_desktop_bloc.dart';
 import 'package:danter/screen/followers/bloc/followers_bloc.dart';
 import 'package:danter/screen/likes/bloc/likes_bloc.dart';
 import 'package:danter/screen/profile/bloc/profile_bloc.dart';
@@ -43,7 +46,10 @@ void main() async {
     BlocProvider(create: (context) => ThemCubit()),
     BlocProvider(create: (context) => ProfileBloc(locator.get())),
     BlocProvider(create: (context) => FollowersBloc(locator.get())),
-    BlocProvider(create: (context) => LikesBloc(locator.get()))
+    BlocProvider(create: (context) => LikesBloc(locator.get())),
+    BlocProvider(create: (context) => ChatBloc(locator.get())),
+    BlocProvider(create: (context) => MessagesBloc(locator.get())),
+    BlocProvider(create: (context) => ChatDesktopBloc()),
   ], child: const MyApp()));
 }
 

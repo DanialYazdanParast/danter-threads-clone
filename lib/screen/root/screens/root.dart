@@ -249,8 +249,8 @@ class _RootScreenState extends State<RootScreen> {
                           ),
                           label: '',
                           selectedIcon: SizedBox(
-                            height: 23,
-                            width: 23,
+                            height: 32,
+                            width: 32,
                             child: Image.asset(
                                 'assets/images/account-active.png',
                                 color: themeData.colorScheme.onPrimary),

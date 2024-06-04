@@ -50,22 +50,23 @@ class _SendChatState extends State<SendChat> {
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 2, horizontal: 20.0),
                   suffixIcon: IconButton(
-                      onPressed: () {
-                        if (_textController.text != "") {
-                          BlocProvider.of<ChatBloc>(context).add(
-                            SendChatEvent(
-                                usersend: AuthRepository.readid(),
-                                userseen: widget.user.id,
-                                text: _textController.text,
-                                roomid: VariableConstants.roomid),
-                          );
+                    onPressed: () {
+                      if (_textController.text != "") {
+                        BlocProvider.of<ChatBloc>(context).add(
+                          SendChatEvent(
+                              usersend: AuthRepository.readid(),
+                              userseen: widget.user.id,
+                              text: _textController.text,
+                              roomid: VariableConstants.roomid),
+                        );
 
-                          _textController.clear();
-                        }
-                      },
-                      icon: const Icon(
-                        Icons.send,
-                      )),
+                        _textController.clear();
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.send,
+                    ),
+                  ),
                   fillColor: Theme.of(context).colorScheme.onBackground)),
         ),
       ),

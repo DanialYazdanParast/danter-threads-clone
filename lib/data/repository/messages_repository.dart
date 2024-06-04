@@ -15,7 +15,7 @@ abstract class IchatRepository {
   bool get chatuseronline;
   //---------------------------
   Future<void> getListMessages(String userId);
-  Future<void> getchatuser(String myuserid, String useridchat);
+  Future<List<MessagesList>> getchatuser(String myuserid, String useridchat);
   Future<void> addChat(
       String usersend, String userseen, String text, String roomid);
   Future<String> addRooomId(String user1, String user2);
@@ -72,7 +72,7 @@ class ChatRepository implements IchatRepository {
   Stream<bool> get getStreamuseronline => dataSource.getStreamuseronline;
 
   @override
-  Future<void> getchatuser(String myuserid, String useridchat) {
+  Future<List<MessagesList>> getchatuser(String myuserid, String useridchat) {
     return dataSource.getchatuser(myuserid, useridchat);
   }
 

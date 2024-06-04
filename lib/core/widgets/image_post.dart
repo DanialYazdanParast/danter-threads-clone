@@ -24,8 +24,8 @@ class ImagePost extends StatelessWidget {
             padding: EdgeInsets.only(right: 10, left: leftpading, bottom: 16),
             child: Container(
               constraints: BoxConstraints(
-                maxHeight: 350,
-                minHeight: 350,
+                maxHeight: 260,
+                minHeight: 260,
                 minWidth: MediaQuery.of(context).size.width,
                 //    maxWidth: 266
               ),

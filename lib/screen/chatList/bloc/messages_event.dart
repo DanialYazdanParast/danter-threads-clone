@@ -11,9 +11,3 @@ class MessagesInitilzeEvent extends MessagesEvent {
 }
 
 class MessagesSuccesEvent extends MessagesEvent {}
-
-class MessagesSelectionEvent extends MessagesEvent {
-  final User user;
-
-  MessagesSelectionEvent({required this.user});
-}

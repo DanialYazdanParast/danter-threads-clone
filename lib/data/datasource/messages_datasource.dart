@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:danter/core/util/response_validator.dart';
 import 'package:danter/data/model/messageslist.dart';
 import 'package:dio/dio.dart';
 import 'package:pocketbase/pocketbase.dart';
@@ -17,7 +18,7 @@ abstract class IchatDataSource {
   bool get chatuseronline;
   //---------------------------
   Future<void> getListMessages(String userId);
-  Future<void> getchatuser(String myuserid, String useridchat);
+  Future<List<MessagesList>> getchatuser(String myuserid, String useridchat);
   Future<void> addChat(
       String usersend, String userseen, String text, String roomid);
   Future<String> addRooomId(String user1, String user2);
@@ -27,7 +28,7 @@ abstract class IchatDataSource {
   void closeMessagesList();
 }
 
-class ChatRemoteDataSource extends IchatDataSource {
+class ChatRemoteDataSource with HttpResponseValidat implements IchatDataSource {
   final Dio dio;
   final PocketBase pb;
   ChatRemoteDataSource(this.dio, this.pb);
@@ -88,7 +89,8 @@ class ChatRemoteDataSource extends IchatDataSource {
   }
 
   @override
-  Future<void> getchatuser(String myuserid, String useridchat) async {
+  Future<List<MessagesList>> getchatuser(
+      String myuserid, String useridchat) async {
     Map<String, dynamic> qParams = {
       'filter':
           'usersend="$myuserid"&& usersseen="$useridchat" ||usersend="$useridchat"&& usersseen="$myuserid"',
@@ -98,13 +100,17 @@ class ChatRemoteDataSource extends IchatDataSource {
     };
     var response =
         await dio.get('collections/chat/records', queryParameters: qParams);
-    _chatuser = response.data['items']
+
+    // _chatuser = await response.data['items']
+    //     .map<MessagesList>((jsonObject) => MessagesList.fromMapson(jsonObject))
+    //     .toList();
+
+    // if (!_streamControllerChatuser.isClosed) {
+    //   _streamControllerChatuser.add(true);
+    // }
+    return response.data['items']
         .map<MessagesList>((jsonObject) => MessagesList.fromMapson(jsonObject))
         .toList();
-
-    if (!_streamControllerChatuser.isClosed) {
-      _streamControllerChatuser.sink.add(true);
-    }
   }
 
   @override
@@ -112,7 +118,10 @@ class ChatRemoteDataSource extends IchatDataSource {
     pb.collection('chat').subscribe(
       '*',
       (e) {
-        getchatuser(myuserid, useridchat);
+        if (!_streamControllerChatuser.isClosed) {
+          _streamControllerChatuser.add(true);
+        }
+        //  getchatuser(myuserid, useridchat);
       },
     );
   }
@@ -126,7 +135,9 @@ class ChatRemoteDataSource extends IchatDataSource {
       "text": text,
       "roomid": roomid
     });
-    await dio.post('collections/chat/records', data: formData);
+    var response = await dio.post('collections/chat/records', data: formData);
+
+    validatResponse(response);
   }
 
   @override
@@ -136,6 +147,7 @@ class ChatRemoteDataSource extends IchatDataSource {
       "user2": user2,
     });
     var response = await dio.post('collections/roomid/records', data: formData);
+    validatResponse(response);
     return response.data['id'];
   }
 

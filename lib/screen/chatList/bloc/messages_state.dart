@@ -13,10 +13,3 @@ class MessagesResponseState extends MessagesState {
     this.response,
   );
 }
-
-class MessagesSelectionState extends MessagesState {
-  final User user;
-  MessagesSelectionState(
-    this.user,
-  );
-}
