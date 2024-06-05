@@ -5,7 +5,20 @@ Danter is a Threads clone with `real-time chat`, developed using the `Flutter fr
 ![danter-des](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/24c6331b-f896-4d63-9941-e9e1e4fc8f10)
 
 
+
+
+## Danter app Mobile video 
 https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7-b004-be38597dd8cb
+
+## Danter app desktop video 
+https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/dc68ab33-8d84-4de6-9808-9fe401dcd4c4
+
+
+
+
+
+
+
 
 ## 🚀 Main features
 ✈️ Multi-platform Android, Windows, Web 
