@@ -1,4 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:danter/core/di/di.dart';
 import 'package:danter/data/datasource/online_user_datasource.dart';
 import 'package:danter/data/repository/auth_repository.dart';
 import 'package:danter/screen/bottom_navigattion/screens/bottom_navigattion.dart';
@@ -43,10 +44,11 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   @override
   void initState() {
-    OnlineUserUatasource(userid: AuthRepository.readid()).online();
+    OnlineUserUatasource(userid: AuthRepository.readid(), dio: locator.get())
+        .online();
 
-    WidgetsBinding.instance
-        .addObserver(OnlineUserUatasource(userid: AuthRepository.readid()));
+    WidgetsBinding.instance.addObserver(OnlineUserUatasource(
+        userid: AuthRepository.readid(), dio: locator.get()));
     super.initState();
   }
 

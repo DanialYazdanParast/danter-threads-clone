@@ -1,3 +1,5 @@
+import 'package:danter/core/constants/variable_onstants.dart';
+
 class AuthInfo {
   final String username;
   final String name;
@@ -30,7 +32,7 @@ class AuthInfo {
         bio = json['record']['bio'],
         collectionId = json['record']['collectionId'],
         avatar =
-            'https://dan.chbk.run/api/files/${json['record']['collectionName']}/${json['record']['id']}/${json['record']['avatar']}',
+            '${VariableConstants.domain}/api/files/${json['record']['collectionName']}/${json['record']['id']}/${json['record']['avatar']}',
         avatarchek = json['record']['avatar'],
         token = json['token'],
         tik = json['record']['tik'];

@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class OnlineUserUatasource extends WidgetsBindingObserver {
-  final Dio dio = Dio(BaseOptions(baseUrl: 'https://dan.chbk.run/api/'));
+  final Dio dio;
   final String userid;
-  OnlineUserUatasource({required this.userid});
+  OnlineUserUatasource({required this.userid, required this.dio});
 
   void online() async {
     final body = <String, dynamic>{

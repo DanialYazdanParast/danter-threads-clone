@@ -1,3 +1,4 @@
+import 'package:danter/core/constants/variable_onstants.dart';
 import 'package:hive/hive.dart';
 
 part 'user.g.dart';
@@ -48,7 +49,7 @@ class User extends HiveObject {
         bio = json['bio'],
         collectionId = json['collectionId'],
         avatar =
-            'https://dan.chbk.run/api/files/${json['collectionName']}/${json['id']}/${json['avatar']}',
+            '${VariableConstants.domain}/api/files/${json['collectionName']}/${json['id']}/${json['avatar']}',
         avatarchek = json['avatar'],
         followers = List<String>.from(json["followers"]),
         following = List<String>.from(json["following"]),

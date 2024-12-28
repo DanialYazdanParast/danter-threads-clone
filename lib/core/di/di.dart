@@ -1,3 +1,4 @@
+import 'package:danter/core/constants/variable_onstants.dart';
 import 'package:danter/data/datasource/auth_data_source.dart';
 import 'package:danter/data/datasource/messages_datasource.dart';
 import 'package:danter/data/datasource/post_data_source.dart';
@@ -19,8 +20,8 @@ Future<void> getItInit() async {
   locator.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
   locator.registerSingleton<Dio>(
-      Dio(BaseOptions(baseUrl: 'https://dan.chbk.run/api/')));
-  locator.registerSingleton<PocketBase>(PocketBase('https://dan.chbk.run'));
+      Dio(BaseOptions(baseUrl: '${VariableConstants.domain}/api/')));
+  locator.registerSingleton<PocketBase>(PocketBase(VariableConstants.domain));
 
   ///datasources
   locator
