@@ -1,6 +1,7 @@
 # What is Danter app? 
+![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white) ![BLoC](https://img.shields.io/badge/BLoC-%230175C2.svg?style=for-the-badge&logo=bloc&logoColor=white) ![PocketBase](https://img.shields.io/badge/PocketBase-%230175C2.svg?style=for-the-badge&logo=pocketbase&logoColor=white) ![Dependency Injection](https://img.shields.io/badge/Dependency%20Injection-%230175C2.svg?style=for-the-badge) ![Multi-Platform](https://img.shields.io/badge/Multi--Platform-%230175C2.svg?style=for-the-badge)
 
-Danter is a Threads clone with `real-time chat`, developed using the `Flutter framework`, `Dart language`, `Bloc state management`, and `Pocketbase database`. Includes `responsive design` and works across `web`, `mobile` platforms.
+Danter is a Threads clone with `real-time chat`, developed using the `Flutter framework`, `Dart language`, `Bloc state management`, and `Pocketbase database`. Includes `responsive design` and works across `Desktop`, `mobile` platforms.
 
 ![danter-des](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/24c6331b-f896-4d63-9941-e9e1e4fc8f10)
 
@@ -37,6 +38,8 @@ https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/dc68
 
 🗂️ Pocketbase database
 
+🎯 Dependency Injection
+
 
 ## 📥 Direct Download
 
@@ -71,11 +74,6 @@ https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/dc68
 <a href="">
   <img width="100%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/e3d0330c-18bc-44e3-a83a-ff11b773000a">
 </a>
-
-## 🛠 Language & Tools used
-
-<img src="https://github.com/DanialYazdanParast/danter/assets/150327854/86bc0563-2729-4f5e-95f7-ac93a5237e74" width="160" height="60">
-
 
 ## **Future Improvements**  
 - 🔹 Add video support  
