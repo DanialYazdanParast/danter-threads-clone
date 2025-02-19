@@ -1,23 +1,15 @@
 # What is Danter app? 
 
-Danter is a Threads clone with `real-time chat`, developed using the `Flutter framework`, `Dart language`, `Bloc state management`, and `Pocketbase database`. Includes `responsive design` and works across `web`, `mobile`, and `desktop` platforms.
+Danter is a Threads clone with `real-time chat`, developed using the `Flutter framework`, `Dart language`, `Bloc state management`, and `Pocketbase database`. Includes `responsive design` and works across `web`, `mobile` platforms.
 
 ![danter-des](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/24c6331b-f896-4d63-9941-e9e1e4fc8f10)
 
 
-
-
-## Danter app Mobile Video 
+## 🎥 Danter app Mobile Video 
 https://github.com/DanialYazdanParast/danter/assets/150327854/904b7cad-8f1f-46e7-b004-be38597dd8cb
 
-## Danter app Desktop Video 
+## 📽️ Danter app Desktop Video 
 https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/dc68ab33-8d84-4de6-9808-9fe401dcd4c4
-
-
-
-
-
-
 
 
 ## 🚀 Main features
@@ -41,9 +33,9 @@ https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/dc68
 
 💎Built with Flutter and Dart 
 
-📦Bloc state management
+🧩Bloc state management
 
-⚙️Pocketbase database
+🗂️ Pocketbase database
 
 
 ## 📥 Direct Download
@@ -80,13 +72,19 @@ https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/dc68
   <img width="100%" alt="danter Banner" src="https://github.com/DanialYazdanParast/danter/assets/150327854/e3d0330c-18bc-44e3-a83a-ff11b773000a">
 </a>
 
-## Language & Tools used
-
-
+## 🛠 Language & Tools used
 
 <img src="https://github.com/DanialYazdanParast/danter/assets/150327854/86bc0563-2729-4f5e-95f7-ac93a5237e74" width="160" height="60">
 
-## Screenshots light theme 
+
+## **Future Improvements**  
+- 🔹 Add video support  
+- 🔹 Enhance chat functionality for faster and more stable interactions  
+
+## **About the Project**  
+Danter was developed as a professional portfolio piece to showcase advanced Flutter development skills, including state management, real-time interactions, and performance optimization. It demonstrates my ability to tackle complex challenges and deliver a polished, cross-platform application.  
+
+## 🖼️ Screenshots light theme 
 
 AuthScreen         |  AuthScreen       |   ProfileScreen               |  ProfileScreen
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
@@ -118,7 +116,7 @@ ProfileUser         |  ProfileUser       |   FollowersPage               |  Foll
 ![](https://github.com/DanialYazdanParast/danter/assets/150327854/fbf0b963-2839-4218-af55-d81adb63f3ea)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/4a6aca7e-b439-4d76-a40a-22851d6ab641)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/0f70e750-52f5-47ad-8d5e-7ec8fa684f19)|![](https://github.com/DanialYazdanParast/danter/assets/150327854/12af9355-034f-4b3b-8d79-76f2d3c66a02)|
 
 
-## Screenshots dark theme 
+## 🖼️ Screenshots dark theme 
 
 AuthScreen         |  AuthScreen       |   ProfileScreen               |  ProfileScreen
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
@@ -151,7 +149,7 @@ ProfileUser         |  ProfileUser       |   FollowersPage               |  Foll
 
 
 
-## Screenshots desktop light theme 
+## 🖼️ Screenshots desktop light theme 
 
 AuthScreen         |  AuthScreen       |   HomeScreen               | 
 :-------------------------:|:-------------------------:|:-------------------------:
@@ -173,7 +171,7 @@ ProfileScreen         |  EditProfileScreen       |   EditScreenFild             
 
 
 
-## Screenshots desktop dark theme 
+## 🖼️ Screenshots desktop dark theme 
 
 
 AuthScreen         |  AuthScreen       |   HomeScreen               | 
@@ -193,6 +191,9 @@ ProfileScreen         |  EditProfileScreen       |   EditScreenFild             
 ![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/07844411-8286-4f6e-ac92-498a89572e73)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/04a96054-de7c-43f3-953c-0a1f5839303e)|![](https://github.com/DanialYazdanParast/danter-threads-clone/assets/150327854/c24c6f8f-9174-4809-aa17-1405b827fe64)|
 
 
+<div align="center">
+  <p>Made with ❤️ by <a href="https://github.com/DanialYazdanParast">Danial</a></p>
+</div>
 
 
 
